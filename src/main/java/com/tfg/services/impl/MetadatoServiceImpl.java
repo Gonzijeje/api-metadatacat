@@ -14,21 +14,20 @@ import com.tfg.services.MetadatoService;
  * @author gcollada
  *
  */
-
 @Service
 public class MetadatoServiceImpl implements MetadatoService{
 	
 	@Autowired
 	MetadatoRepository repository;
+	
+	@Override
+	public void add(Metadato metadato) {
+		repository.save(metadato);	
+	}
 
 	@Override
 	public Metadato getMetadatoByCodigo(String nombre) {
 		return repository.findByCodigo(nombre);
-	}
-
-	@Override
-	public void add(Metadato metadato) {
-		repository.save(metadato);	
 	}
 
 	@Override

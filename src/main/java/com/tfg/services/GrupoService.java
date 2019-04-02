@@ -1,5 +1,7 @@
 package com.tfg.services;
 
+import java.util.List;
+
 import com.tfg.model.Grupo;
 
 /**
@@ -11,8 +13,8 @@ public interface GrupoService {
 	
 	void add(Grupo grupo);
 	
-	void delete(int id);
-	
 	Grupo getGrupoByCodigo(String nombre);
+	
+	List<Grupo> getGrupos();
 
 }

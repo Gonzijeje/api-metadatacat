@@ -1,11 +1,20 @@
 package com.tfg.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.tfg.dao.GrupoRepository;
 import com.tfg.model.Grupo;
 import com.tfg.services.GrupoService;
 
+/**
+ * 
+ * @author gcollada
+ *
+ */
+@Service
 public class GrupoServiceImpl implements GrupoService{
 	
 	@Autowired
@@ -17,13 +26,13 @@ public class GrupoServiceImpl implements GrupoService{
 	}
 
 	@Override
-	public void delete(int id) {
-		repository.deleteById(id);		
+	public Grupo getGrupoByCodigo(String nombre) {
+		return repository.findByCodigo(nombre);
 	}
 
 	@Override
-	public Grupo getGrupoByCodigo(String nombre) {
-		return repository.findByCodigo(nombre);
+	public List<Grupo> getGrupos() {
+		return (List<Grupo>) repository.findAll();
 	}
 
 }

@@ -11,10 +11,12 @@ import com.tfg.model.Metadato;
  */
 public interface MetadatoService {
 	
+	void add(Metadato metadato);
+	
 	Metadato getMetadatoByCodigo(String nombre);
 	
 	List<Metadato> getMetadatos();
 	
-	void add(Metadato metadato);
+	
 
 }

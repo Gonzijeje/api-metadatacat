@@ -11,6 +11,11 @@ import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
 import com.tfg.model.DigitalAsset;
 import com.tfg.services.DigitalAssetService;
 
+/**
+ * 
+ * @author gcollada
+ *
+ */
 @Service
 public class DigitalAssetServiceImpl implements DigitalAssetService{
 	
@@ -26,7 +31,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	@Override
 	public void update(int id) {
 		DigitalAsset da = repository.findById(id).orElse(null);
-		repository.save(da);	
+		repository.save(da);
 	}
 
 	@Override

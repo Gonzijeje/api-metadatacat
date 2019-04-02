@@ -5,6 +5,11 @@ import java.util.Map;
 
 import com.tfg.model.DigitalAsset;
 
+/**
+ * 
+ * @author gcollada
+ *
+ */
 public interface DigitalAssetService{
 	
 	void add(DigitalAsset da);

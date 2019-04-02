@@ -14,13 +14,13 @@ import javax.validation.constraints.Size;
  *
  */
 @Entity
-@Table(name = "DIGITAL_ASSET")
-public class DigitalAsset extends AbstractBasicoEntity{
+@Table(name = "DIGITAL_TWIN")
+public class DigitalTwin extends AbstractBasicoEntity{
 
 	/**
 	 * Serializable.
 	 */
-	private static final long serialVersionUID = -4531207354500929470L;
+	private static final long serialVersionUID = 5277192833345636618L;
 	
 	@NotNull(message = "{extension.obligatorio}")
 	@Size(max = 40, message = "{extension.longitud.maxima}")
@@ -65,10 +65,15 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	@Size(max = 20, message = "{fecha_modificacion.longitud.maxima}")
 	@Column(name = "FECHA_MODIFICACION", nullable = false, length = 40)
 	protected Date fecha_modificacion;
+	
+	@NotNull(message = "{entorno.obligatorio}")
+	@Size(max = 100, message = "{entorno.longitud.maxima}")
+	@Column(name = "ENTORNO", nullable = false, length = 100)
+	protected String entorno;
 		
 	
-	public DigitalAsset(String codigo, String descripcion, String extension,String entidad,String contacto,String autor,double tamano,String unidad_tamano,
-			String path,Date fecha_creacion,Date fecha_modificacion) {
+	public DigitalTwin(String codigo, String descripcion, String extension,String entidad,String contacto,String autor,double tamano,String unidad_tamano,
+			String path,Date fecha_creacion,Date fecha_modificacion,String entorno) {
 		super();
 		super.codigo=codigo;
 		super.descripcion=descripcion;
@@ -81,11 +86,12 @@ public class DigitalAsset extends AbstractBasicoEntity{
 		this.path = path;
 		this.fecha_creacion = fecha_creacion;
 		this.fecha_modificacion = fecha_modificacion;
+		this.entorno=entorno;
 	}
 	
-	public DigitalAsset() {
+	public DigitalTwin() {
 	}
-	
+
 	public String getExtension() {
 		return extension;
 	}
@@ -157,6 +163,13 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	public void setFecha_modificacion(Date fecha_modificacion) {
 		this.fecha_modificacion = fecha_modificacion;
 	}
-	
+
+	public String getEntorno() {
+		return entorno;
+	}
+
+	public void setEntorno(String entorno) {
+		this.entorno = entorno;
+	}
 
 }
