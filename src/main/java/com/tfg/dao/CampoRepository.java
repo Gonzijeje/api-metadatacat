@@ -2,7 +2,7 @@ package com.tfg.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.tfg.model.Metadato;
+import com.tfg.model.Campo;
 
 /**
  * 
@@ -10,8 +10,8 @@ import com.tfg.model.Metadato;
  * @param <MetadatoRepository>
  *
  */
-public interface MetadatoRepository extends CrudRepository<Metadato, Integer>{
+public interface CampoRepository extends CrudRepository<Campo, Integer>{
 	
-	Metadato findByCodigo(String nombre);
+	Campo findByCodigo(String nombre);
 
 }

@@ -25,29 +25,23 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 
 	@Override
 	public void add(DigitalAsset da) {
-		repository.save(da);		
-	}
-
-	@Override
-	public void update(int id) {
-		DigitalAsset da = repository.findById(id).orElse(null);
 		repository.save(da);
 	}
 
 	@Override
-	public void delete(int id) {
-		repository.deleteById(id);		
+	public void update(String codigo) {
+		DigitalAsset da = repository.findByCodigo(codigo);
+		repository.save(da);
+	}
+
+	@Override
+	public void delete(String codigo) {
+		repository.deleteByCodigo(codigo);
 	}
 
 	@Override
 	public List<DigitalAsset> getDigitalAssets() {
 		return (List<DigitalAsset>) repository.findAll();
-	}
-
-	@Override
-	public List<DigitalAsset> getDigitalAssetsByFilter(String criterio, Object valor) {
-		DigitalAssetRepositoryImpl r = new DigitalAssetRepositoryImpl();
-		return r.getDigitalAsset(criterio, valor);
 	}
 
 	@Override

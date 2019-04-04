@@ -31,5 +31,4 @@ public class DigitalAssetRepositoryImpl {
 		return (List<DigitalAsset>)query.getResultList();
 	}
 	
-
 }

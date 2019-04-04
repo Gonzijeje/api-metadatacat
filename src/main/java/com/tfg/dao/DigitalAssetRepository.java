@@ -11,5 +11,8 @@ import com.tfg.model.DigitalAsset;
  */
 public interface DigitalAssetRepository extends CrudRepository<DigitalAsset, Integer>{
 
+	DigitalAsset findByCodigo(String codigo);
+	
+	void deleteByCodigo(String codigo);
 
 }

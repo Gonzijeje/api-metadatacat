@@ -7,26 +7,26 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "GRUPO")
-public class Grupo extends AbstractBasicoEntity{
+@Table(name = "CAMPO")
+public class Campo extends AbstractBasicoEntity{
 
 	/**
 	 * Serializable
 	 */
-	private static final long serialVersionUID = 1078483709032718077L;
+	private static final long serialVersionUID = -7711695016687954376L;
 	
-	@OneToMany(mappedBy = "grupo")
+	@OneToMany(mappedBy = "campo")
 	Set<Grupo_campo> grupoCampos;
-	
-	public Grupo(String codigo, String descripcion) {
+
+	public Campo(String codigo, String descripcion) {
 		super();
 		super.codigo = codigo;
 		this.descripcion = descripcion;
 	}
 	
-	public Grupo() {	
+	public Campo() {	
 	}
-
+	
 	public Set<Grupo_campo> getGrupoCampos() {
 		return grupoCampos;
 	}
@@ -34,5 +34,5 @@ public class Grupo extends AbstractBasicoEntity{
 	public void setGrupoCampos(Set<Grupo_campo> grupoCampos) {
 		this.grupoCampos = grupoCampos;
 	}
-	
+
 }

@@ -1,9 +1,11 @@
 package com.tfg.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,10 +24,10 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	 */
 	private static final long serialVersionUID = -4531207354500929470L;
 	
-	@NotNull(message = "{extension.obligatorio}")
-	@Size(max = 40, message = "{extension.longitud.maxima}")
-	@Column(name = "EXTENSION", nullable = false, length = 40)
-	protected String extension;
+	@NotNull(message = "{tipo.obligatorio}")
+	@Size(max = 40, message = "{tipo.longitud.maxima}")
+	@Column(name = "TIPO", nullable = false, length = 40)
+	protected String tipo;
 	
 	@NotNull(message = "{entidad.obligatorio}")
 	@Size(max = 40, message = "{entidad.longitud.maxima}")
@@ -65,6 +67,9 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	@Size(max = 20, message = "{fecha_modificacion.longitud.maxima}")
 	@Column(name = "FECHA_MODIFICACION", nullable = false, length = 40)
 	protected Date fecha_modificacion;
+	
+	@ManyToMany(mappedBy = "assetsAsociados")
+	Set<Grupo_campo> asociaciones_asset;
 		
 	
 	public DigitalAsset(String codigo, String descripcion, String extension,String entidad,String contacto,String autor,double tamano,String unidad_tamano,
@@ -72,7 +77,7 @@ public class DigitalAsset extends AbstractBasicoEntity{
 		super();
 		super.codigo=codigo;
 		super.descripcion=descripcion;
-		this.extension = extension;
+		this.tipo = extension;
 		this.entidad = entidad;
 		this.contacto = contacto;
 		this.autor = autor;
@@ -87,11 +92,11 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	}
 	
 	public String getExtension() {
-		return extension;
+		return tipo;
 	}
 
 	public void setExtension(String extension) {
-		this.extension = extension;
+		this.tipo = extension;
 	}
 
 	public String getEntidad() {

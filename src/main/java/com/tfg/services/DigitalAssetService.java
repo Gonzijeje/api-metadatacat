@@ -14,13 +14,11 @@ public interface DigitalAssetService{
 	
 	void add(DigitalAsset da);
 	
-	void update(int id);
+	void update(String codigo);
 	
-	void delete(int id);
+	void delete(String codigo);
 	
 	List<DigitalAsset> getDigitalAssets();
-	
-	List<DigitalAsset> getDigitalAssetsByFilter(String criterio, Object valor);
 	
 	List<DigitalAsset> getDigitalAssetsByFilters(Map<String,Object> filters);
 	
