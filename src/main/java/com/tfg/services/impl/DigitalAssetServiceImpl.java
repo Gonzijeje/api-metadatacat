@@ -50,4 +50,9 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		return r.getDigitalAssetsByFilters(filters);
 	}
 
+	@Override
+	public DigitalAsset findByCodigo(String codigo) {
+		return repository.findByCodigo(codigo);
+	}
+
 }

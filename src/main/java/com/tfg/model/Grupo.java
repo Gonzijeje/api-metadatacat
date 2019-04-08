@@ -1,5 +1,6 @@
 package com.tfg.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -21,7 +22,15 @@ public class Grupo extends AbstractBasicoEntity{
 	public Grupo(String codigo, String descripcion) {
 		super();
 		super.codigo = codigo;
-		this.descripcion = descripcion;
+		super.descripcion = descripcion;
+	}
+	
+	public Grupo(String codigo, String descripcion, String createuser, Date createdate) {
+		super();
+		super.codigo=codigo;
+		super.descripcion=descripcion;
+		setCreateUser(createuser);
+		setCreateDate(createdate);
 	}
 	
 	public Grupo() {	

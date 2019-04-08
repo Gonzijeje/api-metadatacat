@@ -2,6 +2,7 @@ package com.tfg.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,14 +17,33 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tfg.model.Ac_Asset;
 import com.tfg.model.DigitalAsset;
+import com.tfg.model.Grupo;
+import com.tfg.model.Grupo_campo;
+import com.tfg.services.Ac_AssetService;
+import com.tfg.services.CampoService;
 import com.tfg.services.DigitalAssetService;
+import com.tfg.services.GrupoService;
+import com.tfg.services.Grupo_campoService;
 
 @RestController
 public class DigitalAssetController {
 
 	@Autowired
 	DigitalAssetService service;
+	
+	@Autowired
+	CampoService campoService;
+	
+	@Autowired
+	GrupoService grupoService;
+	
+	@Autowired
+	Grupo_campoService grupoCampoService;
+	
+	@Autowired
+	Ac_AssetService acAssetService;
 	
 	@RequestMapping(value = "/asset/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
@@ -34,10 +54,22 @@ public class DigitalAssetController {
 				payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
 				new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
 		asset.setCreateUser("gonzi");
-		asset.setCreateDate(new Date());
-		
+		asset.setCreateDate(new Date());		
 		service.add(asset);
-
+		//Registrar campos
+		List<String> listCampos = new ArrayList<String>(payload.keySet());
+		campoService.addListCampos(listCampos);
+		//Registrar grupo
+		grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+		//Asociar campos y grupos
+		//Usar el metodo saveALL pasandole una lista creada antes
+		Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
+		payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getMetadatoByCodigo(k),v.toString())));		
+		//Asociar digital asset y grupos_campos
+		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+		payload.forEach((k,v)-> {asociaciones.add(new Ac_Asset(asset,basico,campoService.getMetadatoByCodigo(k)));});
+		acAssetService.addListAc_Asset(asociaciones);
+		//
 		System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
 		
 		return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",

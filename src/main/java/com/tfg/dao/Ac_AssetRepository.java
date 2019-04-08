@@ -2,13 +2,13 @@ package com.tfg.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.tfg.model.DigitalTwin;
+import com.tfg.model.Ac_Asset;
 
 /**
  * 
  * @author gcollada
  *
  */
-public interface DigitalTwinRepository extends CrudRepository<DigitalTwin, Long>{
+public interface Ac_AssetRepository extends CrudRepository<Ac_Asset, Long>{
 
 }

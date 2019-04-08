@@ -6,10 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -43,21 +42,15 @@ public class Grupo_campo {
 	@Column(name = "VALOR", nullable = false, length = 40)
 	String valor;
 	
-	@ManyToMany
-	@JoinTable(
-			name = "AC_ASSET",
-			joinColumns = {@JoinColumn(name = "ac_grupo_id", referencedColumnName = "grupo_id"),
-							@JoinColumn(name = "ac_campo_id", referencedColumnName = "campo_id")},
-			inverseJoinColumns = @JoinColumn(name = "asset_id"))
-	Set<DigitalAsset> assetsAsociados;  
 	
-	@ManyToMany
+	/*@ManyToMany
 	@JoinTable(
 			name = "AC_TWIN",
 			joinColumns = {@JoinColumn(name = "ac_grupo_id", referencedColumnName = "grupo_id"),
 							@JoinColumn(name = "ac_campo_id", referencedColumnName = "campo_id")},
-			inverseJoinColumns = @JoinColumn(name = "twin_id"))
-	Set<DigitalTwin> twinsAsociados;
+			inverseJoinColumns = @JoinColumn(name = "twin_id"))*/
+	/*@OneToMany
+	Set<DigitalTwin> twinsAsociados;*/
 
 	public Grupo_campo(Grupo grupo, Campo campo, String value) {
 		super();

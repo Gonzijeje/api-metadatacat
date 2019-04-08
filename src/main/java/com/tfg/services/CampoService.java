@@ -17,6 +17,8 @@ public interface CampoService {
 	
 	List<Campo> getMetadatos();
 	
+	void addListCampos(List<String> campos);
+	
 	
 
 }

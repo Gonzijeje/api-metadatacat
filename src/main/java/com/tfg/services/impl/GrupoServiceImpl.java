@@ -22,7 +22,8 @@ public class GrupoServiceImpl implements GrupoService{
 
 	@Override
 	public void add(Grupo grupo) {
-		repository.save(grupo);
+		if(repository.findByCodigo(grupo.getCodigo())==null)
+			repository.save(grupo);
 	}
 
 	@Override

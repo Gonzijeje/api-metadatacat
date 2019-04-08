@@ -10,7 +10,7 @@ import com.tfg.model.Campo;
  * @param <MetadatoRepository>
  *
  */
-public interface CampoRepository extends CrudRepository<Campo, Integer>{
+public interface CampoRepository extends CrudRepository<Campo, Long>{
 	
 	Campo findByCodigo(String nombre);
 

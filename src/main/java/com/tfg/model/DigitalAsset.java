@@ -5,7 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -45,7 +45,6 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	protected String autor;
 	
 	@NotNull(message = "{tamano.obligatorio}")
-	@Size(max = 5, message = "{tamano.longitud.maxima}")
 	@Column(name = "TAMANO", nullable = false, length = 40)
 	protected double tamano;
 	
@@ -60,16 +59,14 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	protected String path;
 	
 	@NotNull(message = "{fecha_creacion.obligatorio}")
-	@Size(max = 20, message = "{fecha_creacion.longitud.maxima}")
 	@Column(name = "FECHA_CREACION", nullable = false, length = 40)
 	protected Date fecha_creacion;
 	
-	@Size(max = 20, message = "{fecha_modificacion.longitud.maxima}")
 	@Column(name = "FECHA_MODIFICACION", nullable = false, length = 40)
 	protected Date fecha_modificacion;
 	
-	@ManyToMany(mappedBy = "assetsAsociados")
-	Set<Grupo_campo> asociaciones_asset;
+	@OneToMany
+	Set<Ac_Asset> asociaciones_asset;
 		
 	
 	public DigitalAsset(String codigo, String descripcion, String extension,String entidad,String contacto,String autor,double tamano,String unidad_tamano,

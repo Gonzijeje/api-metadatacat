@@ -9,7 +9,7 @@ import com.tfg.model.DigitalAsset;
  * @author gcollada
  *
  */
-public interface DigitalAssetRepository extends CrudRepository<DigitalAsset, Integer>{
+public interface DigitalAssetRepository extends CrudRepository<DigitalAsset, Long>{
 
 	DigitalAsset findByCodigo(String codigo);
 	

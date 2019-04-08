@@ -2,13 +2,13 @@ package com.tfg.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.tfg.model.DigitalTwin;
+import com.tfg.model.Grupo_campo;
 
 /**
  * 
  * @author gcollada
  *
  */
-public interface DigitalTwinRepository extends CrudRepository<DigitalTwin, Long>{
+public interface Grupo_campoRepository extends CrudRepository<Grupo_campo, Long>{
 
 }

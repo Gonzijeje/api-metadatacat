@@ -18,6 +18,8 @@ public interface DigitalAssetService{
 	
 	void delete(String codigo);
 	
+	DigitalAsset findByCodigo(String codigo);
+	
 	List<DigitalAsset> getDigitalAssets();
 	
 	List<DigitalAsset> getDigitalAssetsByFilters(Map<String,Object> filters);

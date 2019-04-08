@@ -1,5 +1,6 @@
 package com.tfg.model;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -22,6 +23,14 @@ public class Campo extends AbstractBasicoEntity{
 		super();
 		super.codigo = codigo;
 		this.descripcion = descripcion;
+	}
+	
+	public Campo(String codigo, String descripcion, String createUser, Date createDate) {
+		super();
+		super.codigo=codigo;
+		super.descripcion=descripcion;
+		setCreateUser(createUser);
+		setCreateDate(createDate);
 	}
 	
 	public Campo() {	

@@ -58,8 +58,8 @@ public class DigitalTwin extends AbstractBasicoEntity{
 	@Column(name = "ENTORNO", nullable = false, length = 100)
 	protected String entorno;
 	
-	@ManyToMany(mappedBy = "twinsAsociados")
-	Set<Grupo_campo> asociaciones_twin;
+	/*@ManyToMany(mappedBy = "twinsAsociados")
+	Set<Grupo_campo> asociaciones_twin;*/
 		
 	
 	public DigitalTwin(String codigo, String descripcion, String extension,String entidad,String autor,
