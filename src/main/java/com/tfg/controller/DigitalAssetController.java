@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.tfg.services.CampoService;
 import com.tfg.services.DigitalAssetService;
 import com.tfg.services.GrupoService;
 import com.tfg.services.Grupo_campoService;
+import com.tfg.services.Valor_CampoService;
 
 @RestController
 public class DigitalAssetController {
@@ -40,6 +42,9 @@ public class DigitalAssetController {
 	GrupoService grupoService;
 	
 	@Autowired
+	Valor_CampoService valorService;
+	
+	@Autowired
 	Grupo_campoService grupoCampoService;
 	
 	@Autowired
@@ -47,10 +52,10 @@ public class DigitalAssetController {
 	
 	@RequestMapping(value = "/asset/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public ResponseEntity<String> registerDigitalAsset(@RequestBody Map<String, Object> payload ) throws ParseException {
+	public ResponseEntity<String> registerDigitalAsset(@RequestBody Map<String, Object> payload) throws ParseException {
 		DigitalAsset asset = new DigitalAsset(payload.get( "codigo" ).toString(),payload.get( "descripcion" ).toString(),
 				payload.get( "tipo" ).toString(), payload.get( "entidad" ).toString(), payload.get( "contacto" ).toString(),
-				payload.get( "autor" ).toString(), (double) payload.get( "tamano" ), payload.get( "unidad_tamano" ).toString(), 
+				payload.get( "autor" ).toString(),Double.parseDouble((String) payload.get( "tamano" )), payload.get( "unidad_tamano" ).toString(), 
 				payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
 				new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
 		asset.setCreateUser("gonzi");
@@ -61,10 +66,13 @@ public class DigitalAssetController {
 		campoService.addListCampos(listCampos);
 		//Registrar grupo
 		grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+		//Registrar valores
+		List<Object> valores = new ArrayList<Object>(payload.values());
+		valorService.addListValores(valores);
 		//Asociar campos y grupos
 		//Usar el metodo saveALL pasandole una lista creada antes
 		Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
-		payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getMetadatoByCodigo(k),v.toString())));		
+		payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getMetadatoByCodigo(k),valorService.getValor(v))));		
 		//Asociar digital asset y grupos_campos
 		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
 		payload.forEach((k,v)-> {asociaciones.add(new Ac_Asset(asset,basico,campoService.getMetadatoByCodigo(k)));});

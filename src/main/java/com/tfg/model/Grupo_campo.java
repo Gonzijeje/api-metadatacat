@@ -1,18 +1,11 @@
 package com.tfg.model;
 
-import java.util.Set;
-
-import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import com.tfg.model.id.Grupo_Campo_Id;
 
 /**
@@ -37,10 +30,15 @@ public class Grupo_campo {
 	@JoinColumn(name="campo_id")
 	Campo campo;
 	
-	@NotNull(message = "{valor.obligatorio}")
+	@ManyToOne
+	@MapsId("valor_id")
+	@JoinColumn(name="valor_id")
+	Valor_Campo valor;
+	
+	/*@NotNull(message = "{valor.obligatorio}")
 	@Size(max = 40, message = "{valor.longitud.maxima}")
 	@Column(name = "VALOR", nullable = false, length = 40)
-	String valor;
+	String valor;*/
 	
 	
 	/*@ManyToMany
@@ -52,9 +50,9 @@ public class Grupo_campo {
 	/*@OneToMany
 	Set<DigitalTwin> twinsAsociados;*/
 
-	public Grupo_campo(Grupo grupo, Campo campo, String value) {
+	public Grupo_campo(Grupo grupo, Campo campo, Valor_Campo value) {
 		super();
-		this.id = new Grupo_Campo_Id(grupo.getId(), campo.getId());
+		this.id = new Grupo_Campo_Id(grupo.getId(), campo.getId(), value.getId());
 		this.grupo = grupo;
 		this.campo = campo;
 		this.valor = value;
@@ -79,11 +77,11 @@ public class Grupo_campo {
 		this.campo = campo;
 	}
 
-	public Object getValue() {
+	public Valor_Campo getValue() {
 		return valor;
 	}
 
-	public void setValue(String value) {
+	public void setValue(Valor_Campo value) {
 		this.valor = value;
 	}
 
