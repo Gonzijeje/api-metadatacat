@@ -45,5 +45,14 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/gcollada/.m2/repository/org/elasticsearch/elasticsearch/7.0.0/elasticsearch-7.0.0.jar" sourcepath="C:/Users/gcollada/.m2/repository/org/elasticsearch/elasticsearch/7.0.0/elasticsearch-7.0.0-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.elasticsearch"/>
+			<attribute name="maven.artifactId" value="elasticsearch"/>
+			<attribute name="maven.version" value="7.0.0"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
