@@ -25,24 +25,36 @@ public class CampoServiceImpl implements CampoService{
 	public void add(Campo metadato) {
 		repository.save(metadato);
 	}
+	
+	@Override
+	public void delete(String codigo) {
+		repository.deleteByCodigo(codigo);
+	}
 
 	@Override
-	public Campo getMetadatoByCodigo(String nombre) {
+	public Campo getCampoByCodigo(String nombre) {
 		return repository.findByCodigo(nombre);
 	}
 
 	@Override
-	public List<Campo> getMetadatos() {
+	public List<Campo> getCampos() {
 		return (List<Campo>) repository.findAll();
 	}
 
-	@Override
+	/*@Override
 	public void addListCampos(List<String> campos) {
 		campos.forEach((campo)-> {
 			if(repository.findByCodigo(campo)==null) {
 				repository.save(new Campo(campo,"Campo básico", "gonzi", new Date()));
 			}
 			});	
+	}*/
+	public void addListCampos(List<String> campos) {
+		campos.forEach((campo)-> {
+			if(repository.findByCodigo(campo)==null) {
+				repository.save(new Campo(campo,"", "gonzi", new Date()));
+			}
+		});	
 	}
 
 }

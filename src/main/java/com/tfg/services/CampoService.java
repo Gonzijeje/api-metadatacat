@@ -13,9 +13,11 @@ public interface CampoService {
 	
 	void add(Campo campo);
 	
-	Campo getMetadatoByCodigo(String nombre);
+	void delete(String codigo);
 	
-	List<Campo> getMetadatos();
+	Campo getCampoByCodigo(String nombre);
+	
+	List<Campo> getCampos();
 	
 	void addListCampos(List<String> campos);
 	

@@ -1,11 +1,8 @@
 package com.tfg.model;
 
 import java.util.Date;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -65,8 +62,8 @@ public class DigitalAsset extends AbstractBasicoEntity{
 	@Column(name = "FECHA_MODIFICACION", nullable = false, length = 40)
 	protected Date fecha_modificacion;
 	
-	@OneToMany
-	Set<Ac_Asset> asociaciones_asset;
+	/*@OneToMany
+	Set<Ac_Asset> asociaciones_asset;*/
 		
 	
 	public DigitalAsset(String codigo, String descripcion, String extension,String entidad,String contacto,String autor,double tamano,String unidad_tamano,

@@ -25,6 +25,11 @@ public class GrupoServiceImpl implements GrupoService{
 		if(repository.findByCodigo(grupo.getCodigo())==null)
 			repository.save(grupo);
 	}
+	
+	@Override
+	public void delete(String codigo) {
+		repository.deleteByCodigo(codigo);
+	}
 
 	@Override
 	public Grupo getGrupoByCodigo(String nombre) {
@@ -35,5 +40,6 @@ public class GrupoServiceImpl implements GrupoService{
 	public List<Grupo> getGrupos() {
 		return (List<Grupo>) repository.findAll();
 	}
+
 
 }

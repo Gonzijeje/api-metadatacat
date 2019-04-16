@@ -31,7 +31,7 @@ public class Valor_CampoServiceImpl implements Valor_CampoService{
 			if(repository.findByValor(valor)==null) {
 				repository.save(new Valor_Campo(valor.toString()));
 			}
-			});
+		});
 	}
 
 }

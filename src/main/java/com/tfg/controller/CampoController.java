@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg.model.Campo;
@@ -32,7 +33,7 @@ public class CampoController {
 	
 	@RequestMapping(value = "/campo/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public ResponseEntity<String> registerMetadata(@RequestBody Map<String, Object> payload ) {
+	public ResponseEntity<String> registerCampo(@RequestBody Map<String, Object> payload ) {
 		/*if (!isPayloadCorrect( payload )) {
 			// Not valid data.
 			log.warn( "Not valid register attemp: " + new JSONObject( payload ).toString() );
@@ -48,8 +49,15 @@ public class CampoController {
 
 		System.out.print("Campo creado: " + new JSONObject( payload ).toString());
 		
-		return new ResponseEntity<String>( "{\"response\":\"Campo registrado\"}",
+		return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
 				HttpStatus.CREATED );
+	}
+	
+	@RequestMapping(value = "/campo/delete", method = RequestMethod.DELETE, consumes = "application/json")
+	public ResponseEntity<String> deleteCampo(@RequestParam String codigo){
+		service.delete(codigo);
+		return new ResponseEntity<String>("{\"response\":\"Campo eliminado\"}",
+				HttpStatus.OK);
 	}
 
 }

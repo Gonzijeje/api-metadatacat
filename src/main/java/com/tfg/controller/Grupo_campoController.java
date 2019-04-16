@@ -41,7 +41,7 @@ public class Grupo_campoController {
 	public ResponseEntity<String> registerMetadata(@RequestParam(value="grupo") String grupo, @RequestParam(value="campo") String campo,
 			@RequestParam(value="valor") String valor) {
 		Grupo gr = grupoService.getGrupoByCodigo(grupo);
-		Campo ca = campoService.getMetadatoByCodigo(campo);
+		Campo ca = campoService.getCampoByCodigo(campo);
 		Valor_Campo va = valorService.getValor(valor);
 		Grupo_campo gc = new Grupo_campo(gr,ca,va);
 		

@@ -38,6 +38,11 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	public void delete(String codigo) {
 		repository.deleteByCodigo(codigo);
 	}
+	
+	@Override
+	public DigitalAsset findByCodigo(String codigo) {
+		return repository.findByCodigo(codigo);
+	}
 
 	@Override
 	public List<DigitalAsset> getDigitalAssets() {
@@ -48,11 +53,6 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	public List<DigitalAsset> getDigitalAssetsByFilters(Map<String, Object> filters) {
 		DigitalAssetRepositoryImpl r = new DigitalAssetRepositoryImpl();
 		return r.getDigitalAssetsByFilters(filters);
-	}
-
-	@Override
-	public DigitalAsset findByCodigo(String codigo) {
-		return repository.findByCodigo(codigo);
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg.model.Grupo;
@@ -28,7 +29,7 @@ public class GrupoController {
 	
 	@RequestMapping(value = "/grupo/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public ResponseEntity<String> registerMetadata(@RequestBody Map<String, Object> payload ) {
+	public ResponseEntity<String> registerGrupo(@RequestBody Map<String, Object> payload ) {
 		Grupo grupo = new Grupo( payload.get( "codigo" ).toString(),
 				payload.get( "descripcion" ).toString());
 		grupo.setCreateUser("gonzi");
@@ -40,6 +41,13 @@ public class GrupoController {
 		
 		return new ResponseEntity<String>( "{\"response\":\"Grupo registrado\"}",
 				HttpStatus.CREATED );
+	}
+	
+	@RequestMapping(value = "/grupo/delete", method = RequestMethod.DELETE, consumes = "application/json")
+	public ResponseEntity<String> deleteGrupo(@RequestParam String codigo){
+		service.delete(codigo);
+		return new ResponseEntity<String>("{\"response\":\"Grupo eliminado\"}",
+				HttpStatus.OK);
 	}
 
 }

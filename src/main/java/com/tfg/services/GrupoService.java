@@ -13,6 +13,8 @@ public interface GrupoService {
 	
 	void add(Grupo grupo);
 	
+	void delete(String codigo);
+	
 	Grupo getGrupoByCodigo(String nombre);
 	
 	List<Grupo> getGrupos();
