@@ -101,41 +101,26 @@ public class DigitalAssetController {
 	
 	@RequestMapping(value = "/asset/addMetadata", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public ResponseEntity<String> addMetadataToDigitalAsset(@RequestBody Map<String,Map<String,Object>> payload) throws ParseException {
+	public ResponseEntity<String> addMetadataToDigitalAsset(@RequestBody Map<String,Map<String,Object>> payload, 
+			@RequestParam String codigo) throws ParseException {
 		for(String key:payload.keySet()) {
 			Map<String,Object> mappa = payload.get(key);
+			//Grupo
+			grupoService.add(grupoService.getGrupoByCodigo(key));
 			//Campos
 			List<String> listCampos = new ArrayList<String>(mappa.keySet());
 			campoService.addListCampos(listCampos);
 			//Valores
 			List<Object> valores = new ArrayList<Object>(payload.values());
 			valorService.addListValores(valores);
-			mappa.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));
-			
-			Field field = fieldService.findByName(json.get("field_name").toString());
-			if (field == null) {
-				fieldService.add(new Field(json.get("field_name").toString(), "Default description"));
-				field = fieldService.findByName(json.get("field_name").toString());
-			} 
-			Group group = gService.findByGroupName(json.get("group_name").toString());
-			if (group == null) {// si no existe, crearlo
-				gService.createGroup(new Group(json.get("group_name").toString(), "Default description"));
-				group = gService.findByGroupName(json.get("group_name").toString());
-			} 
-			if (!vService.existisByValue(json.get("value").toString())) {
-				vService.add(new Value(json.get("value").toString()));
-			}
-			Value value = vService.findByValue(json.get("value").toString()); 
-			FieldAssociation fa = new FieldAssociation(field.getId(), group.getGroup_id(), value.getId());
-			faService.create(fa);
-
-			FAProperty fap = new FAProperty(property.getId_property(), field.getId(), group.getGroup_id());
-			fapService.create(fap);
+			//Grupo_campo
+			mappa.forEach((k,v)-> {grupoCampoService.add(new Grupo_campo(grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k),valorService.getValor(v)));
+			acAssetService.add(new Ac_Asset(service.findByCodigo(codigo),grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k)));});
+			//Ac_Asset
 		}
 
-
-		return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
-				HttpStatus.CREATED );
+		return new ResponseEntity<String>( "{\"response\":\"Metadato añadido al Digital Asset\"}",
+				HttpStatus.OK );
 	}
 	
 }
