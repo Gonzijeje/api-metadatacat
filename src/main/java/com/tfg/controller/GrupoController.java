@@ -1,6 +1,6 @@
 package com.tfg.controller;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -23,31 +23,46 @@ import com.tfg.services.GrupoService;
  */
 @RestController
 public class GrupoController {
-	
+
 	@Autowired
 	GrupoService service;
-	
+
 	@RequestMapping(value = "/grupo/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public ResponseEntity<String> registerGrupo(@RequestBody Map<String, Object> payload ) {
-		Grupo grupo = new Grupo( payload.get( "codigo" ).toString(),
-				payload.get( "descripcion" ).toString());
-		grupo.setCreateUser("gonzi");
-		grupo.setCreateDate(new Date());
-		
-		service.add(grupo);
-
-		System.out.print("Grupo registrado: " + new JSONObject( payload ).toString());
-		
-		return new ResponseEntity<String>( "{\"response\":\"Grupo registrado\"}",
-				HttpStatus.CREATED );
+	public ResponseEntity<String> registerGrupo(@RequestBody Map<String, Object> payload ) {				
+		if(service.add(service.create(payload))) {
+			System.out.print("Grupo registrado: " + new JSONObject( payload ).toString());			
+			return new ResponseEntity<String>( "{\"response\":\"Grupo registrado\"}",
+					HttpStatus.CREATED );
+		}else {
+			return new ResponseEntity<String>( "{\"response\":\"Código de grupo ya existe\"}",
+					HttpStatus.BAD_REQUEST );
+		}		
 	}
 	
+	@RequestMapping("/grupo")
+	public Object getGrupo(@RequestParam String codigo) {
+		Grupo grupo = service.getGrupoByCodigo(codigo);
+		if(grupo!=null) {
+			return grupo;
+		}
+		return new ResponseEntity<String>( "{\"response\":\"Código de grupo no existe\"}",
+					HttpStatus.BAD_REQUEST );
+	}
+	
+	@RequestMapping("/grupo/list")
+    public List<Grupo> listGrupos(){
+		return service.getGrupos();
+    }
+
 	@RequestMapping(value = "/grupo/delete", method = RequestMethod.DELETE, consumes = "application/json")
 	public ResponseEntity<String> deleteGrupo(@RequestParam String codigo){
-		service.delete(codigo);
-		return new ResponseEntity<String>("{\"response\":\"Grupo eliminado\"}",
-				HttpStatus.OK);
+		if(service.delete(codigo)) {
+			return new ResponseEntity<String>("{\"response\":\"Grupo eliminado\"}",
+					HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("{\"response\":\"Código de grupo no existe\"}",
+					HttpStatus.BAD_REQUEST);
+		}
 	}
-
 }

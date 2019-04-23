@@ -1,6 +1,6 @@
 package com.tfg.controller;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,24 +40,39 @@ public class CampoController {
 			return new ResponseEntity<String>( "{\"response\":\"agent not registered\"}",
 					HttpStatus.BAD_REQUEST );
 		}*/
-		Campo metadato = new Campo( payload.get( "codigo" ).toString(),
-				payload.get( "descripcion" ).toString());
-		metadato.setCreateUser("gonzi");
-		metadato.setCreateDate(new Date());
-		
-		service.add(metadato);
-
-		System.out.print("Campo creado: " + new JSONObject( payload ).toString());
-		
-		return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
-				HttpStatus.CREATED );
+		if(service.add(service.create(payload))) {
+			System.out.print("Campo creado: " + new JSONObject( payload ).toString());			
+			return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
+					HttpStatus.CREATED );
+		}else {
+			return new ResponseEntity<String>( "{\"response\":\"Código de campo ya existe\"}",
+					HttpStatus.BAD_REQUEST );
+		}		
 	}
+	
+	@RequestMapping("/campo")
+	public Object getCampo(@RequestParam String codigo) {
+		Campo campo = service.getCampoByCodigo(codigo);
+		if(campo!=null) {
+			return campo;
+		}
+		return new ResponseEntity<String>( "{\"response\":\"Código de campo no existe\"}",
+					HttpStatus.BAD_REQUEST );
+	}
+	
+	@RequestMapping("/campo/list")
+    public List<Campo> listCampos(){
+		return service.getCampos();
+    }
 	
 	@RequestMapping(value = "/campo/delete", method = RequestMethod.DELETE, consumes = "application/json")
 	public ResponseEntity<String> deleteCampo(@RequestParam String codigo){
-		service.delete(codigo);
-		return new ResponseEntity<String>("{\"response\":\"Campo eliminado\"}",
-				HttpStatus.OK);
+		if(service.delete(codigo)) {
+			return new ResponseEntity<String>("{\"response\":\"Campo eliminado\"}",
+					HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("{\"response\":\"Código de campo no existe\"}",
+					HttpStatus.BAD_REQUEST);
+		}	
 	}
-
 }

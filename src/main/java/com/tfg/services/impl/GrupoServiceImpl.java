@@ -1,6 +1,8 @@
 package com.tfg.services.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +23,25 @@ public class GrupoServiceImpl implements GrupoService{
 	GrupoRepository repository;
 
 	@Override
-	public void add(Grupo grupo) {
-		if(repository.findByCodigo(grupo.getCodigo())==null)
+	public boolean add(Grupo grupo) {
+		if(repository.findByCodigo(grupo.getCodigo())==null) {
 			repository.save(grupo);
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
-	public void delete(String codigo) {
-		repository.deleteByCodigo(codigo);
+	public boolean delete(String codigo) {
+		if(repository.findByCodigo(codigo)!=null) {
+			repository.deleteByCodigo(codigo);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public Grupo getGrupoByCodigo(String nombre) {
+	public Grupo getGrupoByCodigo(String nombre) {		
 		return repository.findByCodigo(nombre);
 	}
 
@@ -41,5 +50,12 @@ public class GrupoServiceImpl implements GrupoService{
 		return (List<Grupo>) repository.findAll();
 	}
 
-
+	@Override
+	public Grupo create(Map<String, Object> payload) {
+		Grupo grupo = new Grupo( payload.get( "codigo" ).toString(),
+				payload.get( "descripcion" ).toString());
+		grupo.setCreateUser("gonzi");
+		grupo.setCreateDate(new Date());
+		return grupo;
+	}
 }

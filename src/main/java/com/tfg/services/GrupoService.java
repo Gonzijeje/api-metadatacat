@@ -1,6 +1,7 @@
 package com.tfg.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tfg.model.Grupo;
 
@@ -11,9 +12,11 @@ import com.tfg.model.Grupo;
  */
 public interface GrupoService {
 	
-	void add(Grupo grupo);
+	boolean add(Grupo grupo);
 	
-	void delete(String codigo);
+	Grupo create(Map<String,Object> payload);
+	
+	boolean delete(String codigo);
 	
 	Grupo getGrupoByCodigo(String nombre);
 	

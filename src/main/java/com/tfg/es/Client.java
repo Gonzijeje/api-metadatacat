@@ -53,7 +53,8 @@ public class Client {
 		jsonMap.put("user", "kimchy");
 		jsonMap.put("postDate", new Date());
 		jsonMap.put("message", "trying out Elasticsearch");
-		IndexRequest indexRequest = new IndexRequest("asset").id("1").source(jsonMap);
+		jsonMap.put("text", "Esto es una prueba de fichero txt para buscar con ElasticSearch");
+		IndexRequest indexRequest = new IndexRequest("asset").id("2").source(jsonMap);
 
 		IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
 //		String index = indexResponse.getIndex();

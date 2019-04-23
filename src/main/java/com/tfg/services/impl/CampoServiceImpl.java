@@ -2,6 +2,7 @@ package com.tfg.services.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,21 @@ public class CampoServiceImpl implements CampoService{
 	CampoRepository repository;
 	
 	@Override
-	public void add(Campo metadato) {
-		repository.save(metadato);
+	public boolean add(Campo metadato) {
+		if(repository.findByCodigo(metadato.getCodigo())==null) {
+			repository.save(metadato);
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
-	public void delete(String codigo) {
-		repository.deleteByCodigo(codigo);
+	public boolean delete(String codigo) {
+		if(repository.findByCodigo(codigo)!=null) {
+			repository.deleteByCodigo(codigo);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -57,4 +66,12 @@ public class CampoServiceImpl implements CampoService{
 		});	
 	}
 
+	@Override
+	public Campo create(Map<String, Object> payload) {
+		Campo campo = new Campo( payload.get( "codigo" ).toString(),
+				payload.get( "descripcion" ).toString());
+		campo.setCreateUser("gonzi");
+		campo.setCreateDate(new Date());
+		return campo;
+	}
 }

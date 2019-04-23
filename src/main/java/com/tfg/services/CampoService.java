@@ -1,6 +1,7 @@
 package com.tfg.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.tfg.model.Campo;
 
@@ -11,9 +12,11 @@ import com.tfg.model.Campo;
  */
 public interface CampoService {
 	
-	void add(Campo campo);
+	boolean add(Campo campo);
 	
-	void delete(String codigo);
+	Campo create(Map<String,Object> payload);
+	
+	boolean delete(String codigo);
 	
 	Campo getCampoByCodigo(String nombre);
 	
@@ -21,6 +24,4 @@ public interface CampoService {
 	
 	void addListCampos(List<String> campos);
 	
-	
-
 }
