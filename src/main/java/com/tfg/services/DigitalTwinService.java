@@ -12,13 +12,17 @@ import com.tfg.model.DigitalTwin;
  */
 public interface DigitalTwinService{
 	
-	void add(DigitalTwin da);
+	int add(DigitalTwin da);
+	
+	DigitalTwin create(Map<String,Object> payload);
 	
 	void update(String codigo);
 	
-	void delete(String codigo);
+	boolean delete(String codigo);
 	
 	DigitalTwin findByCodigo(String codigo);
+	
+	DigitalTwin findByPath(String path);
 	
 	List<DigitalTwin> getDigitalTwins();
 	

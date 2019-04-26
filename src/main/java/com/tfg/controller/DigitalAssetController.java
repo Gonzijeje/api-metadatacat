@@ -1,7 +1,6 @@
 package com.tfg.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,35 +54,37 @@ public class DigitalAssetController {
 	@RequestMapping(value = "/asset/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
 	public ResponseEntity<String> registerDigitalAsset(@RequestBody Map<String, Object> payload) throws ParseException {
-		DigitalAsset asset = new DigitalAsset(payload.get( "codigo" ).toString(),payload.get( "descripcion" ).toString(),
-				payload.get( "tipo" ).toString(), payload.get( "entidad" ).toString(), payload.get( "contacto" ).toString(),
-				payload.get( "autor" ).toString(),Double.parseDouble((String) payload.get( "tamano" )), payload.get( "unidad_tamano" ).toString(), 
-				payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
-				new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
-		asset.setCreateUser("gonzi");
-		asset.setCreateDate(new Date());		
-		service.add(asset);
-		//Registrar campos
-		List<String> listCampos = new ArrayList<String>(payload.keySet());
-		campoService.addListCampos(listCampos);
-		//Registrar grupo
-		grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
-		//Registrar valores
-		List<Object> valores = new ArrayList<Object>(payload.values());
-		valorService.addListValores(valores);
-		//Asociar campos y grupos
-		//Usar el metodo saveALL pasandole una lista creada antes
-		Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
-		payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
-		//Asociar digital asset y grupos_campos
-		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
-		payload.forEach((k,v)-> {asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));});
-		acAssetService.addListAc_Asset(asociaciones);
-		//
-		System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
-		
-		return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
-				HttpStatus.CREATED );
+		DigitalAsset asset = service.create(payload);
+		int way = service.add(asset);
+		if(way==0) {
+			//Registrar campos
+			List<String> listCampos = new ArrayList<String>(payload.keySet());
+			campoService.addListCampos(listCampos);
+			//Registrar grupo
+			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+			//Registrar valores
+			List<Object> valores = new ArrayList<Object>(payload.values());
+			valorService.addListValores(valores);
+			//Asociar campos y grupos
+			//Usar el metodo saveALL pasandole una lista creada antes
+			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
+			payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
+			//Asociar digital asset y grupos_campos
+			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+			payload.forEach((k,v)-> {asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));});
+			acAssetService.addListAc_Asset(asociaciones);
+			//
+			System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
+			
+			return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
+					HttpStatus.CREATED );
+		}else if(way==1){
+			return new ResponseEntity<String>( "{\"response\":\"Código de DigitalAsset ya existe\"}",
+					HttpStatus.BAD_REQUEST );
+		}else {
+			return new ResponseEntity<String>( "{\"response\":\"Path de DigitalAsset ya existe\"}",
+					HttpStatus.BAD_REQUEST );
+		}	
 	}
 	
 	@RequestMapping("/asset/getDigitalAssetsByFilters")

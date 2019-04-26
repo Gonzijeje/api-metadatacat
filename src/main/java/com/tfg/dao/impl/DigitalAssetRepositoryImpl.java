@@ -31,4 +31,15 @@ public class DigitalAssetRepositoryImpl {
 		return (List<DigitalAsset>)query.getResultList();
 	}
 	
+	public List<DigitalAsset> getDigitalTwinsByFilters(Map<String,Object> filters){
+		String parts[] = {"Select d from DigitalAsset d where"," d."," like ", " and "};
+		StringBuilder sb = new StringBuilder();
+		sb.append(parts[0]);
+		filters.forEach((k,v) -> sb.append(parts[1]+k+parts[2]+"'"+v.toString()+"'"+parts[3]));
+		sb.delete(sb.length()-4, sb.length()-1);
+		Query query = entityManager.createQuery(sb.toString());
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+query.toString());
+		return (List<DigitalAsset>)query.getResultList();
+	}
+	
 }

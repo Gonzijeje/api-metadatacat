@@ -59,18 +59,18 @@ public class DigitalTwin extends AbstractBasicoEntity{
 	Set<Grupo_campo> asociaciones_twin;*/
 		
 	
-	public DigitalTwin(String codigo, String descripcion, String extension,String entidad,String autor,
-			String path,Date fecha_creacion,Date fecha_modificacion,String entorno) {
+	public DigitalTwin(String codigo, String descripcion, String extension,String entidad, String entorno, String autor,
+			String path,Date fecha_creacion,Date fecha_modificacion) {
 		super();
 		super.codigo=codigo;
 		super.descripcion=descripcion;
 		this.tipo = extension;
 		this.entidad = entidad;
+		this.entorno=entorno;
 		this.autor = autor;
 		this.path = path;
 		this.fecha_creacion = fecha_creacion;
-		this.fecha_modificacion = fecha_modificacion;
-		this.entorno=entorno;
+		this.fecha_modificacion = fecha_modificacion;		
 	}
 	
 	public DigitalTwin() {

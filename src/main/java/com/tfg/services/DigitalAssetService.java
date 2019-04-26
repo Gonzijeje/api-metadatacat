@@ -12,13 +12,17 @@ import com.tfg.model.DigitalAsset;
  */
 public interface DigitalAssetService{
 	
-	void add(DigitalAsset da);
+	int add(DigitalAsset da);
+	
+	DigitalAsset create(Map<String,Object> payload);
 	
 	void update(String codigo);
 	
-	void delete(String codigo);
+	boolean delete(String codigo);
 	
 	DigitalAsset findByCodigo(String codigo);
+	
+	DigitalAsset findByPath(String path);
 	
 	List<DigitalAsset> getDigitalAssets();
 	

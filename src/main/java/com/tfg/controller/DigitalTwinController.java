@@ -1,7 +1,6 @@
 package com.tfg.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,15 +13,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.tfg.model.Ac_Asset;
+import com.tfg.model.Ac_Twin;
 import com.tfg.model.DigitalAsset;
+import com.tfg.model.DigitalTwin;
 import com.tfg.model.Grupo;
 import com.tfg.model.Grupo_campo;
-import com.tfg.services.Ac_AssetService;
 import com.tfg.services.Ac_TwinService;
 import com.tfg.services.CampoService;
-import com.tfg.services.DigitalAssetService;
+import com.tfg.services.DigitalTwinService;
 import com.tfg.services.GrupoService;
 import com.tfg.services.Grupo_campoService;
 import com.tfg.services.Valor_CampoService;
@@ -50,35 +50,55 @@ public class DigitalTwinController {
 	@RequestMapping(value = "/twin/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
 	public ResponseEntity<String> registerDigitalTwin(@RequestBody Map<String, Object> payload) throws ParseException {
-		DigitalAsset asset = new DigitalAsset(payload.get( "codigo" ).toString(),payload.get( "descripcion" ).toString(),
-				payload.get( "tipo" ).toString(), payload.get( "entidad" ).toString(), payload.get( "contacto" ).toString(),
-				payload.get( "autor" ).toString(),Double.parseDouble((String) payload.get( "tamano" )), payload.get( "unidad_tamano" ).toString(), 
-				payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
-				new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
-		asset.setCreateUser("gonzi");
-		asset.setCreateDate(new Date());		
-		service.add(asset);
-		//Registrar campos
-		List<String> listCampos = new ArrayList<String>(payload.keySet());
-		campoService.addListCampos(listCampos);
-		//Registrar grupo
-		grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
-		//Registrar valores
-		List<Object> valores = new ArrayList<Object>(payload.values());
-		valorService.addListValores(valores);
-		//Asociar campos y grupos
-		//Usar el metodo saveALL pasandole una lista creada antes
-		Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
-		payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
-		//Asociar digital asset y grupos_campos
-		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
-		payload.forEach((k,v)-> {asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));});
-		acTwinService.addListAc_Asset(asociaciones);
-		//
-		System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
-		
-		return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
-				HttpStatus.CREATED );
+		DigitalTwin twin = service.create(payload);
+		int way = service.add(twin);
+		if(way==0) {
+			//Registrar campos
+			List<String> listCampos = new ArrayList<String>(payload.keySet());
+			campoService.addListCampos(listCampos);
+			//Registrar grupo
+			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+			//Registrar valores
+			List<Object> valores = new ArrayList<Object>(payload.values());
+			valorService.addListValores(valores);
+			//Asociar campos y grupos
+			//Usar el metodo saveALL pasandole una lista creada antes
+			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
+			payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
+			//Asociar digital asset y grupos_campos
+			List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
+			payload.forEach((k,v)-> {asociaciones.add(new Ac_Twin(twin,basico,campoService.getCampoByCodigo(k)));});
+			acTwinService.addListAc_Twin(asociaciones);
+			//
+			System.out.print("Digital Twin registrado: " + new JSONObject( payload ).toString());
+			
+			return new ResponseEntity<String>( "{\"response\":\"Digital Twin registrado\"}",
+					HttpStatus.CREATED );
+		}else if(way==1){
+			return new ResponseEntity<String>( "{\"response\":\"Código de DigitalTwin ya existe\"}",
+					HttpStatus.BAD_REQUEST );
+		}else {
+			return new ResponseEntity<String>( "{\"response\":\"Path de DigitalTwin ya existe\"}",
+					HttpStatus.BAD_REQUEST );
+		}	
+	}
+	
+	@RequestMapping("/twin/getDigitalTwinsByFilters")
+    public List<DigitalTwin> getDigitalAssetsByFilters(@RequestParam Map<String,Object> allRequestParams ) {
+		return service.getDigitalTwinsByFilters(allRequestParams);
+    }
+	
+	@RequestMapping("/twin/getDigitalTwins")
+    public List<DigitalTwin> getDigitalAssets(){
+		//esSearch.matchAll();
+		return service.getDigitalTwins();
+    }
+	
+	@RequestMapping(value = "/twin/delete", method = RequestMethod.DELETE, consumes = "application/json")
+	public ResponseEntity<String> deleteDigitalTwin(@RequestParam String codigo){
+		service.delete(codigo);
+		return new ResponseEntity<String>( "{\"response\":\"Digital Twin eliminado\"}",
+				HttpStatus.OK );
 	}
 
 }
