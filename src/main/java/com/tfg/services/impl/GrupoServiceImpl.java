@@ -1,5 +1,6 @@
 package com.tfg.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,17 @@ public class GrupoServiceImpl implements GrupoService{
 	public List<Grupo> getGrupos() {
 		return (List<Grupo>) repository.findAll();
 	}
+	
+	@Override
+	public void addListGrupos(List<String> grupos) {
+		List<Grupo> lista = new ArrayList<Grupo>();
+		grupos.forEach((grupo)-> {
+			if(repository.findByCodigo(grupo)==null) {
+				lista.add(new Grupo(grupo,"", "gonzi", new Date()));
+			}
+		});
+		repository.saveAll(lista);
+	}
 
 	@Override
 	public Grupo create(Map<String, Object> payload) {
@@ -57,5 +69,10 @@ public class GrupoServiceImpl implements GrupoService{
 		grupo.setCreateUser("gonzi");
 		grupo.setCreateDate(new Date());
 		return grupo;
+	}
+
+	@Override
+	public boolean checkListGrupos(List<String> grupos) {
+		return (grupos.stream().noneMatch((grupo)-> repository.findByCodigo(grupo) == null));	
 	}
 }

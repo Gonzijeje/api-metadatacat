@@ -1,5 +1,6 @@
 package com.tfg.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,13 @@ public class Valor_CampoServiceImpl implements Valor_CampoService{
 
 	@Override
 	public void addListValores(List<Object> valores) {
+		List<Valor_Campo> lista = new ArrayList<Valor_Campo>();
 		valores.forEach((valor)-> {
 			if(repository.findByValor(valor)==null) {
-				repository.save(new Valor_Campo(valor.toString()));
+				lista.add(new Valor_Campo(valor.toString()));
 			}
 		});
+		repository.saveAll(lista);
 	}
 
 }

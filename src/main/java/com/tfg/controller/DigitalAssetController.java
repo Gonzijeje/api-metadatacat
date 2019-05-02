@@ -57,23 +57,20 @@ public class DigitalAssetController {
 		DigitalAsset asset = service.create(payload);
 		int way = service.add(asset);
 		if(way==0) {
-			//Registrar campos
 			List<String> listCampos = new ArrayList<String>(payload.keySet());
-			campoService.addListCampos(listCampos);
-			//Registrar grupo
-			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
-			//Registrar valores
 			List<Object> valores = new ArrayList<Object>(payload.values());
-			valorService.addListValores(valores);
-			//Asociar campos y grupos
-			//Usar el metodo saveALL pasandole una lista creada antes
-			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
-			payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
-			//Asociar digital asset y grupos_campos
+			List<Grupo_campo> grcampos = new ArrayList<Grupo_campo>();
 			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
-			payload.forEach((k,v)-> {asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));});
+			campoService.addListCampos(listCampos);
+			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+			valorService.addListValores(valores);
+			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
+			payload.forEach((k,v)-> {				
+				grcampos.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v)));
+				asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));			
+			});	
+			grupoCampoService.addListGrupo_Campo(grcampos);
 			acAssetService.addListAc_Asset(asociaciones);
-			//
 			System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
 			
 			return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
@@ -100,9 +97,13 @@ public class DigitalAssetController {
 	
 	@RequestMapping(value = "/asset/delete", method = RequestMethod.DELETE, consumes = "application/json")
 	public ResponseEntity<String> deleteDigitalAsset(@RequestParam String codigo){
-		service.delete(codigo);
-		return new ResponseEntity<String>( "{\"response\":\"Digital Asset eliminado\"}",
-				HttpStatus.CREATED );
+		if(service.delete(codigo)) {
+			return new ResponseEntity<String>( "{\"response\":\"Digital Asset eliminado\"}",
+					HttpStatus.CREATED );
+		}else {
+			return new ResponseEntity<String>("{\"response\":\"Código de DigitalAsset no existe\"}",
+					HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
 	@RequestMapping(value = "/asset/addMetadata", method = RequestMethod.POST, consumes = "application/json",
@@ -126,6 +127,37 @@ public class DigitalAssetController {
 		}
 		return new ResponseEntity<String>( "{\"response\":\"Metadato añadido al Digital Asset\"}",
 				HttpStatus.OK );
+	}
+	
+	@RequestMapping(value = "/asset/modifyMetadata", method = RequestMethod.POST, consumes = "application/json",
+			produces = "application/json")
+	public ResponseEntity<String> modifyMetadataOfDigitalAsset(@RequestBody Map<String,Map<String,Object>> payload, 
+			@RequestParam String codigo) throws ParseException {
+		DigitalAsset asset = service.findByCodigo(codigo);
+		List<String> listaGrupos = new ArrayList<String>(payload.keySet());
+		if(asset!=null) {
+			if(grupoService.checkListGrupos(listaGrupos)) {
+				for(String key:payload.keySet()) {
+					Map<String,Object> mappa = payload.get(key);
+					grupoService.add(grupoService.getGrupoByCodigo(key));
+					List<String> listCampos = new ArrayList<String>(mappa.keySet());
+					campoService.addListCampos(listCampos);
+					List<Object> valores = new ArrayList<Object>(payload.values());
+					valorService.addListValores(valores);
+					//Grupo_campo
+					mappa.forEach((k,v)-> {grupoCampoService.add(new Grupo_campo(grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k),valorService.getValor(v)));
+					acAssetService.add(new Ac_Asset(service.findByCodigo(codigo),grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k)));});
+					//Ac_Asset
+				}
+				return new ResponseEntity<String>( "{\"response\":\"Metadato añadido al Digital Asset\"}",
+						HttpStatus.OK );
+			}else {
+				return new ResponseEntity<String>("{\"response\":\"Metadatos a modificar no existen\"}",
+						HttpStatus.BAD_REQUEST);
+			}
+		}
+		return new ResponseEntity<String>("{\"response\":\"Código de DigitalAsset no existe\"}",
+				HttpStatus.BAD_REQUEST);
 	}
 	
 }

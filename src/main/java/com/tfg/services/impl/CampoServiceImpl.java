@@ -1,5 +1,6 @@
 package com.tfg.services.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,20 +51,14 @@ public class CampoServiceImpl implements CampoService{
 		return (List<Campo>) repository.findAll();
 	}
 
-	/*@Override
 	public void addListCampos(List<String> campos) {
+		List<Campo> lista = new ArrayList<Campo>();
 		campos.forEach((campo)-> {
 			if(repository.findByCodigo(campo)==null) {
-				repository.save(new Campo(campo,"Campo básico", "gonzi", new Date()));
+				lista.add(new Campo(campo,"", "gonzi", new Date()));
 			}
-			});	
-	}*/
-	public void addListCampos(List<String> campos) {
-		campos.forEach((campo)-> {
-			if(repository.findByCodigo(campo)==null) {
-				repository.save(new Campo(campo,"", "gonzi", new Date()));
-			}
-		});	
+		});
+		repository.saveAll(lista);
 	}
 
 	@Override

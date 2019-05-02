@@ -71,8 +71,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	@Override
 	public List<DigitalTwin> getDigitalTwinsByFilters(Map<String, Object> filters) {
 		DigitalAssetRepositoryImpl r = new DigitalAssetRepositoryImpl();
-		//return r.getDigitalTwinsByFilters(filters);
-		return null;
+		return r.getDigitalTwinsByFilters(filters);
 	}
 
 	@Override

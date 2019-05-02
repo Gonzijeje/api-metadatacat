@@ -21,5 +21,9 @@ public interface GrupoService {
 	Grupo getGrupoByCodigo(String nombre);
 	
 	List<Grupo> getGrupos();
+	
+	void addListGrupos(List<String> grupos);
+	
+	boolean checkListGrupos(List<String> grupos);
 
 }
