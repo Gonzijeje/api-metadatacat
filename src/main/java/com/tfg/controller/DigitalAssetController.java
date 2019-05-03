@@ -70,7 +70,7 @@ public class DigitalAssetController {
 				asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));			
 			});	
 			grupoCampoService.addListGrupo_Campo(grcampos);
-			acAssetService.addListAc_Asset(asociaciones);
+			//acAssetService.addListAc_Asset(asociaciones);
 			System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
 			
 			return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
