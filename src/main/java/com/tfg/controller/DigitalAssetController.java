@@ -57,20 +57,18 @@ public class DigitalAssetController {
 		DigitalAsset asset = service.create(payload);
 		int way = service.add(asset);
 		if(way==0) {
-			List<String> listCampos = new ArrayList<String>(payload.keySet());
-			List<Object> valores = new ArrayList<Object>(payload.values());
 			List<Grupo_campo> grcampos = new ArrayList<Grupo_campo>();
 			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
-			campoService.addListCampos(listCampos);
+			campoService.addListCampos(new ArrayList<String>(payload.keySet()));
 			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
-			valorService.addListValores(valores);
+			valorService.addListValores(new ArrayList<Object>(payload.values()));
 			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
 			payload.forEach((k,v)-> {				
 				grcampos.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v)));
 				asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));			
 			});	
 			grupoCampoService.addListGrupo_Campo(grcampos);
-			//acAssetService.addListAc_Asset(asociaciones);
+			acAssetService.addListAc_Asset(asociaciones);
 			System.out.print("Digital Asset registrado: " + new JSONObject( payload ).toString());
 			
 			return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
@@ -114,16 +112,13 @@ public class DigitalAssetController {
 			Map<String,Object> mappa = payload.get(key);
 			//Grupo
 			grupoService.add(grupoService.getGrupoByCodigo(key));
-			//Campos
-			List<String> listCampos = new ArrayList<String>(mappa.keySet());
-			campoService.addListCampos(listCampos);
-			//Valores
-			List<Object> valores = new ArrayList<Object>(payload.values());
-			valorService.addListValores(valores);
+			campoService.addListCampos(new ArrayList<String>(mappa.keySet()));
+			valorService.addListValores(new ArrayList<Object>(payload.values()));
 			//Grupo_campo
-			mappa.forEach((k,v)-> {grupoCampoService.add(new Grupo_campo(grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k),valorService.getValor(v)));
-			acAssetService.add(new Ac_Asset(service.findByCodigo(codigo),grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k)));});
-			//Ac_Asset
+			mappa.forEach((k,v)-> {
+				grupoCampoService.add(new Grupo_campo(grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k),valorService.getValor(v)));
+				acAssetService.add(new Ac_Asset(service.findByCodigo(codigo),grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k)));
+			});
 		}
 		return new ResponseEntity<String>( "{\"response\":\"Metadato añadido al Digital Asset\"}",
 				HttpStatus.OK );

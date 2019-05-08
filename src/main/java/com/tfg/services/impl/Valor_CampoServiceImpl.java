@@ -30,7 +30,7 @@ public class Valor_CampoServiceImpl implements Valor_CampoService{
 	public void addListValores(List<Object> valores) {
 		List<Valor_Campo> lista = new ArrayList<Valor_Campo>();
 		valores.forEach((valor)-> {
-			if(repository.findByValor(valor)==null) {
+			if(repository.findByValor(valor)==null && lista.stream().noneMatch(c -> c.getValor().equals(valor))) {
 				lista.add(new Valor_Campo(valor.toString()));
 			}
 		});

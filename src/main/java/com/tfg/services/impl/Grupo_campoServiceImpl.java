@@ -2,6 +2,7 @@ package com.tfg.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,10 @@ public class Grupo_campoServiceImpl implements Grupo_campoService{
 	@Override
 	public void addListGrupo_Campo(List<Grupo_campo> grcampos) {
 		List<Grupo_campo> lista = new ArrayList<Grupo_campo>();
+		Optional<Grupo_campo> opt = Optional.empty();
 		grcampos.forEach((gr)-> {
 			if(repository.findById(new Grupo_Campo_Id(gr.getGrupo().getId(),
-					gr.getCampo().getId(),gr.getValue().getId()))==null) {
+					gr.getCampo().getId(),gr.getValue().getId()))==opt) {
 				lista.add(gr);
 			}
 		});

@@ -2,6 +2,7 @@ package com.tfg.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,10 @@ public class Ac_AssetServiceImpl implements Ac_AssetService{
 	@Override
 	public void addListAc_Asset(List<Ac_Asset> asociaciones) {
 		List<Ac_Asset> lista = new ArrayList<Ac_Asset>();
+		Optional<Ac_Asset> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
 			if(repository.findById(new Ac_Asset_Id(ac.getDa().getId(),
-					ac.getGrupo().getId(),ac.getCampo().getId()))==null) {
+					ac.getGrupo().getId(),ac.getCampo().getId()))==opt) {
 				lista.add(ac);
 			}
 		});
