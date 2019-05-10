@@ -111,9 +111,9 @@ public class DigitalAssetController {
 		for(String key:payload.keySet()) {
 			Map<String,Object> mappa = payload.get(key);
 			//Grupo
-			grupoService.add(grupoService.getGrupoByCodigo(key));
+			grupoService.add(new Grupo(key.toString(),null,"gonzi",new Date()));
 			campoService.addListCampos(new ArrayList<String>(mappa.keySet()));
-			valorService.addListValores(new ArrayList<Object>(payload.values()));
+			valorService.addListValores(new ArrayList<Object>(mappa.values()));
 			//Grupo_campo
 			mappa.forEach((k,v)-> {
 				grupoCampoService.add(new Grupo_campo(grupoService.getGrupoByCodigo(key),campoService.getCampoByCodigo(k),valorService.getValor(v)));
