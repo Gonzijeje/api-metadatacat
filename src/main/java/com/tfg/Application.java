@@ -23,7 +23,7 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 		es.connect();
 		se.matchAll();
-		es.indexApi();
+		//es.indexApi();
 		es.disconnect();
 	}
 

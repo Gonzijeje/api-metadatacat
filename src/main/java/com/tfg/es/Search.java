@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -39,12 +40,11 @@ public class Search {
 		}
 	}
 	
-	public void query() {
+	public void query(String value) {
 		SearchSourceBuilder sourceBuilder = new SearchSourceBuilder(); 
-		sourceBuilder.query(QueryBuilders.termQuery("user", "kimchy")); 
-		sourceBuilder.from(0); 
-		sourceBuilder.size(5); 
+		sourceBuilder.query(QueryBuilders.termQuery("code", value)); 
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 	}
+	
 
 }

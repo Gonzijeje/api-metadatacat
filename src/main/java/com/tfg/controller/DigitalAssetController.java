@@ -73,6 +73,7 @@ public class DigitalAssetController {
 			
 			return new ResponseEntity<String>( "{\"response\":\"Digital Asset registrado\"}",
 					HttpStatus.CREATED );
+			//Crear doc en ElasticSearch
 		}else if(way==1){
 			return new ResponseEntity<String>( "{\"response\":\"Código de DigitalAsset ya existe\"}",
 					HttpStatus.BAD_REQUEST );

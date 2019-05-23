@@ -1,7 +1,6 @@
 package com.tfg.es;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,12 +9,15 @@ import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.replication.ReplicationResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.get.GetResult;
 
 public class Client {
 
@@ -48,14 +50,10 @@ public class Client {
 		System.out.println("UNO: "+acknowledged+" , DOS: "+shardsAcknowledged);
 	}
 
-	public void indexApi() throws IOException {
+	public void indexApi(Map<String, Object> payload) throws IOException {
 		Map<String, Object> jsonMap = new HashMap<>();
-		jsonMap.put("user", "kimchy");
-		jsonMap.put("postDate", new Date());
-		jsonMap.put("message", "trying out Elasticsearch");
-		jsonMap.put("text", "Esto es una prueba de fichero txt para buscar con ElasticSearch");
-		IndexRequest indexRequest = new IndexRequest("asset").id("2").source(jsonMap);
-
+		jsonMap.put("Grupo básicos",payload);
+		IndexRequest indexRequest = new IndexRequest("asset").id(payload.get("codigo").toString()).source(jsonMap);
 		IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
 //		String index = indexResponse.getIndex();
 //		String id = indexResponse.getId();
@@ -74,6 +72,23 @@ public class Client {
 				String reason = failure.reason();
 				System.out.println(reason.toString());
 			}
+		}
+	}
+	
+	public void addMetadata(Map<String,Map<String,Object>> payload, String codigo) throws IOException {
+		Map<String, Object> jsonMap = new HashMap<>();
+		for(String key:payload.keySet()) {
+			jsonMap.put(key, payload.get(key));
+		}
+		UpdateRequest request = new UpdateRequest("asset",codigo).doc(jsonMap);
+		UpdateResponse updateResponse = client.update(
+		        request, RequestOptions.DEFAULT);
+		GetResult result = updateResponse.getGetResult();
+		if(result==null) {
+			System.out.println("ESTO ES NULL");
+		}
+		else if(result.isExists()) {
+			System.out.println(result.sourceAsString());
 		}
 	}
 	
