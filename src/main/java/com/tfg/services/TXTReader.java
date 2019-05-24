@@ -18,6 +18,7 @@ public class TXTReader {
 	int nWords = 0;
 	int nLines = 0;
 	private FileInfo file;
+	private String content = "";
 
 	public void getMetadata(String path) throws IOException, ParseException {
 		file = new FileInfo(new File(path));
@@ -38,6 +39,7 @@ public class TXTReader {
 		try {
 			br = new BufferedReader(new FileReader(txtFile));
 			while((line = br.readLine()) !=null) {
+				content+=line; content+="\n";
 				nLines++;
 				String[] words = line.split(" ");
 				for(String word : words) {
@@ -49,6 +51,7 @@ public class TXTReader {
 			System.out.println("Número de Caracteres: "+nCaracteres);
 			System.out.println("Número de Palabras: "+nWords);
 			System.out.println("Número de Lineas: "+nLines);
+			System.out.println("CONTENIDO: "+content);
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
