@@ -4,8 +4,8 @@ import java.io.IOException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.tfg.es.Client;
-import com.tfg.es.Search;
+import com.tfg.esearch.Client;
+import com.tfg.esearch.Search;
 
 /**
  * 

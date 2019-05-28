@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.es.Search;
+import com.tfg.esearch.Search;
 import com.tfg.model.Ac_Asset;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.Grupo;

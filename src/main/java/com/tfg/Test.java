@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.tfg.es.Client;
-import com.tfg.es.Search;
+import com.tfg.esearch.Client;
+import com.tfg.esearch.Search;
 import com.tfg.services.CSVReader;
 import com.tfg.services.TXTReader;
 

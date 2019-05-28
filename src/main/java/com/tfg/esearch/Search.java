@@ -1,4 +1,4 @@
-package com.tfg.es;
+package com.tfg.esearch;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
