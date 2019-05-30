@@ -25,6 +25,8 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	@Autowired
 	DigitalAssetRepository repository;
 	
+	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
+	
 
 	@Override
 	public int add(DigitalAsset da) {
@@ -69,9 +71,8 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	}
 
 	@Override
-	public List<DigitalAsset> getDigitalAssetsByFilters(Map<String, Object> filters) {
-		DigitalAssetRepositoryImpl r = new DigitalAssetRepositoryImpl();
-		return r.getDigitalAssetsByFilters(filters);
+	public List<DigitalAsset> getDigitalAssetsByFilters(Map<String, Object> filters) {;
+		return repositoryEM.getDigitalAssetsByFilters(filters);
 	}
 
 	@Override

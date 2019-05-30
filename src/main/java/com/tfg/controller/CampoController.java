@@ -21,25 +21,10 @@ public class CampoController {
 	@Autowired
 	CampoService service;
 	
-//	 private static final String template = "Hello, %s!";
-//	 private final AtomicLong counter = new AtomicLong();
-	
-	/*@RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-		System.out.println("cacaaaaa");
-        return new Greeting(counter.incrementAndGet(),
-                            String.format(template, name));
-    }*/
 	
 	@RequestMapping(value = "/campo/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
 	public ResponseEntity<String> registerCampo(@RequestBody Map<String, Object> payload ) {
-		/*if (!isPayloadCorrect( payload )) {
-			// Not valid data.
-			log.warn( "Not valid register attemp: " + new JSONObject( payload ).toString() );
-			return new ResponseEntity<String>( "{\"response\":\"agent not registered\"}",
-					HttpStatus.BAD_REQUEST );
-		}*/
 		if(service.add(service.create(payload))) {
 			System.out.print("Campo creado: " + new JSONObject( payload ).toString());			
 			return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
