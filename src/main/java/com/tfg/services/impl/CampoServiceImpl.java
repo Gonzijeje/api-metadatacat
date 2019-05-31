@@ -55,7 +55,7 @@ public class CampoServiceImpl implements CampoService{
 		List<Campo> lista = new ArrayList<Campo>();
 		campos.forEach((campo)-> {
 			if(repository.findByCodigo(campo)==null) {
-				lista.add(new Campo(campo,"", "gonzi", new Date()));
+				lista.add(new Campo(campo,"", "gcollada", new Date()));
 			}
 		});
 		repository.saveAll(lista);
@@ -63,10 +63,13 @@ public class CampoServiceImpl implements CampoService{
 
 	@Override
 	public Campo create(Map<String, Object> payload) {
-		Campo campo = new Campo( payload.get( "codigo" ).toString(),
-				payload.get( "descripcion" ).toString());
-		campo.setCreateUser("gonzi");
-		campo.setCreateDate(new Date());
-		return campo;
+		if(payload.get("codigo")!=null && payload.get("descripcion")!=null) {
+			Campo campo = new Campo( payload.get( "codigo" ).toString(),
+					payload.get( "descripcion" ).toString());
+			campo.setCreateUser("gcollada");
+			campo.setCreateDate(new Date());
+			return campo;
+		}
+		return null;
 	}
 }

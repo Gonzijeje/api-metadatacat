@@ -1,12 +1,15 @@
 package com.tfg.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.dao.Ac_TwinRepository;
 import com.tfg.model.Ac_Twin;
+import com.tfg.model.id.Ac_Twin_Id;
 import com.tfg.services.Ac_TwinService;
 
 /**
@@ -27,6 +30,14 @@ public class Ac_TwinServiceImpl implements Ac_TwinService{
 
 	@Override
 	public void addListAc_Twin(List<Ac_Twin> asociaciones) {
+		List<Ac_Twin> lista = new ArrayList<Ac_Twin>();
+		Optional<Ac_Twin> opt = Optional.empty();
+		asociaciones.forEach((ac)-> {
+			if(repository.findById(new Ac_Twin_Id(ac.getDt().getId(),
+					ac.getGrupo().getId(),ac.getCampo().getId()))==opt) {
+				lista.add(ac);
+			}
+		});
 		repository.saveAll(asociaciones);	
 	}
 

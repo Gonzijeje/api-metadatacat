@@ -2,7 +2,7 @@ package com.tfg.controller;
 
 import java.util.List;
 import java.util.Map;
-import org.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,24 +15,32 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tfg.model.Campo;
 import com.tfg.services.CampoService;
 
+/**
+ * 
+ * @author gcollada
+ *
+ */
 @RestController
 public class CampoController {
 	
 	@Autowired
 	CampoService service;
 	
-	
 	@RequestMapping(value = "/campo/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
 	public ResponseEntity<String> registerCampo(@RequestBody Map<String, Object> payload ) {
-		if(service.add(service.create(payload))) {
-			System.out.print("Campo creado: " + new JSONObject( payload ).toString());			
-			return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
-					HttpStatus.CREATED );
-		}else {
-			return new ResponseEntity<String>( "{\"response\":\"Código de campo ya existe\"}",
-					HttpStatus.BAD_REQUEST );
-		}		
+		Campo campo = service.create(payload);
+		if(campo!=null) {
+			if(service.add(campo)) {
+				return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
+						HttpStatus.CREATED );
+			}else {
+				return new ResponseEntity<String>( "{\"response\":\"Código de campo ya existe\"}",
+						HttpStatus.CONFLICT);
+			}
+		}
+		return new ResponseEntity<String>( "{\"response\":\"Datos introducidos incorrectos\"}",
+				HttpStatus.BAD_REQUEST);			
 	}
 	
 	@RequestMapping("/campo")
@@ -42,7 +50,7 @@ public class CampoController {
 			return campo;
 		}
 		return new ResponseEntity<String>( "{\"response\":\"Código de campo no existe\"}",
-					HttpStatus.BAD_REQUEST );
+					HttpStatus.NOT_FOUND);
 	}
 	
 	@RequestMapping("/campo/list")
@@ -57,7 +65,7 @@ public class CampoController {
 					HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("{\"response\":\"Código de campo no existe\"}",
-					HttpStatus.BAD_REQUEST);
+					HttpStatus.NOT_FOUND);
 		}	
 	}
 }

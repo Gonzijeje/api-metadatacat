@@ -1,10 +1,8 @@
 package com.tfg.controller;
 
-
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +28,19 @@ public class GrupoController {
 
 	@RequestMapping(value = "/grupo/add", method = RequestMethod.POST, consumes = "application/json",
 			produces = "application/json")
-	public ResponseEntity<String> registerGrupo(@RequestBody Map<String, Object> payload ) {				
-		if(service.add(service.create(payload))) {
-			System.out.print("Grupo registrado: " + new JSONObject( payload ).toString());			
-			return new ResponseEntity<String>( "{\"response\":\"Grupo registrado\"}",
-					HttpStatus.CREATED );
-		}else {
-			return new ResponseEntity<String>( "{\"response\":\"Código de grupo ya existe\"}",
-					HttpStatus.BAD_REQUEST );
-		}		
+	public ResponseEntity<String> registerGrupo(@RequestBody Map<String, Object> payload ) {
+		Grupo grupo = service.create(payload);
+		if(grupo!=null) {
+			if(service.add(grupo)) {
+				return new ResponseEntity<String>( "{\"response\":\"Grupo registrado\"}",
+						HttpStatus.CREATED );
+			}else {
+				return new ResponseEntity<String>( "{\"response\":\"Código de grupo ya existe\"}",
+						HttpStatus.CONFLICT);
+			}
+		}
+		return new ResponseEntity<String>( "{\"response\":\"Datos introducidos incorrectos\"}",
+				HttpStatus.BAD_REQUEST);				
 	}
 	
 	@RequestMapping("/grupo")
@@ -48,7 +50,7 @@ public class GrupoController {
 			return grupo;
 		}
 		return new ResponseEntity<String>( "{\"response\":\"Código de grupo no existe\"}",
-					HttpStatus.BAD_REQUEST );
+					HttpStatus.NOT_FOUND);
 	}
 	
 	@RequestMapping("/grupo/list")
@@ -63,7 +65,7 @@ public class GrupoController {
 					HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("{\"response\":\"Código de grupo no existe\"}",
-					HttpStatus.BAD_REQUEST);
+					HttpStatus.NOT_FOUND);
 		}
 	}
 }
