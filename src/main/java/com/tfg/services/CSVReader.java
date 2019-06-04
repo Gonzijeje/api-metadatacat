@@ -98,5 +98,23 @@ public class CSVReader {
 			return "UNKNOWN";
 		}
 	}
+	
+	public Map<String,String> getSimpleContent(String csvFile) {
+		BufferedReader br = null;
+		String line = "";
+		Map<String,String> mapa = new HashMap<>();
+		try {
+			br = new BufferedReader(new FileReader(csvFile));
+			while((line = br.readLine()) !=null) {
+				String[] datos = line.split(SEPARATOR);
+				mapa.put(datos[0], datos[1]);
+			}
+		}catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		return mapa;
+	}
 
 }
