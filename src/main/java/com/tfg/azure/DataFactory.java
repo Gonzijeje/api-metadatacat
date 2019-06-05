@@ -3,30 +3,24 @@ package com.tfg.azure;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.google.gson.Gson;
 import com.tfg.gson.GsonBearerToken;
-import com.tfg.model.Grupo;
 import com.tfg.services.CSVReader;
 
 @RestController
@@ -67,7 +61,7 @@ public class DataFactory {
 	}*/
 	
 	@RequestMapping(value = "/azure/getBearerToken", method = RequestMethod.POST)
-	public void getBearerToken() throws IOException {
+	public void getBearerToken(HttpSession session) throws IOException {
 		String URL = "https://login.microsoftonline.com/bf43569e-dcd7-46e9-9f91-5e81bda90abb" + 
 				"/oauth2/token";
 		HttpClient httpclient = HttpClients.createDefault();
@@ -89,8 +83,10 @@ public class DataFactory {
 		httppost.setHeader("Content-type", "application/x-www-form-urlencoded");
 		HttpResponse response = httpclient.execute(httppost);
 		String body = EntityUtils.toString(response.getEntity());
+		JSONObject myObject = new JSONObject(body);
+		session.setAttribute("bearer_token", myObject.getString("access_token"));
 		System.out.println(response.getStatusLine().getStatusCode());
-		System.out.println(bt.toString());
+		//System.out.println(bt.toString());
 		System.out.println(body);
 		((Closeable) httpclient).close();
 	}
@@ -124,22 +120,43 @@ public class DataFactory {
 	}
 	
 	@RequestMapping(value = "/azure/runTrigger", method = RequestMethod.POST)
-	public void runTrigger() throws IOException {
+	public void runTrigger(HttpSession session) throws IOException {
 		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourceGroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/pipelines/pipeline1/createRun?api-version=2018-06-01";
 		HttpClient httpclient = HttpClients.createDefault();
 		HttpPost httppost = new HttpPost(URL);
 		
-		httppost.setHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IkhCeGw5bUFlNmd"
-				+ "4YXZDa2NvT1UyVEhzRE5hMCIsImtpZCI6IkhCeGw5bUFlNmd4YXZDa2NvT1UyVEhzRE5hMCJ9.eyJhdWQiOiJodHRwczovL21hbm"
-				+ "FnZW1lbnQuYXp1cmUuY29tLyIsImlzcyI6Imh0dHBzOi8vc3RzLndpbmRvd3MubmV0L2JmNDM1NjllLWRjZDctNDZlOS05ZjkxLTVlODFiZGE5MGF"
-				+ "iYi8iLCJpYXQiOjE1NTk2NDU0OTEsIm5iZiI6MTU1OTY0NTQ5MSwiZXhwIjoxNTU5NjQ5MzkxLCJhaW8iOiI0MlpnWVBqOFV2cHBYYzJIRTVYZnBudn"
-				+ "FIbjdqQWdBPSIsImFwcGlkIjoiOTJkOTcyMGMtZGIyNS00ZTExLWJkN2YtNzBlOTg3MDVlODI1IiwiYXBwaWRhY3IiOiIxIiwiaWRwIjoiaHR0cHM6Ly"
-				+ "9zdHMud2luZG93cy5uZXQvYmY0MzU2OWUtZGNkNy00NmU5LTlmOTEtNWU4MWJkYTkwYWJiLyIsIm9pZCI6ImUzZjcxNWM1LWQ5YzctNDQ2Yy1hMjVjLTg"
-				+ "2MTQ0NzU1NzVmNyIsInN1YiI6ImUzZjcxNWM1LWQ5YzctNDQ2Yy1hMjVjLTg2MTQ0NzU1NzVmNyIsInRpZCI6ImJmNDM1NjllLWRjZDctNDZlOS05Zjkx"
-				+ "LTVlODFiZGE5MGFiYiIsInV0aSI6ImVMNFBtalV3M0Vpb0pnbTg4bkIzQUEiLCJ2ZXIiOiIxLjAifQ.lXySID9FECkIrRrRpeOFbHgI0ngGZ69_UQrZ_6SRY_Y-jlpZqVhC_7pUv1ce72"
-				+ "Lr0_kBoWIz1eVelh4m9hAgi9Tgl_3T2M8IHkHJ_6rBiOF5ltJVf5QpOsxw5bi5Txsoq5hwblzQL6aNWtRG0VxoQgVcF3nQCuj-jDVVmBMewsuwAAw2Mg8fb1BQd2Hv4Je4n2cDwf7f6aoc"
-				+ "WOMxxp3zwUjXe7gnY5KuJayrcLBmyS1J8X_utp0dr0nBozqJv8lIEZYR06PesEdw3SV3yJn4zHTOfGhnHh9JR0pBObMhqb4806sYus2_6HRjy9Sxrkt6yiVDvYMi2iutRs8kGKQWxw");
+		httppost.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
 		HttpResponse response = httpclient.execute(httppost);
+		String body = EntityUtils.toString(response.getEntity());
+		System.out.println(response.getStatusLine().getStatusCode());
+		System.out.println(body);
+		((Closeable) httpclient).close();
+	}
+	
+	@RequestMapping(value = "/azure/setDataset", method = RequestMethod.PUT)
+	public void setDataset(HttpSession session, @RequestParam String DatasetName, String FileName) throws IOException {
+		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourcegroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/datasets/"+DatasetName+"?api-version=2018-06-01";
+		HttpClient httpclient = HttpClients.createDefault();
+		HttpPut httpput = new HttpPut(URL);
+
+		String json ="{"
+				+ "\"name\": \""+DatasetName+"\","
+				+ "\"properties\": {"
+				+ "		\"linkedServiceName\": {"
+				+ "			\"referenceName\": \"AzureStorageLinkedService\","
+				+ "			\"type\": \"LinkedServiceReference\" },"
+				+ "		\"type\": \"AzureBlob\","
+				+ "		\"typeProperties\": {"
+				+ "			\"fileName\": \""+FileName+"\","
+				+ "			\"folderPath\": \"datainput-csv\" } },"
+				+ "\"type\": \"Microsoft.DataFactory/factories/datasets\" }";
+		StringEntity postingString = new StringEntity(json);
+
+		httpput.setEntity(postingString);
+		httpput.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
+		httpput.setHeader("Content-type", "application/json");
+		System.out.println(EntityUtils.toString(httpput.getEntity()));
+		HttpResponse response = httpclient.execute(httpput);
 		String body = EntityUtils.toString(response.getEntity());
 		System.out.println(response.getStatusLine().getStatusCode());
 		System.out.println(body);

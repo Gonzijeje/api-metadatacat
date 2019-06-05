@@ -1,0 +1,10 @@
+URI:
+	PUT https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}?api-version={api-version}
+
+URI PARAMS:
+	subscriptionId: 
+	resourceGroupName: 
+	factoryName: 
+	pipelineName: 
+	api-version:
+
