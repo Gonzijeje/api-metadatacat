@@ -8,13 +8,16 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +29,11 @@ import com.tfg.services.CSVReader;
 @RestController
 public class DataFactory {
 	
-	CSVReader csvReader = new CSVReader();
+	@Autowired
+	CSVReader csvReader;
+	
+	@Autowired
+	DataLakeService dlService;
 	
 	/*class Test {
 	    public static void main(String[] args) throws Exception {
@@ -92,36 +99,85 @@ public class DataFactory {
 	}
 	
 	@RequestMapping(value = "/azure/createPipeline", method = RequestMethod.PUT)
-	public void createPipeline() throws IOException {
-		String URL = "https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}?api-version={api-version}	";
+	public void createPipeline(HttpSession session, @RequestParam String PipelineName) throws IOException {
+		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourcegroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/pipelines/"+PipelineName+"?api-version=2018-06-01";
 		HttpClient httpclient = HttpClients.createDefault();
-		HttpPost httppost = new HttpPost(URL);	
-		
-		Gson gson = new Gson();
-		Map<String,String> map = csvReader.getSimpleContent("src/main/resources/azure_credentials.csv");
-		GsonBearerToken bt = new GsonBearerToken();
-		bt.setGrant_type(map.get("grant_type"));
-		bt.setClient_id(map.get("client_id"));
-		bt.setClient_secret(map.get("client_secret"));
-		bt.setResource(map.get("resource"));
+		HttpPut httpput = new HttpPut(URL);	
 
-		String json = "grant_type=client_credentials&client_id=92d9720c-db25-4e11-bd7f-70e98705e825&client_secret=*Apr[7xUZQB1Cp=mBu14lppdQYIxSdy*&resource=https://management.azure.com/";
-//		StringEntity postingString = new StringEntity(gson.toJson(bt));
+		String json="{\r\n" + 
+				"    \"name\": \""+PipelineName+"\",\r\n" + 
+				"    \"properties\": {\r\n" + 
+				"        \"activities\": [\r\n" + 
+				"            {\r\n" + 
+				"                \"name\": \"CopyDataFromBlobToDataLake\",\r\n" + 
+				"                \"type\": \"Copy\",\r\n" + 
+				"                \"policy\": {\r\n" + 
+				"                    \"timeout\": \"7.00:00:00\",\r\n" + 
+				"                    \"retry\": 0,\r\n" + 
+				"                    \"retryIntervalInSeconds\": 30,\r\n" + 
+				"                    \"secureOutput\": false,\r\n" + 
+				"                    \"secureInput\": false\r\n" + 
+				"                },\r\n" + 
+				"                \"typeProperties\": {\r\n" + 
+				"                    \"source\": {\r\n" + 
+				"                        \"type\": \"BlobSource\",\r\n" + 
+				"                        \"recursive\": true\r\n" + 
+				"                    },\r\n" + 
+				"                    \"sink\": {\r\n" + 
+				"                        \"type\": \"AzureDataLakeStoreSink\"\r\n" + 
+				"                    },\r\n" + 
+				"                    \"enableStaging\": false\r\n" + 
+				"                },\r\n" + 
+				"                \"inputs\": [\r\n" + 
+				"                    {\r\n" + 
+				"                        \"referenceName\": \"InputCSVDataset\",\r\n" + 
+				"                        \"type\": \"DatasetReference\"\r\n" + 
+				"                    }\r\n" + 
+				"                ],\r\n" + 
+				"                \"outputs\": [\r\n" + 
+				"                    {\r\n" + 
+				"                        \"referenceName\": \"OutputDataset\",\r\n" + 
+				"                        \"type\": \"DatasetReference\"\r\n" + 
+				"                    }\r\n" + 
+				"                ]\r\n" + 
+				"            }\r\n" + 
+				"        ]\r\n" + 
+				"    },\r\n" + 
+				"    \"type\": \"Microsoft.DataFactory/factories/pipelines\"\r\n" + 
+				"}";
 		StringEntity postingString = new StringEntity(json);
 
-		httppost.setEntity(postingString);
-		httppost.setHeader("Content-type", "application/x-www-form-urlencoded");
-		HttpResponse response = httpclient.execute(httppost);
+		httpput.setEntity(postingString);
+		httpput.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
+		httpput.setHeader("Content-type", "application/json");
+		HttpResponse response = httpclient.execute(httpput);
 		String body = EntityUtils.toString(response.getEntity());
 		System.out.println(response.getStatusLine().getStatusCode());
-		System.out.println(bt.toString());
 		System.out.println(body);
 		((Closeable) httpclient).close();
 	}
 	
+	@RequestMapping(value = "/azure/getPipeline", method = RequestMethod.GET)
+	public String getPipeline(HttpSession session, @RequestParam String PipelineName) throws IOException {
+		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourcegroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/pipelines/"+PipelineName+"?api-version=2018-06-01";
+		HttpClient httpclient = HttpClients.createDefault();
+		HttpGet httpget = new HttpGet(URL);
+
+		httpget.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
+		HttpResponse response = httpclient.execute(httpget);
+		String body = EntityUtils.toString(response.getEntity());
+		JSONObject myObject = new JSONObject(body);
+		System.out.println(response.getStatusLine().getStatusCode());
+		System.out.println(body);
+		((Closeable) httpclient).close();
+		return ((JSONObject) ((JSONObject) myObject.getJSONObject("properties").getJSONArray("activities").get(0)).getJSONArray("inputs").get(0)).getString("referenceName");
+	}
+	
 	@RequestMapping(value = "/azure/runTrigger", method = RequestMethod.POST)
-	public void runTrigger(HttpSession session) throws IOException {
-		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourceGroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/pipelines/pipeline1/createRun?api-version=2018-06-01";
+	public void runTrigger(HttpSession session, @RequestParam String PipelineName) throws IOException {
+		String datasetInput = getPipeline(session, PipelineName);
+		String fileName = getDataset(session,datasetInput);
+		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourceGroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/pipelines/"+PipelineName+"/createRun?api-version=2018-06-01";
 		HttpClient httpclient = HttpClients.createDefault();
 		HttpPost httppost = new HttpPost(URL);
 		
@@ -131,6 +187,7 @@ public class DataFactory {
 		System.out.println(response.getStatusLine().getStatusCode());
 		System.out.println(body);
 		((Closeable) httpclient).close();
+		dlService.download(session, fileName);
 	}
 	
 	@RequestMapping(value = "/azure/setDataset", method = RequestMethod.PUT)
@@ -162,6 +219,23 @@ public class DataFactory {
 		System.out.println(body);
 		((Closeable) httpclient).close();
 	}
+	
+	@RequestMapping(value = "/azure/getDataset", method = RequestMethod.GET)
+	public String getDataset(HttpSession session, @RequestParam String DatasetName) throws IOException {
+		String URL = "https://management.azure.com/subscriptions/b91e5bfa-dc94-4aa6-b81d-0546c95d98ee/resourcegroups/tfgGCV/providers/Microsoft.DataFactory/factories/adfactorygcv/datasets/"+DatasetName+"?api-version=2018-06-01";
+		HttpClient httpclient = HttpClients.createDefault();
+		HttpGet httpget = new HttpGet(URL);
+
+		httpget.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
+		HttpResponse response = httpclient.execute(httpget);
+		String body = EntityUtils.toString(response.getEntity());
+		JSONObject myObject = new JSONObject(body);
+		System.out.println(response.getStatusLine().getStatusCode());
+		System.out.println(body);
+		((Closeable) httpclient).close();
+		return myObject.getJSONObject("properties").getJSONObject("typeProperties").getString("fileName");
+	}
+		
 	
 	/*
 	 * Get AAD Token

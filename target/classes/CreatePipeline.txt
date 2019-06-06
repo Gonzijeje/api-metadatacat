@@ -1,10 +1,1 @@
-URI:
-	PUT https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName}/datapipelines/{PipelineName}?api-version={api-version}
-
-URI PARAMS:
-	subscriptionId: 
-	resourceGroupName: 
-	factoryName: 
-	pipelineName: 
-	api-version:
-
+{"RemoteException":{"exception":"FileNotFoundException","message":"OPEN failed with error 0x8309000a (File not found.). [c198d398-42be-4366-8478-009aa36759bf][2019-06-06T04:57:23.6727366-07:00]","javaClassName":"java.io.FileNotFoundException"}}
