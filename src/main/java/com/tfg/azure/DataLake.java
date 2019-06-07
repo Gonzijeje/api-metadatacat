@@ -20,10 +20,14 @@ public class DataLake {
 	@Autowired
 	CSVReader csvReader;
 	
+	@Autowired
+	AzureStorageService azStorage;
+	
 	@RequestMapping(value = "/azure/download", method = RequestMethod.GET)
-	public void download(HttpSession session, @RequestParam String FileName) throws IOException {
-		dlService.download(session, FileName);
-		csvReader.read("src/main/resources/"+FileName);
+	public void download(HttpSession session) throws IOException {
+		//dlService.download(session, FileName);
+		//csvReader.read("src/main/resources/"+FileName);
+		azStorage.download();
 	}
 
     

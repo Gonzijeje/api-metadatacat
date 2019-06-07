@@ -98,7 +98,7 @@ public class DigitalAssetController {
 	public ResponseEntity<String> deleteDigitalAsset(@RequestParam String codigo){
 		if(service.delete(codigo)) {
 			return new ResponseEntity<String>( "{\"response\":\"Digital Asset eliminado\"}",
-					HttpStatus.CREATED );
+					HttpStatus.OK);
 		}else {
 			return new ResponseEntity<String>("{\"response\":\"Código de DigitalAsset no existe\"}",
 					HttpStatus.BAD_REQUEST);

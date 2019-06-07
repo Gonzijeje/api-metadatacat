@@ -5,14 +5,15 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.tfg.azure.AzureStorageService;
 import com.tfg.esearch.Client;
 import com.tfg.esearch.Search;
 import com.tfg.services.CSVReader;
 import com.tfg.services.TXTReader;
 
-@SpringBootApplication
 public class Test {
 
 //	private static CSVReader csv = new CSVReader();
@@ -21,11 +22,13 @@ public class Test {
 //	static Search se = new Search();
 //	private static Map<String,Object> payload = new HashMap<String,Object>();
 	private static Map<String,Map<String,Object>> upload = new HashMap<String,Map<String,Object>>();
+	
+	private static AzureStorageService azStorage;
 
 	
 	public static void main(String[] args) throws IOException, ParseException {
 //		csv.read("src/main/resources/CSV_prueba.csv");
-		txt.getMetadata("src/main/resources/datos_adf.txt");
+//		txt.getMetadata("src/main/resources/datos_adf.txt");
 //		payload.put("codigo", "da1");
 //		payload.put("descripcion", "digital asset de prueba 1");
 //		payload.put("tipo", "word");
@@ -53,6 +56,7 @@ public class Test {
 //		es.addMetadata(upload, "da1");
 //		se.matchAll();
 //		es.disconnect();
+		azStorage.download();
 	}
 
 }
