@@ -60,7 +60,7 @@ public class DigitalAssetController {
 			List<Grupo_campo> grcampos = new ArrayList<Grupo_campo>();
 			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
 			campoService.addListCampos(new ArrayList<String>(payload.keySet()));
-			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos"));
 			valorService.addListValores(new ArrayList<Object>(payload.values()));
 			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
 			payload.forEach((k,v)-> {				
@@ -112,7 +112,7 @@ public class DigitalAssetController {
 		for(String key:payload.keySet()) {
 			Map<String,Object> mappa = payload.get(key);
 			//Grupo
-			grupoService.add(new Grupo(key.toString(),null,"gonzi",new Date()));
+			grupoService.add(new Grupo(key.toString(),null));
 			campoService.addListCampos(new ArrayList<String>(mappa.keySet()));
 			valorService.addListValores(new ArrayList<Object>(mappa.values()));
 			//Grupo_campo

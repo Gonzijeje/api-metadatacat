@@ -55,7 +55,7 @@ public class CampoServiceImpl implements CampoService{
 		List<Campo> lista = new ArrayList<Campo>();
 		campos.forEach((campo)-> {
 			if(repository.findByCodigo(campo)==null) {
-				lista.add(new Campo(campo,"", "gcollada", new Date()));
+				lista.add(new Campo(campo,""));
 			}
 		});
 		repository.saveAll(lista);
@@ -66,8 +66,6 @@ public class CampoServiceImpl implements CampoService{
 		if(payload.get("codigo")!=null && payload.get("descripcion")!=null) {
 			Campo campo = new Campo( payload.get( "codigo" ).toString(),
 					payload.get( "descripcion" ).toString());
-			campo.setCreateUser("gcollada");
-			campo.setCreateDate(new Date());
 			return campo;
 		}
 		return null;

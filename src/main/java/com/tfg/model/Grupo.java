@@ -21,16 +21,8 @@ public class Grupo extends AbstractBasicoEntity{
 	
 	public Grupo(String codigo, String descripcion) {
 		super();
-		super.codigo = codigo;
-		super.descripcion = descripcion;
-	}
-	
-	public Grupo(String codigo, String descripcion, String createuser, Date createdate) {
-		super();
-		super.codigo=codigo;
-		super.descripcion=descripcion;
-		setCreateUser(createuser);
-		setCreateDate(createdate);
+		this.codigo=codigo;
+		this.descripcion=descripcion;
 	}
 	
 	public Grupo() {	

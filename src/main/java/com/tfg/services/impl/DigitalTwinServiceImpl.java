@@ -82,8 +82,6 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 					payload.get( "tipo" ).toString(), payload.get( "entidad" ).toString(), payload.get( "entorno" ).toString(),
 					payload.get( "autor" ).toString(),payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
 					new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
-			twin.setCreateUser("gonzi");
-			twin.setCreateDate(new Date());
 			return twin;
 		} catch (ParseException e) {
 			e.printStackTrace();

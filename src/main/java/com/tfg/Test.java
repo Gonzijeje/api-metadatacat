@@ -56,7 +56,7 @@ public class Test {
 //		es.addMetadata(upload, "da1");
 //		se.matchAll();
 //		es.disconnect();
-		azStorage.download();
+//		azStorage.download();
 	}
 
 }

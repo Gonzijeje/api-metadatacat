@@ -84,8 +84,6 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 					payload.get( "autor" ).toString(),Double.parseDouble((String) payload.get( "tamano" )), payload.get( "unidad_tamano" ).toString(), 
 					payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
 					new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
-			asset.setCreateUser("gonzi");
-			asset.setCreateDate(new Date());
 			return asset;
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

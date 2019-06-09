@@ -21,16 +21,8 @@ public class Campo extends AbstractBasicoEntity{
 
 	public Campo(String codigo, String descripcion) {
 		super();
-		super.codigo = codigo;
+		this.codigo = codigo;
 		this.descripcion = descripcion;
-	}
-	
-	public Campo(String codigo, String descripcion, String createUser, Date createDate) {
-		super();
-		super.codigo=codigo;
-		super.descripcion=descripcion;
-		setCreateUser(createUser);
-		setCreateDate(createDate);
 	}
 	
 	public Campo() {	

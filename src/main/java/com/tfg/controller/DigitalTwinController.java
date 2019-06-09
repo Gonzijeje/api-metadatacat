@@ -57,7 +57,7 @@ public class DigitalTwinController {
 			List<String> listCampos = new ArrayList<String>(payload.keySet());
 			campoService.addListCampos(listCampos);
 			//Registrar grupo
-			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos","gonzi",new Date()));
+			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos"));
 			//Registrar valores
 			List<Object> valores = new ArrayList<Object>(payload.values());
 			valorService.addListValores(valores);

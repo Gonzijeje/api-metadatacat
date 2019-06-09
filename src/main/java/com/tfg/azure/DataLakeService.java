@@ -16,10 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class DataLakeService {
 	
-	public void download(HttpSession session, String FileName) throws IOException {
-		File myFile = new File("src/main/resources/CreatePipeline.txt");
+	public void download(HttpSession session, String fileName) throws IOException {
+		File myFile = new File("src/main/resources/"+fileName);
 		HttpClient client = HttpClients.createDefault();
-		String URL = "https://adlakegcv.azuredatalakestore.net/webhdfs/v1/"+FileName+"?op=OPEN&read=true";
+		String URL = "https://adlakegcv.azuredatalakestore.net/webhdfs/v1/"+fileName+"?op=OPEN&read=true";
 		HttpGet request = new HttpGet(URL);
 		System.out.println(session.getAttribute("bearer_token"));
 		request.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));

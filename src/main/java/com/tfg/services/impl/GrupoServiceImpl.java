@@ -56,7 +56,7 @@ public class GrupoServiceImpl implements GrupoService{
 		List<Grupo> lista = new ArrayList<Grupo>();
 		grupos.forEach((grupo)-> {
 			if(repository.findByCodigo(grupo)==null) {
-				lista.add(new Grupo(grupo,"", "gcollada", new Date()));
+				lista.add(new Grupo(grupo,""));
 			}
 		});
 		repository.saveAll(lista);
@@ -67,8 +67,6 @@ public class GrupoServiceImpl implements GrupoService{
 		if(payload.get("codigo")!=null && payload.get("descripcion")!=null) {
 			Grupo grupo = new Grupo( payload.get( "codigo" ).toString(),
 					payload.get( "descripcion" ).toString());
-			grupo.setCreateUser("gcollada");
-			grupo.setCreateDate(new Date());
 			return grupo;
 		}
 		return null;
