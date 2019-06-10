@@ -33,13 +33,7 @@ public class Grupo_campo {
 	@ManyToOne
 	@MapsId("valor_id")
 	@JoinColumn(name="valor_id")
-	Valor_Campo valor;
-	
-	/*@NotNull(message = "{valor.obligatorio}")
-	@Size(max = 40, message = "{valor.longitud.maxima}")
-	@Column(name = "VALOR", nullable = false, length = 40)
-	String valor;*/
-	
+	Valor_Campo valor;		
 	
 	/*@ManyToMany
 	@JoinTable(

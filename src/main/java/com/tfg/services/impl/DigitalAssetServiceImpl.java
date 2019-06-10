@@ -1,8 +1,5 @@
 package com.tfg.services.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +29,6 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	public int add(DigitalAsset da) {
 		if(repository.findByCodigo(da.getCodigo())!=null) {
 			return 1;
-		}else if(repository.findByPath(da.getPath())!=null) {
-			return 2;
 		}else {
 			repository.save(da);
 			return 0;
@@ -79,15 +74,9 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	public DigitalAsset create(Map<String, Object> payload) {
 		DigitalAsset asset;
 		try {
-			asset = new DigitalAsset(payload.get( "codigo" ).toString(),payload.get( "descripcion" ).toString(),
-					payload.get( "tipo" ).toString(), payload.get( "entidad" ).toString(), payload.get( "contacto" ).toString(),
-					payload.get( "autor" ).toString(),Double.parseDouble((String) payload.get( "tamano" )), payload.get( "unidad_tamano" ).toString(), 
-					payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
-					new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
+			asset = new DigitalAsset(payload.get("codigo").toString(),payload.get("descripcion").toString());
 			return asset;
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		return null;

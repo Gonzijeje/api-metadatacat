@@ -1,8 +1,5 @@
 package com.tfg.services.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +27,6 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	public int add(DigitalTwin dt) {
 		if(repository.findByCodigo(dt.getCodigo())!=null) {
 			return 1;
-		}else if(repository.findByPath(dt.getPath())!=null) {
-			return 2;
 		}else {
 			repository.save(dt);
 			return 0;
@@ -77,16 +72,8 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	@Override
 	public DigitalTwin create(Map<String, Object> payload) {
 		DigitalTwin twin;
-		try {
-			twin = new DigitalTwin(payload.get( "codigo" ).toString(),payload.get( "descripcion" ).toString(),
-					payload.get( "tipo" ).toString(), payload.get( "entidad" ).toString(), payload.get( "entorno" ).toString(),
-					payload.get( "autor" ).toString(),payload.get( "path" ).toString(), new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_creacion" ).toString()),
-					new SimpleDateFormat("dd/MM/yyyy").parse(payload.get( "fecha_modificacion" ).toString()));
-			return twin;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;	
+		twin = new DigitalTwin(payload.get("codigo").toString(),payload.get("descripcion").toString());
+		return twin;
 	}
 
 }

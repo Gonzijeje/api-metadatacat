@@ -1,6 +1,5 @@
 package com.tfg.model;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -10,11 +9,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "CAMPO")
 public class Campo extends AbstractBasicoEntity{
-
-	/**
-	 * Serializable
-	 */
-	private static final long serialVersionUID = -7711695016687954376L;
 	
 	@OneToMany(mappedBy = "campo")
 	Set<Grupo_campo> grupoCampos;
