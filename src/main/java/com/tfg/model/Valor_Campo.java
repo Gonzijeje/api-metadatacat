@@ -9,16 +9,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.mrfaces.model.AbstractGeneratedIdEntity;
 
 @Entity
 @Table(name = "VALOR_CAMPO")
 public class Valor_Campo extends AbstractGeneratedIdEntity{
-
-	/**
-	 * Serializable.
-	 */
-	private static final long serialVersionUID = -1545367410722435778L;
 	
 	@NotNull(message = "{valor.obligatorio}")
 	@Size(max = 40, message = "{valor.longitud.maxima}")

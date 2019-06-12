@@ -3,12 +3,9 @@ package com.tfg.azure;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Map;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -22,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.google.gson.Gson;
 import com.tfg.ContextManager;
-import com.tfg.gson.GsonBearerToken;
 import com.tfg.services.CSVReader;
 
 @RestController
@@ -43,14 +38,6 @@ public class DataFactory {
 		String URL = "https://login.microsoftonline.com/"+ cm.getProperty("tenant_id") +"/oauth2/token";
 		HttpClient httpclient = HttpClients.createDefault();
 		HttpPost httppost = new HttpPost(URL);	
-		
-		Gson gson = new Gson();
-		Map<String,String> map = csvReader.getSimpleContent("src/main/resources/azure_credentials.csv");
-		GsonBearerToken bt = new GsonBearerToken();
-		bt.setGrant_type(map.get("grant_type"));
-		bt.setClient_id(map.get("client_id"));
-		bt.setClient_secret(map.get("client_secret"));
-		bt.setResource(map.get("resource"));
 
 		String json = "grant_type="+cm.getProperty("grant_type")+"&client_id="+cm.getProperty("client_id")+
 				"&client_secret="+cm.getProperty("client_secret")+"&resource="+cm.getProperty("resource");

@@ -13,13 +13,17 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.stereotype.Service;
 
+import com.tfg.ContextManager;
+
 @Service
 public class DataLakeService {
+	
+	ContextManager cm = ContextManager.getInstance();
 	
 	public void download(HttpSession session, String fileName) throws IOException {
 		File myFile = new File("src/main/resources/"+fileName);
 		HttpClient client = HttpClients.createDefault();
-		String URL = "https://adlakegcv.azuredatalakestore.net/webhdfs/v1/"+fileName+"?op=OPEN&read=true";
+		String URL = "https://"+cm.getProperty("data_lake_name")+".azuredatalakestore.net/webhdfs/v1/"+fileName+"?op=OPEN&read=true";
 		HttpGet request = new HttpGet(URL);
 		System.out.println(session.getAttribute("bearer_token"));
 		request.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
@@ -31,7 +35,7 @@ public class DataLakeService {
 				entity.writeTo(outstream);
 				
 			} catch (Exception e) {
-				// TODO: handle exception
+				
 			}
 		}
 

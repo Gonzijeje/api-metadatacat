@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.blob.*;
+import com.tfg.ContextManager;
 
 /**
  * 
@@ -15,11 +16,13 @@ import com.microsoft.azure.storage.blob.*;
 @Service
 public class AzureStorageService {
 	
+	static ContextManager cm = ContextManager.getInstance();
+	
 	// Define the connection-string with your values
 	public static final String storageConnectionString =
 	    "DefaultEndpointsProtocol=https;" +
-	    "AccountName=datastoragegcv;" +
-	    "AccountKey=L4VdplG0UyFmtk2x9CsWzc5OGvuuO3JRoqFE3TzKOREoYigRI1dBJResC8RQcSBKrPP+xNjqS7bHWqrg6nJUhg==";
+	    "AccountName="+cm.getProperty("data_storage_name")+";" +
+	    "AccountKey="+cm.getProperty("data_storage_key");
 	
 	public void downloadFile(String containerName, String fileName) {
 		try
