@@ -1,10 +1,22 @@
 package com.tfg.validators.fields;
 
-public class DoubleValidator extends AbstractFieldValidator {
+import com.tfg.exceptions.FieldFormatException;
+import com.tfg.validators.Validator;
+
+public class DoubleValidator implements Validator {
 
 	@Override
-	public Object doConcreteValidation(String field_value) {
-		return Double.parseDouble(field_value);
+	public boolean isValid(String texto) {
+		try {
+			Double.parseDouble(texto);			
+			return true;	
+		} catch (NumberFormatException e) {
+			try {
+				throw new FieldFormatException("[Field format error] Change " + texto + " format to double");
+			} catch (FieldFormatException e1) {
+			}
+		}
+		return false;
 	}
 
 }

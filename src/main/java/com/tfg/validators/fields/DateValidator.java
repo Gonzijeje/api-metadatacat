@@ -4,8 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import com.tfg.exceptions.FieldFormatException;
+import com.tfg.validators.Validator;
 
-public class DateValidator extends AbstractFieldValidator {
+public class DateValidator implements Validator {
 
 	public final static String default_data_format="dd/mm/yyyy";
 	
@@ -14,15 +15,20 @@ public class DateValidator extends AbstractFieldValidator {
 	 * 
 	 * @throws FieldFormatException
 	 */
-
 	@Override
-	public Object doConcreteValidation(String field_value) throws FieldFormatException {
+	public boolean isValid(String texto) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(default_data_format);
-		try {
-			return dateFormat.parse(field_value);
-		} catch (ParseException pe) {
-			throw new FieldFormatException("[Field format error] Change date format from " + field_value + " to "+default_data_format);
+		try{
+			dateFormat.setLenient(false);
+			dateFormat.parse(texto);			
+			return true;
+		} catch (ParseException pe) {			
+			try {
+				throw new FieldFormatException("[Field format error] Change date format from " + texto + " to "+default_data_format);
+			} catch (FieldFormatException e) {
+			}
 		}
+		return false;
 	}
 
 }

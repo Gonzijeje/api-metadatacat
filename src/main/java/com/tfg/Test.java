@@ -17,16 +17,18 @@ import com.tfg.services.TXTReader;
 public class Test {
 
 //	private static CSVReader csv = new CSVReader();
-	private static TXTReader txt = new TXTReader();
+//	private static TXTReader txt = new TXTReader();
 //	static Client es = new Client();
 //	static Search se = new Search();
 //	private static Map<String,Object> payload = new HashMap<String,Object>();
-	private static Map<String,Map<String,Object>> upload = new HashMap<String,Map<String,Object>>();
+//	private static Map<String,Map<String,Object>> upload = new HashMap<String,Map<String,Object>>();
 	
-	private static AzureStorageService azStorage;
+//	private static AzureStorageService azStorage;
+	private static ContextManager cm = ContextManager.getInstance();
 
 	
 	public static void main(String[] args) throws IOException, ParseException {
+//		cm.readProperties();
 //		csv.read("src/main/resources/CSV_prueba.csv");
 //		txt.getMetadata("src/main/resources/datos_adf.txt");
 //		payload.put("codigo", "da1");

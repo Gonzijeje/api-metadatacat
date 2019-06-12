@@ -1,15 +1,22 @@
 package com.tfg.validators.fields;
 
+import com.tfg.exceptions.FieldFormatException;
+import com.tfg.validators.Validator;
 
-public class IntegerValidator extends AbstractFieldValidator{
+public class IntegerValidator implements Validator {
 
 	@Override
-	public Object doConcreteValidation(String field_value) {
+	public boolean isValid(String texto) {
 		try {
-			return Integer.parseInt(field_value);
+			Integer.parseInt(texto);			
+			return true;	
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			try {
+				throw new FieldFormatException("[Field format error] Change " + texto + " format to integer");
+			} catch (FieldFormatException e1) {
+			}
 		}
+		return false;
 	}
 
 }
