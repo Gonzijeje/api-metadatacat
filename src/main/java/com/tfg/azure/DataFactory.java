@@ -15,6 +15,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,29 +33,21 @@ public class DataFactory {
 	@Autowired
 	DataLakeService dlService;
 	
+	@Autowired
+	DataFactoryService factory;
+	
 	ContextManager cm = ContextManager.getInstance();
 	
 	@RequestMapping(value = "/azure/getBearerToken", method = RequestMethod.POST)
-	public void getBearerToken(HttpSession session) throws IOException {
-		String URL = "https://login.microsoftonline.com/"+ cm.getProperty("tenant_id") +"/oauth2/token";
-		HttpClient httpclient = HttpClients.createDefault();
-		HttpPost httppost = new HttpPost(URL);	
-
-		String json = "grant_type="+cm.getProperty("grant_type")+"&client_id="+cm.getProperty("client_id")+
-				"&client_secret="+cm.getProperty("client_secret")+"&resource="+cm.getProperty("resource");
-//		StringEntity postingString = new StringEntity(gson.toJson(bt));
-		StringEntity postingString = new StringEntity(json);
-
-		httppost.setEntity(postingString);
-		httppost.setHeader("Content-type", "application/x-www-form-urlencoded");
-		HttpResponse response = httpclient.execute(httppost);
-		String body = EntityUtils.toString(response.getEntity());
-		JSONObject myObject = new JSONObject(body);
-		session.setAttribute("bearer_token", myObject.getString("access_token"));
-		System.out.println(response.getStatusLine().getStatusCode());
-		//System.out.println(bt.toString());
-		System.out.println(body);
-		((Closeable) httpclient).close();
+	public ResponseEntity<String> getBearerToken(HttpSession session){
+		try {
+			JSONObject response = factory.getBearerToken(session);
+			return new ResponseEntity<String>( "{\"response\":"+response.toString()+"}",
+					HttpStatus.OK);
+		} catch (IOException e) {
+			return new ResponseEntity<String>( "{\"response\":\"Datos introducidos incorrectos\"}",
+					HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value = "/azure/createPipeline", method = RequestMethod.PUT)
