@@ -14,8 +14,6 @@ public interface DigitalTwinRepository extends CrudRepository<DigitalTwin, Long>
 
 	DigitalTwin findByCodigo(String codigo);
 	
-	DigitalTwin findByPath(String path);
-	
 	@Transactional
 	void deleteByCodigo(String codigo);
 }

@@ -54,11 +54,6 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	}
 	
 	@Override
-	public DigitalTwin findByPath(String path) {
-		return repository.findByPath(path);
-	}
-
-	@Override
 	public List<DigitalTwin> getDigitalTwins() {
 		return (List<DigitalTwin>) repository.findAll();
 	}

@@ -54,11 +54,6 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	public DigitalAsset findByCodigo(String codigo) {
 		return repository.findByCodigo(codigo);
 	}
-	
-	@Override
-	public DigitalAsset findByPath(String path) {
-		return repository.findByPath(path);
-	}
 
 	@Override
 	public List<DigitalAsset> getDigitalAssets() {

@@ -14,8 +14,6 @@ public interface DigitalAssetRepository extends CrudRepository<DigitalAsset, Lon
 
 	DigitalAsset findByCodigo(String codigo);
 	
-	DigitalAsset findByPath(String path);
-	
 	@Transactional
 	void deleteByCodigo(String codigo);
 	

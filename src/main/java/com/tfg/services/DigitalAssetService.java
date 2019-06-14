@@ -22,8 +22,6 @@ public interface DigitalAssetService{
 	
 	DigitalAsset findByCodigo(String codigo);
 	
-	DigitalAsset findByPath(String path);
-	
 	List<DigitalAsset> getDigitalAssets();
 	
 	List<DigitalAsset> getDigitalAssetsByFilters(Map<String,Object> filters);

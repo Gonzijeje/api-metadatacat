@@ -22,8 +22,6 @@ public interface DigitalTwinService{
 	
 	DigitalTwin findByCodigo(String codigo);
 	
-	DigitalTwin findByPath(String path);
-	
 	List<DigitalTwin> getDigitalTwins();
 	
 	List<DigitalTwin> getDigitalTwinsByFilters(Map<String,Object> filters);
