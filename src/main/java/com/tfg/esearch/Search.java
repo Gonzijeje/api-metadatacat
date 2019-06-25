@@ -46,5 +46,9 @@ public class Search {
 		sourceBuilder.timeout(new TimeValue(60, TimeUnit.SECONDS));
 	}
 	
+	public void matchQuery() {
+		
+	}
+	
 
 }

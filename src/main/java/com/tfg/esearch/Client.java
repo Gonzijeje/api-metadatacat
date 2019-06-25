@@ -55,8 +55,6 @@ public class Client {
 		jsonMap.put("Grupo básicos",payload);
 		IndexRequest indexRequest = new IndexRequest("asset").id(payload.get("codigo").toString()).source(jsonMap);
 		IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
-//		String index = indexResponse.getIndex();
-//		String id = indexResponse.getId();
 		if (indexResponse.getResult() == DocWriteResponse.Result.CREATED) {
 			System.out.println("CREADO");
 		} else if (indexResponse.getResult() == DocWriteResponse.Result.UPDATED) {
