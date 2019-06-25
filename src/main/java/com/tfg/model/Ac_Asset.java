@@ -29,14 +29,14 @@ public class Ac_Asset {
 	@ManyToOne
 	@MapsId("ac_grupo_id")
 	@JoinColumn(name="ac_grupo_id")
-	Grupo grupo;
+	Group grupo;
 	
 	@ManyToOne
 	@MapsId("ac_campo_id")
 	@JoinColumn(name="ac_campo_id")
-	Campo campo;
+	Field campo;
 
-	public Ac_Asset(DigitalAsset da, Grupo grupo, Campo campo) {
+	public Ac_Asset(DigitalAsset da, Group grupo, Field campo) {
 		super();
 		this.id = new Ac_Asset_Id(da.getId(),grupo.getId(),campo.getId());
 		this.da = da;
@@ -55,19 +55,19 @@ public class Ac_Asset {
 		this.da = da;
 	}
 
-	public Grupo getGrupo() {
+	public Group getGrupo() {
 		return grupo;
 	}
 
-	public void setGrupo(Grupo grupo) {
+	public void setGrupo(Group grupo) {
 		this.grupo = grupo;
 	}
 
-	public Campo getCampo() {
+	public Field getCampo() {
 		return campo;
 	}
 
-	public void setCampo(Campo campo) {
+	public void setCampo(Field campo) {
 		this.campo = campo;
 	}
 

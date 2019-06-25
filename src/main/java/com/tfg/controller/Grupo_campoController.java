@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.model.Campo;
-import com.tfg.model.Grupo;
+import com.tfg.model.Field;
+import com.tfg.model.Group;
 import com.tfg.model.Grupo_campo;
 import com.tfg.model.Valor_Campo;
-import com.tfg.services.CampoService;
-import com.tfg.services.GrupoService;
+import com.tfg.services.FieldService;
+import com.tfg.services.GroupService;
 import com.tfg.services.Grupo_campoService;
 import com.tfg.services.Valor_CampoService;
 
@@ -29,10 +29,10 @@ public class Grupo_campoController {
 	Grupo_campoService service;
 	
 	@Autowired
-	GrupoService grupoService;
+	GroupService grupoService;
 	
 	@Autowired
-	CampoService campoService;
+	FieldService campoService;
 	
 	@Autowired
 	Valor_CampoService valorService;
@@ -40,8 +40,8 @@ public class Grupo_campoController {
 	@RequestMapping(value = "/grupoCampo/add", method = RequestMethod.GET)
 	public ResponseEntity<String> registerMetadata(@RequestParam(value="grupo") String grupo, @RequestParam(value="campo") String campo,
 			@RequestParam(value="valor") String valor) {
-		Grupo gr = grupoService.getGrupoByCodigo(grupo);
-		Campo ca = campoService.getCampoByCodigo(campo);
+		Group gr = grupoService.getGrupoByCodigo(grupo);
+		Field ca = campoService.getCampoByCodigo(campo);
 		Valor_Campo va = valorService.getValor(valor);
 		Grupo_campo gc = new Grupo_campo(gr,ca,va);
 		

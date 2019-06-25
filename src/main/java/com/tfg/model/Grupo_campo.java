@@ -23,12 +23,12 @@ public class Grupo_campo {
 	@ManyToOne
 	@MapsId("grupo_id")
 	@JoinColumn(name="grupo_id")
-	Grupo grupo;
+	Group grupo;
 	
 	@ManyToOne
 	@MapsId("campo_id")
 	@JoinColumn(name="campo_id")
-	Campo campo;
+	Field campo;
 	
 	@ManyToOne
 	@MapsId("valor_id")
@@ -44,7 +44,7 @@ public class Grupo_campo {
 	/*@OneToMany
 	Set<DigitalTwin> twinsAsociados;*/
 
-	public Grupo_campo(Grupo grupo, Campo campo, Valor_Campo value) {
+	public Grupo_campo(Group grupo, Field campo, Valor_Campo value) {
 		super();
 		this.id = new Grupo_Campo_Id(grupo.getId(), campo.getId(), value.getId());
 		this.grupo = grupo;
@@ -55,19 +55,19 @@ public class Grupo_campo {
 	public Grupo_campo() {	
 	}
 
-	public Grupo getGrupo() {
+	public Group getGrupo() {
 		return grupo;
 	}
 
-	public void setGrupo(Grupo grupo) {
+	public void setGrupo(Group grupo) {
 		this.grupo = grupo;
 	}
 
-	public Campo getCampo() {
+	public Field getCampo() {
 		return campo;
 	}
 
-	public void setCampo(Campo campo) {
+	public void setCampo(Field campo) {
 		this.campo = campo;
 	}
 

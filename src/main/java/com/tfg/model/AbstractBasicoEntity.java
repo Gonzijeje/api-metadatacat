@@ -3,9 +3,6 @@ package com.tfg.model;
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
@@ -19,12 +16,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractBasicoEntity extends AbstractGeneratedIdEntity{	
 
-	@NotNull(message = "{codigo.obligatorio}")
-	@Size(max = 40, message = "{codigo.longitud.maxima}")
 	@Column(name = "CODIGO", unique = true, nullable = false, length = 40)
 	protected String codigo;
 
-	@Size(max = 350, message = "{descripcion.longitud.maxima}")
 	@Column(name = "DESCRIPCION", nullable = true, length = 80)
 	protected String descripcion;
 			

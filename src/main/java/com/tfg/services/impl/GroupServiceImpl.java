@@ -1,16 +1,16 @@
 package com.tfg.services.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tfg.adapters.GroupAdapter;
 import com.tfg.dao.GrupoRepository;
-import com.tfg.model.Grupo;
-import com.tfg.services.GrupoService;
+import com.tfg.model.Group;
+import com.tfg.pojos.GroupModel;
+import com.tfg.pojos.NewGroup;
+import com.tfg.services.GroupService;
 
 /**
  * 
@@ -18,18 +18,18 @@ import com.tfg.services.GrupoService;
  *
  */
 @Service
-public class GrupoServiceImpl implements GrupoService{
+public class GroupServiceImpl implements GroupService{
 	
 	@Autowired
 	GrupoRepository repository;
 
 	@Override
-	public boolean add(Grupo grupo) {
-		if(repository.findByCodigo(grupo.getCodigo())==null) {
-			repository.save(grupo);
-			return true;
+	public GroupModel add(Group group) {
+		if(repository.findByCodigo(group.getCodigo())==null) {
+			repository.save(group);
+			return GroupAdapter.getGroupModel(group);
 		}
-		return false;
+		return null;
 	}
 	
 	@Override
@@ -42,34 +42,32 @@ public class GrupoServiceImpl implements GrupoService{
 	}
 
 	@Override
-	public Grupo getGrupoByCodigo(String nombre) {		
-		return repository.findByCodigo(nombre);
+	public GroupModel getGrupoByCodigo(String nombre) {
+		Group group = repository.findByCodigo(nombre);
+		return GroupAdapter.getGroupModel(group);
 	}
 
 	@Override
-	public List<Grupo> getGrupos() {
-		return (List<Grupo>) repository.findAll();
+	public List<GroupModel> getGrupos() {
+		List<GroupModel> models = new ArrayList<GroupModel>(
+				GroupAdapter.getGroupModel(repository.findAll()));
+		return models;
 	}
 	
 	@Override
 	public void addListGrupos(List<String> grupos) {
-		List<Grupo> lista = new ArrayList<Grupo>();
+		List<Group> lista = new ArrayList<Group>();
 		grupos.forEach((grupo)-> {
 			if(repository.findByCodigo(grupo)==null) {
-				lista.add(new Grupo(grupo,""));
+				lista.add(new Group(grupo,""));
 			}
 		});
 		repository.saveAll(lista);
 	}
 
 	@Override
-	public Grupo create(Map<String, Object> payload) {
-		if(payload.get("codigo")!=null && payload.get("descripcion")!=null) {
-			Grupo grupo = new Grupo( payload.get( "codigo" ).toString(),
-					payload.get( "descripcion" ).toString());
-			return grupo;
-		}
-		return null;
+	public Group create(NewGroup newGroup) {
+		return GroupAdapter.getGroupEntity(newGroup);
 	}
 
 	@Override

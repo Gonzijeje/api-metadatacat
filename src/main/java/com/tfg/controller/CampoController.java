@@ -1,19 +1,21 @@
 package com.tfg.controller;
 
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.model.Campo;
-import com.tfg.services.CampoService;
+import com.tfg.model.Field;
+import com.tfg.pojos.FieldModel;
+import com.tfg.pojos.NewField;
+import com.tfg.services.FieldService;
 
 /**
  * 
@@ -21,51 +23,65 @@ import com.tfg.services.CampoService;
  *
  */
 @RestController
+@RequestMapping(value = "/fields")
 public class CampoController {
 	
 	@Autowired
-	CampoService service;
+	FieldService fieldService;
 	
-	@RequestMapping(value = "/campo/add", method = RequestMethod.POST, consumes = "application/json",
-			produces = "application/json")
-	public ResponseEntity<String> registerCampo(@RequestBody Map<String, Object> payload ) {
-		Campo campo = service.create(payload);
-		if(campo!=null) {
-			if(service.add(campo)) {
-				return new ResponseEntity<String>("{\"response\":\"Campo registrado\"}",
-						HttpStatus.CREATED );
-			}else {
-				return new ResponseEntity<String>( "{\"response\":\"Código de campo ya existe\"}",
-						HttpStatus.CONFLICT);
-			}
+	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FieldModel> registerField(@Validated @RequestBody NewField newField ) {
+		try {
+			Field campo = fieldService.create(newField);
+			FieldModel model = fieldService.add(campo);
+			return new ResponseEntity<FieldModel>(model, HttpStatus.CREATED);
+		}catch (Exception e) {
+			
 		}
-		return new ResponseEntity<String>( "{\"response\":\"Datos introducidos incorrectos\"}",
-				HttpStatus.BAD_REQUEST);			
+		return null; //
+			
 	}
 	
-	@RequestMapping("/campo")
-	public Object getCampo(@RequestParam String codigo) {
-		Campo campo = service.getCampoByCodigo(codigo);
-		if(campo!=null) {
-			return campo;
+	@RequestMapping(value = "/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FieldModel> updateField(@Validated @RequestBody NewField newField ) {
+		try {
+			Field campo = fieldService.create(newField);
+			FieldModel model = fieldService.add(campo);
+			return new ResponseEntity<FieldModel>(model, HttpStatus.CREATED);
+		}catch (Exception e) {
+			
 		}
-		return new ResponseEntity<String>( "{\"response\":\"Código de campo no existe\"}",
-					HttpStatus.NOT_FOUND);
+		return null; //
+			
 	}
 	
-	@RequestMapping("/campo/list")
-    public List<Campo> listCampos(){
-		return service.getCampos();
+	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FieldModel> getFieldByCode(@PathVariable String code) {
+		try {
+			FieldModel model = fieldService.getCampoByCodigo(code);
+			return new ResponseEntity<FieldModel>(model, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null; //
+
+	}
+	
+	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<FieldModel>> listFields(){
+		List<FieldModel> listModels = fieldService.getCampos();
+		return new ResponseEntity<List<FieldModel>>(listModels, HttpStatus.OK); //
     }
 	
-	@RequestMapping(value = "/campo/delete", method = RequestMethod.DELETE, consumes = "application/json")
-	public ResponseEntity<String> deleteCampo(@RequestParam String codigo){
-		if(service.delete(codigo)) {
-			return new ResponseEntity<String>("{\"response\":\"Campo eliminado\"}",
-					HttpStatus.OK);
+	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FieldModel> deleteField(@PathVariable String code){
+		if(fieldService.delete(code)) {
+			return new ResponseEntity<FieldModel>(HttpStatus.ACCEPTED);
 		}else {
-			return new ResponseEntity<String>("{\"response\":\"Código de campo no existe\"}",
-					HttpStatus.NOT_FOUND);
-		}	
+			
+		}
+		return null; //
 	}
 }

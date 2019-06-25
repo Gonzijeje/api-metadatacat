@@ -29,14 +29,14 @@ public class Ac_Twin {
 	@ManyToOne
 	@MapsId("ac_grupo_id")
 	@JoinColumn(name="ac_grupo_id")
-	Grupo grupo;
+	Group grupo;
 	
 	@ManyToOne
 	@MapsId("ac_campo_id")
 	@JoinColumn(name="ac_campo_id")
-	Campo campo;
+	Field campo;
 
-	public Ac_Twin(DigitalTwin dt, Grupo grupo, Campo campo) {
+	public Ac_Twin(DigitalTwin dt, Group grupo, Field campo) {
 		super();
 		this.id = new Ac_Twin_Id(dt.getId(),grupo.getId(),campo.getId());
 		this.dt = dt;
@@ -55,19 +55,19 @@ public class Ac_Twin {
 		this.dt = dt;
 	}
 
-	public Grupo getGrupo() {
+	public Group getGrupo() {
 		return grupo;
 	}
 
-	public void setGrupo(Grupo grupo) {
+	public void setGrupo(Group grupo) {
 		this.grupo = grupo;
 	}
 
-	public Campo getCampo() {
+	public Field getCampo() {
 		return campo;
 	}
 
-	public void setCampo(Campo campo) {
+	public void setCampo(Field campo) {
 		this.campo = campo;
 	}
 

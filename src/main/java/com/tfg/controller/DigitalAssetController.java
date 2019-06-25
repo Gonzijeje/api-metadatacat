@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tfg.esearch.Search;
 import com.tfg.model.Ac_Asset;
 import com.tfg.model.DigitalAsset;
-import com.tfg.model.Grupo;
+import com.tfg.model.Group;
 import com.tfg.model.Grupo_campo;
 import com.tfg.services.Ac_AssetService;
-import com.tfg.services.CampoService;
+import com.tfg.services.FieldService;
 import com.tfg.services.DigitalAssetService;
-import com.tfg.services.GrupoService;
+import com.tfg.services.GroupService;
 import com.tfg.services.Grupo_campoService;
 import com.tfg.services.Valor_CampoService;
 
@@ -33,10 +33,10 @@ public class DigitalAssetController {
 	DigitalAssetService service;
 	
 	@Autowired
-	CampoService campoService;
+	FieldService campoService;
 	
 	@Autowired
-	GrupoService grupoService;
+	GroupService grupoService;
 	
 	@Autowired
 	Valor_CampoService valorService;
@@ -59,9 +59,9 @@ public class DigitalAssetController {
 			List<Grupo_campo> grcampos = new ArrayList<Grupo_campo>();
 			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
 			campoService.addListCampos(new ArrayList<String>(payload.keySet()));
-			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos"));
+			grupoService.add(new Group("Grupo básicos", "Grupo campos básicos"));
 			valorService.addListValores(new ArrayList<Object>(payload.values()));
-			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
+			Group basico = grupoService.getGrupoByCodigo("Grupo básicos");
 			payload.forEach((k,v)-> {				
 				grcampos.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v)));
 				asociaciones.add(new Ac_Asset(asset,basico,campoService.getCampoByCodigo(k)));			
@@ -111,7 +111,7 @@ public class DigitalAssetController {
 		for(String key:payload.keySet()) {
 			Map<String,Object> mappa = payload.get(key);
 			//Grupo
-			grupoService.add(new Grupo(key.toString(),null));
+			grupoService.add(new Group(key.toString(),null));
 			campoService.addListCampos(new ArrayList<String>(mappa.keySet()));
 			valorService.addListValores(new ArrayList<Object>(mappa.values()));
 			//Grupo_campo

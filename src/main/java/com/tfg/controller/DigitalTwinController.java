@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.tfg.model.Ac_Twin;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.DigitalTwin;
-import com.tfg.model.Grupo;
+import com.tfg.model.Group;
 import com.tfg.model.Grupo_campo;
 import com.tfg.services.Ac_TwinService;
-import com.tfg.services.CampoService;
+import com.tfg.services.FieldService;
 import com.tfg.services.DigitalTwinService;
-import com.tfg.services.GrupoService;
+import com.tfg.services.GroupService;
 import com.tfg.services.Grupo_campoService;
 import com.tfg.services.Valor_CampoService;
 
@@ -33,10 +33,10 @@ public class DigitalTwinController {
 	DigitalTwinService service;
 	
 	@Autowired
-	CampoService campoService;
+	FieldService campoService;
 	
 	@Autowired
-	GrupoService grupoService;
+	GroupService grupoService;
 	
 	@Autowired
 	Valor_CampoService valorService;
@@ -57,13 +57,13 @@ public class DigitalTwinController {
 			List<String> listCampos = new ArrayList<String>(payload.keySet());
 			campoService.addListCampos(listCampos);
 			//Registrar grupo
-			grupoService.add(new Grupo("Grupo básicos", "Grupo campos básicos"));
+			grupoService.add(new Group("Grupo básicos", "Grupo campos básicos"));
 			//Registrar valores
 			List<Object> valores = new ArrayList<Object>(payload.values());
 			valorService.addListValores(valores);
 			//Asociar campos y grupos
 			//Usar el metodo saveALL pasandole una lista creada antes
-			Grupo basico = grupoService.getGrupoByCodigo("Grupo básicos");
+			Group basico = grupoService.getGrupoByCodigo("Grupo básicos");
 			payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
 			//Asociar digital asset y grupos_campos
 			List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
