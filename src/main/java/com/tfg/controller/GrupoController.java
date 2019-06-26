@@ -1,7 +1,6 @@
 package com.tfg.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,41 +34,34 @@ public class GrupoController {
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GroupModel> registerGroup(@Validated @RequestBody NewGroup newGroup ) {
-		try {
-			Group grupo = groupService.create(newGroup);
-			GroupModel model = groupService.add(grupo);
-			return new ResponseEntity<GroupModel>(model, HttpStatus.CREATED);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null; //
-						
+		Group grupo = groupService.create(newGroup);
+		GroupModel model = groupService.add(grupo);
+		return new ResponseEntity<GroupModel>(model, HttpStatus.CREATED);						
+	}
+	
+	@RequestMapping(value = "/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<GroupModel> updateGroup(@PathVariable String code, @Validated @RequestBody NewGroup newGroup ) {
+		Group group = groupService.create(newGroup);
+		GroupModel model = groupService.update(code, group);
+		return new ResponseEntity<GroupModel>(model, HttpStatus.ACCEPTED);
 	}
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GroupModel> getGroupByCode(@PathVariable String code) {
-		try {
-			GroupModel model = groupService.getGrupoByCodigo(code);
-			return new ResponseEntity<GroupModel>(model, HttpStatus.OK);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null;	
+		GroupModel model = groupService.getGrupoByCodigo(code);
+		return new ResponseEntity<GroupModel>(model, HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<GroupModel>> listGroups(){
+	public ResponseEntity<List<GroupModel>> listGroups(){
 		List<GroupModel> listModels = groupService.getGrupos();
-		return new ResponseEntity<List<GroupModel>>(listModels, HttpStatus.OK); //
-    }
+		return new ResponseEntity<List<GroupModel>>(listModels, HttpStatus.OK);
+	}
 
 	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GroupModel> deleteGroup(@RequestParam String codigo){
-		if(groupService.delete(codigo)) {
-			return new ResponseEntity<GroupModel>(HttpStatus.ACCEPTED);
-		}else {
-			////////////////////
-		}
-		return null;
+		groupService.delete(codigo);
+		return new ResponseEntity<GroupModel>(HttpStatus.ACCEPTED);
 	}
 }

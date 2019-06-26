@@ -15,9 +15,11 @@ public interface GroupService {
 	
 	GroupModel add(Group group);
 	
+	GroupModel update(String code, Group group);
+	
 	Group create(NewGroup payload);
 	
-	boolean delete(String codigo);
+	void delete(String codigo);
 	
 	GroupModel getGrupoByCodigo(String nombre);
 	

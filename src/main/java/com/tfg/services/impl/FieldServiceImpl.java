@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.tfg.adapters.FieldAdapter;
 import com.tfg.dao.CampoRepository;
+import com.tfg.factory.ExceptionFactory;
+import com.tfg.factory.ExceptionFactory.Errors;
 import com.tfg.model.Field;
 import com.tfg.pojos.FieldModel;
 import com.tfg.pojos.NewField;
@@ -28,23 +30,46 @@ public class FieldServiceImpl implements FieldService{
 		if(repository.findByCodigo(field.getCodigo())==null) {
 			repository.save(field);
 			return FieldAdapter.getFieldModel(field);
+		}else {
+			throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
 		}
-		return null;
 	}
 	
 	@Override
-	public boolean delete(String codigo) {
+	public FieldModel update(String code, Field field) {
+		Field oldField = repository.findByCodigo(code);
+		if(oldField!=null) {
+			field.setId(oldField.getId());
+			String newCode = field.getCodigo();
+			if(!newCode.equals(code) && repository.findByCodigo(newCode)!=null) {
+				throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
+			}else {
+				repository.save(field);
+				return FieldAdapter.getFieldModel(field);
+			}		
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
+	}
+	
+	@Override
+	public void delete(String codigo) {
 		if(repository.findByCodigo(codigo)!=null) {
 			repository.deleteByCodigo(codigo);
-			return true;
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
-		return false;
 	}
 
 	@Override
 	public FieldModel getCampoByCodigo(String nombre) {
 		Field field = repository.findByCodigo(nombre);
-		return FieldAdapter.getFieldModel(field);
+		if(field!=null) {
+			return FieldAdapter.getFieldModel(field);
+		}		
+		else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
 	}
 
 	@Override
@@ -54,11 +79,11 @@ public class FieldServiceImpl implements FieldService{
 		return models;
 	}
 
-	public void addListCampos(List<String> campos) {
+	public void addListCampos(List<Field> campos) {
 		List<Field> lista = new ArrayList<Field>();
 		campos.forEach((campo)-> {
-			if(repository.findByCodigo(campo)==null) {
-				lista.add(new Field(campo,""));
+			if(repository.findByCodigo(campo.getCodigo())==null) {
+				lista.add(campo);
 			}
 		});
 		repository.saveAll(lista);
@@ -67,17 +92,5 @@ public class FieldServiceImpl implements FieldService{
 	@Override
 	public Field create(NewField newField) {
 		return FieldAdapter.getFieldEntity(newField);
-	}
-
-	@Override
-	public FieldModel update(String code, Field field) {
-		Field oldField = repository.findByCodigo(code);
-		if(oldField!=null) {
-			Long id = oldField.getId();
-			field.setId(id);
-			repository.save(field);
-			return FieldAdapter.getFieldModel(field);
-		}
-		return null;
 	}
 }

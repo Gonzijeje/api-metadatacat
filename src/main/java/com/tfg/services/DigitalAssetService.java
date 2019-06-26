@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.tfg.model.DigitalAsset;
+import com.tfg.pojos.AssetModel;
+import com.tfg.pojos.NewAsset;
 
 /**
  * 
@@ -12,19 +14,19 @@ import com.tfg.model.DigitalAsset;
  */
 public interface DigitalAssetService{
 	
-	int add(DigitalAsset da);
+	AssetModel add(NewAsset newAsset, DigitalAsset asset);
 	
-	DigitalAsset create(Map<String,Object> payload);
+	AssetModel update(String codigo, DigitalAsset asset);
 	
-	void update(String codigo);
+	DigitalAsset create(NewAsset newAsset);
 	
-	boolean delete(String codigo);
+	void delete(String codigo);
 	
-	DigitalAsset findByCodigo(String codigo);
+	AssetModel findByCodigo(String codigo);
 	
-	List<DigitalAsset> getDigitalAssets();
+	List<AssetModel> getDigitalAssets();
 	
-	List<DigitalAsset> getDigitalAssetsByFilters(Map<String,Object> filters);
+	List<AssetModel> getDigitalAssetsByFilters(Map<String,Object> filters);
 	
 
 }

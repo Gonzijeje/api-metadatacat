@@ -20,7 +20,7 @@ public class Valor_Campo extends AbstractGeneratedIdEntity{
 	String valor;
 	
 	@OneToMany(mappedBy = "valor")
-	Set<Grupo_campo> grupoCampos;
+	Set<GroupField> grupoCampos;
 
 	public Valor_Campo(String valor) {
 		super();

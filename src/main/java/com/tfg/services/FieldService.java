@@ -19,12 +19,12 @@ public interface FieldService {
 	
 	Field create(NewField newField);
 	
-	boolean delete(String codigo);
+	void delete(String codigo);
 	
 	FieldModel getCampoByCodigo(String nombre);
 	
 	List<FieldModel> getCampos();
 	
-	void addListCampos(List<String> campos);
+	void addListCampos(List<Field> campos);
 	
 }

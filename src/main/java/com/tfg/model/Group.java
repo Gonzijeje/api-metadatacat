@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class Group extends AbstractBasicoEntity{
 	
 	@OneToMany(mappedBy = "grupo")
-	Set<Grupo_campo> grupoCampos;
+	Set<GroupField> grupoCampos;
 	
 	public Group(String codigo, String descripcion) {
 		super();
@@ -22,11 +22,11 @@ public class Group extends AbstractBasicoEntity{
 	public Group() {	
 	}
 
-	public Set<Grupo_campo> getGrupoCampos() {
+	public Set<GroupField> getGrupoCampos() {
 		return grupoCampos;
 	}
 
-	public void setGrupoCampos(Set<Grupo_campo> grupoCampos) {
+	public void setGrupoCampos(Set<GroupField> grupoCampos) {
 		this.grupoCampos = grupoCampos;
 	}
 	

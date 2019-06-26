@@ -19,7 +19,7 @@ import com.tfg.model.Ac_Twin;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.DigitalTwin;
 import com.tfg.model.Group;
-import com.tfg.model.Grupo_campo;
+import com.tfg.model.GroupField;
 import com.tfg.services.Ac_TwinService;
 import com.tfg.services.FieldService;
 import com.tfg.services.DigitalTwinService;
@@ -64,7 +64,7 @@ public class DigitalTwinController {
 			//Asociar campos y grupos
 			//Usar el metodo saveALL pasandole una lista creada antes
 			Group basico = grupoService.getGrupoByCodigo("Grupo básicos");
-			payload.forEach((k,v)-> grupoCampoService.add(new Grupo_campo(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
+			payload.forEach((k,v)-> grupoCampoService.add(new GroupField(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
 			//Asociar digital asset y grupos_campos
 			List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
 			payload.forEach((k,v)-> {asociaciones.add(new Ac_Twin(twin,basico,campoService.getCampoByCodigo(k)));});

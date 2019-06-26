@@ -32,56 +32,34 @@ public class CampoController {
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FieldModel> registerField(@Validated @RequestBody NewField newField ) {
-		try {
-			Field campo = fieldService.create(newField);
-			FieldModel model = fieldService.add(campo);
-			return new ResponseEntity<FieldModel>(model, HttpStatus.CREATED);
-		}catch (Exception e) {
-			
-		}
-		return null; //
-			
+		Field campo = fieldService.create(newField);
+		FieldModel model = fieldService.add(campo);
+		return new ResponseEntity<FieldModel>(model, HttpStatus.CREATED);			
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(value = "/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FieldModel> updateField(@Validated @RequestBody NewField newField ) {
-		try {
-			Field campo = fieldService.create(newField);
-			FieldModel model = fieldService.add(campo);
-			return new ResponseEntity<FieldModel>(model, HttpStatus.CREATED);
-		}catch (Exception e) {
-			
-		}
-		return null; //
-			
+	public ResponseEntity<FieldModel> updateField(@PathVariable String code, @Validated @RequestBody NewField newField ) {
+		Field campo = fieldService.create(newField);
+		FieldModel model = fieldService.update(code, campo);
+		return new ResponseEntity<FieldModel>(model, HttpStatus.ACCEPTED);
 	}
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FieldModel> getFieldByCode(@PathVariable String code) {
-		try {
-			FieldModel model = fieldService.getCampoByCodigo(code);
-			return new ResponseEntity<FieldModel>(model, HttpStatus.OK);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null; //
-
+		FieldModel model = fieldService.getCampoByCodigo(code);
+		return new ResponseEntity<FieldModel>(model, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<FieldModel>> listFields(){
 		List<FieldModel> listModels = fieldService.getCampos();
-		return new ResponseEntity<List<FieldModel>>(listModels, HttpStatus.OK); //
+		return new ResponseEntity<List<FieldModel>>(listModels, HttpStatus.OK);
     }
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FieldModel> deleteField(@PathVariable String code){
-		if(fieldService.delete(code)) {
-			return new ResponseEntity<FieldModel>(HttpStatus.ACCEPTED);
-		}else {
-			
-		}
-		return null; //
+		fieldService.delete(code);
+		return new ResponseEntity<FieldModel>(HttpStatus.ACCEPTED);
 	}
 }

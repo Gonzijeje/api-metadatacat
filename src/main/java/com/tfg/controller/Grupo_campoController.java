@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg.model.Field;
 import com.tfg.model.Group;
-import com.tfg.model.Grupo_campo;
+import com.tfg.model.GroupField;
 import com.tfg.model.Valor_Campo;
 import com.tfg.services.FieldService;
 import com.tfg.services.GroupService;
@@ -43,7 +43,7 @@ public class Grupo_campoController {
 		Group gr = grupoService.getGrupoByCodigo(grupo);
 		Field ca = campoService.getCampoByCodigo(campo);
 		Valor_Campo va = valorService.getValor(valor);
-		Grupo_campo gc = new Grupo_campo(gr,ca,va);
+		GroupField gc = new GroupField(gr,ca,va);
 		
 		service.add(gc);
 

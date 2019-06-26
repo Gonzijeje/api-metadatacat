@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tfg.adapters.FieldAdapter;
 import com.tfg.adapters.GroupAdapter;
 import com.tfg.dao.GrupoRepository;
+import com.tfg.factory.ExceptionFactory;
+import com.tfg.factory.ExceptionFactory.Errors;
+import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.pojos.GroupModel;
 import com.tfg.pojos.NewGroup;
@@ -28,23 +32,46 @@ public class GroupServiceImpl implements GroupService{
 		if(repository.findByCodigo(group.getCodigo())==null) {
 			repository.save(group);
 			return GroupAdapter.getGroupModel(group);
+		}else {
+			throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
 		}
-		return null;
 	}
 	
 	@Override
-	public boolean delete(String codigo) {
+	public GroupModel update(String code, Group group) {
+		Group oldGroup = repository.findByCodigo(code);
+		if(oldGroup!=null) {
+			group.setId(oldGroup.getId());
+			String newCode = group.getCodigo();
+			if(!newCode.equals(group.getCodigo()) && repository.findByCodigo(newCode)!=null) {
+				throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
+			}else {
+				repository.save(group);
+				return GroupAdapter.getGroupModel(group);
+			}		
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
+	}
+	
+	@Override
+	public void delete(String codigo) {
 		if(repository.findByCodigo(codigo)!=null) {
 			repository.deleteByCodigo(codigo);
-			return true;
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
-		return false;
 	}
 
 	@Override
 	public GroupModel getGrupoByCodigo(String nombre) {
 		Group group = repository.findByCodigo(nombre);
-		return GroupAdapter.getGroupModel(group);
+		if(group!=null) {
+			return GroupAdapter.getGroupModel(group);
+		}			
+		else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
 	}
 
 	@Override
@@ -74,4 +101,5 @@ public class GroupServiceImpl implements GroupService{
 	public boolean checkListGrupos(List<String> grupos) {
 		return (grupos.stream().noneMatch((grupo)-> repository.findByCodigo(grupo) == null));	
 	}
+
 }

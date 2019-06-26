@@ -15,7 +15,7 @@ import com.tfg.model.id.Grupo_Campo_Id;
  */
 @Entity
 @Table(name = "GRUPO_CAMPO")
-public class Grupo_campo {
+public class GroupField {
 	
 	@EmbeddedId
 	Grupo_Campo_Id id;
@@ -44,7 +44,7 @@ public class Grupo_campo {
 	/*@OneToMany
 	Set<DigitalTwin> twinsAsociados;*/
 
-	public Grupo_campo(Group grupo, Field campo, Valor_Campo value) {
+	public GroupField(Group grupo, Field campo, Valor_Campo value) {
 		super();
 		this.id = new Grupo_Campo_Id(grupo.getId(), campo.getId(), value.getId());
 		this.grupo = grupo;
@@ -52,7 +52,7 @@ public class Grupo_campo {
 		this.valor = value;
 	}
 	
-	public Grupo_campo() {	
+	public GroupField() {	
 	}
 
 	public Group getGrupo() {

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.dao.Grupo_campoRepository;
-import com.tfg.model.Grupo_campo;
+import com.tfg.model.GroupField;
 import com.tfg.model.id.Grupo_Campo_Id;
 import com.tfg.services.Grupo_campoService;
 
@@ -25,15 +25,15 @@ public class Grupo_campoServiceImpl implements Grupo_campoService{
 	
 
 	@Override
-	public void add(Grupo_campo gc) {
+	public void add(GroupField gc) {
 		repository.save(gc);
 	}
 
 
 	@Override
-	public void addListGrupo_Campo(List<Grupo_campo> grcampos) {
-		List<Grupo_campo> lista = new ArrayList<Grupo_campo>();
-		Optional<Grupo_campo> opt = Optional.empty();
+	public void addListGrupo_Campo(List<GroupField> grcampos) {
+		List<GroupField> lista = new ArrayList<GroupField>();
+		Optional<GroupField> opt = Optional.empty();
 		grcampos.forEach((gr)-> {
 			if(repository.findById(new Grupo_Campo_Id(gr.getGrupo().getId(),
 					gr.getCampo().getId(),gr.getValue().getId()))==opt) {

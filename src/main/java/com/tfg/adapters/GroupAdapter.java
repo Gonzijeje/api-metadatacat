@@ -31,4 +31,11 @@ public class GroupAdapter {
 		return models;
 	}
 
+	public static Group getGroupEntity(GroupModel groupModel) {
+		Group group = new Group();
+		group.setCodigo(groupModel.getCode());
+		group.setDescripcion(groupModel.getDescription());
+		return group;
+	}
+
 }

@@ -27,14 +27,14 @@ public class Valor_CampoServiceImpl implements Valor_CampoService{
 	}
 
 	@Override
-	public void addListValores(List<Object> valores) {
+	public Iterable<Valor_Campo> addListValores(List<Object> valores) {
 		List<Valor_Campo> lista = new ArrayList<Valor_Campo>();
 		valores.forEach((valor)-> {
 			if(repository.findByValor(valor)==null && lista.stream().noneMatch(c -> c.getValor().equals(valor))) {
 				lista.add(new Valor_Campo(valor.toString()));
 			}
 		});
-		repository.saveAll(lista);
+		return repository.saveAll(lista);
 	}
 
 }

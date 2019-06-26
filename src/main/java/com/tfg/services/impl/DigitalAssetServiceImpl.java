@@ -1,15 +1,33 @@
 package com.tfg.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tfg.adapters.DigitalAssetAdapter;
+import com.tfg.adapters.GroupAdapter;
 import com.tfg.dao.DigitalAssetRepository;
 import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
+import com.tfg.factory.ExceptionFactory;
+import com.tfg.factory.ExceptionFactory.Errors;
+import com.tfg.model.Ac_Asset;
 import com.tfg.model.DigitalAsset;
+import com.tfg.model.Field;
+import com.tfg.model.Group;
+import com.tfg.model.GroupField;
+import com.tfg.model.Valor_Campo;
+import com.tfg.pojos.AssetModel;
+import com.tfg.pojos.GroupModel;
+import com.tfg.pojos.NewAsset;
+import com.tfg.services.Ac_AssetService;
 import com.tfg.services.DigitalAssetService;
+import com.tfg.services.FieldService;
+import com.tfg.services.GroupService;
+import com.tfg.services.Grupo_campoService;
+import com.tfg.services.Valor_CampoService;
 
 /**
  * 
@@ -22,42 +40,76 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	@Autowired
 	DigitalAssetRepository repository;
 	
+	@Autowired
+	FieldService fieldService;
+	
+	@Autowired
+	GroupService groupService;
+	
+	@Autowired
+	Valor_CampoService valueService;
+	
+	@Autowired
+	Grupo_campoService groupFieldService;
+	
+	@Autowired
+	Ac_AssetService acAssetService;
+	
 	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
 	
 
 	@Override
-	public int add(DigitalAsset da) {
-		if(repository.findByCodigo(da.getCodigo())!=null) {
-			return 1;
+	public AssetModel add(NewAsset newAsset, DigitalAsset asset) {
+		if(repository.findByCodigo(asset.getCodigo())==null) {
+			repository.save(asset);
+			addAssociations(newAsset, asset);
+			return DigitalAssetAdapter.getDigitalAssetModel(asset);
 		}else {
-			repository.save(da);
-			return 0;
+			throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
 		}
 	}
 
 	@Override
-	public void update(String codigo) {
-		DigitalAsset da = repository.findByCodigo(codigo);
-		repository.save(da);
+	public AssetModel update(String codigo, DigitalAsset asset) {
+		DigitalAsset oldAsset = repository.findByCodigo(codigo);
+		if(oldAsset!=null) {
+			asset.setId(oldAsset.getId());
+			String newCode = asset.getCodigo();
+			if(!newCode.equals(codigo) && repository.findByCodigo(newCode)!=null) {
+				throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
+			}else {
+				repository.save(asset);
+				return DigitalAssetAdapter.getDigitalAssetModel(asset);
+			}
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
 	}
 
 	@Override
-	public boolean delete(String codigo) {
+	public void delete(String codigo) {
 		if(repository.findByCodigo(codigo)!=null) {
 			repository.deleteByCodigo(codigo);
-			return true;
+		}else{
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
-		return false;
 	}
 	
 	@Override
-	public DigitalAsset findByCodigo(String codigo) {
-		return repository.findByCodigo(codigo);
+	public AssetModel findByCodigo(String codigo) {
+		DigitalAsset asset = repository.findByCodigo(codigo);
+		if(asset!=null) {
+			return DigitalAssetAdapter.getDigitalAssetModel(asset);
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
 	}
 
 	@Override
-	public List<DigitalAsset> getDigitalAssets() {
-		return (List<DigitalAsset>) repository.findAll();
+	public List<AssetModel> getDigitalAssets() {
+		List<AssetModel> models = new ArrayList<AssetModel>(
+				DigitalAssetAdapter.getDigitalAssetModel(repository.findAll()));
+		return models;
 	}
 
 	@Override
@@ -66,15 +118,21 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	}
 
 	@Override
-	public DigitalAsset create(Map<String, Object> payload) {
-		DigitalAsset asset;
-		try {
-			asset = new DigitalAsset(payload.get("codigo").toString(),payload.get("descripcion").toString());
-			return asset;
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public DigitalAsset create(NewAsset newAsset) {
+		return DigitalAssetAdapter.getAssetEntity(newAsset);
+	}
+	
+	private void addAssociations(NewAsset newAsset, DigitalAsset asset) {
+		List<Field> listFields = DigitalAssetAdapter.getFieldsAssociatedToAsset(newAsset);
+		fieldService.addListCampos(listFields);
+		GroupModel groupModel = groupService.add(new Group("básicos", "Grupo de metadatos básicos"));
+		Group group = GroupAdapter.getGroupEntity(groupModel);
+		List<Valor_Campo> listValues = (List<Valor_Campo>) valueService.addListValores(newAsset.getValues());
+		List<GroupField> listGroupFields = DigitalAssetAdapter.getGroupFieldsAssociatedToAsset(group, listFields, listValues);
+		groupFieldService.addListGrupo_Campo(listGroupFields);
+		List<Ac_Asset> asociaciones = DigitalAssetAdapter.getAssociationsToAsset(asset, group, listFields);
+		acAssetService.addListAc_Asset(asociaciones);
+		asset.getAsociaciones_asset().addAll(asociaciones);
 	}
 
 }
