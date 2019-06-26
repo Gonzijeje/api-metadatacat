@@ -5,12 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tfg.adapters.FieldAdapter;
 import com.tfg.adapters.GroupAdapter;
 import com.tfg.dao.GrupoRepository;
 import com.tfg.factory.ExceptionFactory;
 import com.tfg.factory.ExceptionFactory.Errors;
-import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.pojos.GroupModel;
 import com.tfg.pojos.NewGroup;
@@ -82,11 +80,11 @@ public class GroupServiceImpl implements GroupService{
 	}
 	
 	@Override
-	public void addListGrupos(List<String> grupos) {
+	public void addListGrupos(List<Group> grupos) {
 		List<Group> lista = new ArrayList<Group>();
 		grupos.forEach((grupo)-> {
-			if(repository.findByCodigo(grupo)==null) {
-				lista.add(new Group(grupo,""));
+			if(repository.findByCodigo(grupo.getCodigo()) == null) {
+				lista.add(grupo);
 			}
 		});
 		repository.saveAll(lista);

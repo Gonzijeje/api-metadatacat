@@ -22,16 +22,17 @@ public class Valor_CampoServiceImpl implements Valor_CampoService{
 	}
 
 	@Override
-	public Valor_Campo getValor(Object valor) {
+	public Valor_Campo getValor(String valor) {
 		return repository.findByValor(valor);
 	}
 
 	@Override
-	public Iterable<Valor_Campo> addListValores(List<Object> valores) {
+	public Iterable<Valor_Campo> addListValores(List<String> valores) {
 		List<Valor_Campo> lista = new ArrayList<Valor_Campo>();
 		valores.forEach((valor)-> {
-			if(repository.findByValor(valor)==null && lista.stream().noneMatch(c -> c.getValor().equals(valor))) {
-				lista.add(new Valor_Campo(valor.toString()));
+			System.out.println("VALLOR: "+valor);
+			if(repository.findByValor(valor) == null && lista.stream().noneMatch(c -> c.getValor().equals(valor))) {
+				lista.add(new Valor_Campo(valor));
 			}
 		});
 		return repository.saveAll(lista);

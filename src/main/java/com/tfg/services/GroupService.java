@@ -25,7 +25,7 @@ public interface GroupService {
 	
 	List<GroupModel> getGrupos();
 	
-	void addListGrupos(List<String> grupos);
+	void addListGrupos(List<Group> grupos);
 	
 	boolean checkListGrupos(List<String> grupos);
 

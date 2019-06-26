@@ -30,7 +30,7 @@ public class Valor_Campo extends AbstractGeneratedIdEntity{
 	public Valor_Campo() {	
 	}
 
-	public Object getValor() {
+	public String getValor() {
 		return valor;
 	}
 

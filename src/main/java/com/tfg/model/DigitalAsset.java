@@ -1,5 +1,6 @@
 package com.tfg.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 public class DigitalAsset extends AbstractBasicoEntity{
 	
 	@OneToMany(mappedBy = "da")
-	Set<Ac_Asset> asociaciones_asset;
+	Set<Ac_Asset> asociaciones_asset = new HashSet<>();
 		
 	
 	public DigitalAsset(String codigo, String descripcion) {

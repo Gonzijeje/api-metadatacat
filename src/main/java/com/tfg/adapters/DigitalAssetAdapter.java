@@ -70,9 +70,11 @@ public class DigitalAssetAdapter {
 	public static List<GroupFieldModel> getCaca(DigitalAsset asset){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
 		for(Ac_Asset ac : asset.getAsociaciones_asset()) {
-			GroupFieldModel model = new GroupFieldModel();
-			model.setGroupCode(ac.getGrupo().getCodigo());
-			list.add(model);
+			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {
+				GroupFieldModel model = new GroupFieldModel();
+				model.setGroupCode(ac.getGrupo().getCodigo());
+				list.add(model);
+			}		
 		}
 		return list;
 	}

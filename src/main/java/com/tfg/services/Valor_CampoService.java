@@ -8,7 +8,7 @@ public interface Valor_CampoService {
 
 	void add(Valor_Campo valor);
 	
-	Iterable<Valor_Campo> addListValores(List<Object> valores);
+	Iterable<Valor_Campo> addListValores(List<String> valores);
 	
-	Valor_Campo getValor(Object valor);
+	Valor_Campo getValor(String valor);
 }

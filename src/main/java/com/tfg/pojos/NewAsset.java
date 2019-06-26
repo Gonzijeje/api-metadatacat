@@ -1,5 +1,7 @@
 package com.tfg.pojos;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +20,7 @@ public class NewAsset {
 	private String description;
 	private String owner;
 	private String path;
-	private Long size;
+	private Integer size;
 	private Date createDate;
 	private Date lastModifiedDate;
 
@@ -61,12 +63,12 @@ public class NewAsset {
 	}
 
 	@JsonProperty("size")
-	@Min(value = 0L, message = "Size value must be positive")
-	public Long getSize() {
+	@Min(value = 0, message = "Size value must be positive")
+	public Integer getSize() {
 		return size;
 	}
 
-	public void setSize(Long size) {
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 
@@ -98,11 +100,12 @@ public class NewAsset {
 		return list;
 	}
 	
-	public List<Object> getValues(){
-		List<Object> list = new ArrayList<>();
+	public List<String> getValues(){
+		Format formatter = new SimpleDateFormat("dd/MM/yyy hh:mm:ss");
+		List<String> list = new ArrayList<>();
 		list.add(getOwner()); list.add(getPath());
-		list.add(getSize()); list.add(getCreateDate());
-		list.add(getLastModifiedDate());
+		list.add(String.valueOf(getSize())); list.add(formatter.format(getCreateDate()));
+		list.add(formatter.format(getLastModifiedDate()));
 		return list;
 	}
 

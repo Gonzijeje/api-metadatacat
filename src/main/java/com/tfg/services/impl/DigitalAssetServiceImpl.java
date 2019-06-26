@@ -3,9 +3,11 @@ package com.tfg.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tfg.adapters.DigitalAssetAdapter;
 import com.tfg.adapters.GroupAdapter;
@@ -35,6 +37,7 @@ import com.tfg.services.Valor_CampoService;
  *
  */
 @Service
+@Transactional
 public class DigitalAssetServiceImpl implements DigitalAssetService{
 	
 	@Autowired
@@ -57,7 +60,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	
 	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
 	
-
+	
 	@Override
 	public AssetModel add(NewAsset newAsset, DigitalAsset asset) {
 		if(repository.findByCodigo(asset.getCodigo())==null) {
@@ -125,14 +128,31 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	private void addAssociations(NewAsset newAsset, DigitalAsset asset) {
 		List<Field> listFields = DigitalAssetAdapter.getFieldsAssociatedToAsset(newAsset);
 		fieldService.addListCampos(listFields);
-		GroupModel groupModel = groupService.add(new Group("básicos", "Grupo de metadatos básicos"));
-		Group group = GroupAdapter.getGroupEntity(groupModel);
+		
+		List<Group> listGroups = new ArrayList<Group>();
+		Group group = new Group("básicos", "Grupo de metadatos básicos");
+		listGroups.add(group);
+		groupService.addListGrupos(listGroups);
+		
 		List<Valor_Campo> listValues = (List<Valor_Campo>) valueService.addListValores(newAsset.getValues());
-		List<GroupField> listGroupFields = DigitalAssetAdapter.getGroupFieldsAssociatedToAsset(group, listFields, listValues);
+		System.out.println("Grupo: "+group.getCodigo()+group.getId());
+		System.out.println("Campos: ");
+		listFields.forEach((field)->{
+			System.out.println("/t "+field.getCodigo()+field.getId());
+		});
+		System.out.println("Valores: ");
+		listValues.forEach((field)->{
+			System.out.println("/t "+field.getValor());
+		});
+		List<GroupField> listGroupFields = DigitalAssetAdapter.getGroupFieldsAssociatedToAsset(group, listFields, listValues);								
 		groupFieldService.addListGrupo_Campo(listGroupFields);
+		System.out.println("añadidos grupos campos");
+		
 		List<Ac_Asset> asociaciones = DigitalAssetAdapter.getAssociationsToAsset(asset, group, listFields);
 		acAssetService.addListAc_Asset(asociaciones);
+		System.out.println("añadidas asociaciones");
 		asset.getAsociaciones_asset().addAll(asociaciones);
+		System.out.println("SET: "+asset.getAsociaciones_asset());
 	}
 
 }
