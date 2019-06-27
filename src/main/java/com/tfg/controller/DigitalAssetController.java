@@ -67,16 +67,13 @@ public class DigitalAssetController {
 		return new ResponseEntity<AssetModel>(model, HttpStatus.CREATED);	
 	}
 	
-	@RequestMapping("/asset/getDigitalAssetsByFilters")
-    public List<DigitalAsset> getDigitalAssetsByFilters(@RequestParam Map<String,Object> allRequestParams ) {
-		return assetService.getDigitalAssetsByFilters(allRequestParams);
+	@RequestMapping(value = "/getDigitalAssets", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AssetModel>> getDigitalAssets(@RequestParam(required=false) Map<String,Object> allRequestParams ) {
+		List<AssetModel> result = assetService.getDigitalAssetsByFilters(allRequestParams);
+		return new ResponseEntity<List<AssetModel>>(result, HttpStatus.OK);
     }
 	
-	@RequestMapping("/asset/getDigitalAssets")
-    public List<DigitalAsset> getDigitalAssets(){
-		esSearch.matchAll();
-		return assetService.getDigitalAssets();
-    }
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AssetModel> deleteDigitalAsset(@PathVariable String code){
@@ -93,35 +90,13 @@ public class DigitalAssetController {
 		return new ResponseEntity<AssetModel>(model, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/asset/modifyMetadata", method = RequestMethod.POST, consumes = "application/json",
-			produces = "application/json")
-	public ResponseEntity<String> modifyMetadataOfDigitalAsset(@RequestBody Map<String,Map<String,Object>> payload, 
-			@RequestParam String codigo) throws ParseException {
-		DigitalAsset asset = assetService.findByCodigo(codigo);
-		List<String> listaGrupos = new ArrayList<String>(payload.keySet());
-		if(asset!=null) {
-			if(groupService.checkListGrupos(listaGrupos)) {
-				for(String key:payload.keySet()) {
-					Map<String,Object> mappa = payload.get(key);
-					groupService.add(groupService.getGrupoByCodigo(key));
-					List<String> listCampos = new ArrayList<String>(mappa.keySet());
-					fieldService.addListCampos(listCampos);
-					List<Object> valores = new ArrayList<Object>(payload.values());
-					valorService.addListValores(valores);
-					//Grupo_campo
-					mappa.forEach((k,v)-> {grupoCampoService.add(new GroupField(groupService.getGrupoByCodigo(key),fieldService.getCampoByCodigo(k),valorService.getValor(v)));
-					acAssetService.add(new Ac_Asset(assetService.findByCodigo(codigo),groupService.getGrupoByCodigo(key),fieldService.getCampoByCodigo(k)));});
-					//Ac_Asset
-				}
-				return new ResponseEntity<String>( "{\"response\":\"Metadato añadido al Digital Asset\"}",
-						HttpStatus.OK );
-			}else {
-				return new ResponseEntity<String>("{\"response\":\"Metadatos a modificar no existen\"}",
-						HttpStatus.BAD_REQUEST);
-			}
-		}
-		return new ResponseEntity<String>("{\"response\":\"Código de DigitalAsset no existe\"}",
-				HttpStatus.BAD_REQUEST);
+	@RequestMapping(value = "/deleteMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AssetModel> deleteMetadataToDigitalAsset(@RequestBody List<GroupFieldModel> models, 
+			@PathVariable String code) {
+		assetService.deleteMetadata(models, code);
+		AssetModel model = assetService.findByCodigo(code);
+		return new ResponseEntity<AssetModel>(model, HttpStatus.OK);
 	}
 	
 }

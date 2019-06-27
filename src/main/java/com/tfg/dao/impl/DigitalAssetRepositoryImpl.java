@@ -9,6 +9,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import com.tfg.factory.ExceptionFactory;
+import com.tfg.factory.ExceptionFactory.Errors;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.DigitalTwin;
 import com.tfg.pojos.FieldValueModel;
@@ -18,14 +20,22 @@ public class DigitalAssetRepositoryImpl {
 	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("tfg-rest-service");
 	EntityManager entityManager = emfactory.createEntityManager();
 	
-	public List<DigitalAsset> getDigitalAssetsByFilters(Map<String,Object> filters){
-		String parts[] = {"Select d.codigo from Ac_Asset ac, DigitalAsset d, Grupo_campo gc, Campo c, Valor_Campo v where "
-				+ "ac.da=d and ac.campo=gc.campo and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
+	public List<String> getDigitalAssetsByFilters(Map<String,Object> filters){
+		String parts[] = {"Select d.codigo from Ac_Asset ac, DigitalAsset d, GroupField gc, Campo c, Value v where "
+				+ "ac.da=d and ac.campo=gc.campo and ac.value=gc.valor and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
 		StringBuilder sb = new StringBuilder();
 		sb.append(parts[0]);
-		filters.forEach((k,v) -> sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'"+parts[2]+parts[4]+parts[1]+"'"+v.toString()+"'"));
+		filters.forEach((k,v) -> {
+			if(k.isEmpty() && v.toString().length()>0) {
+				throw ExceptionFactory.getError(Errors.VALUE_WITH_NO_KEY);
+			}else if(!k.isEmpty() && v.toString().length()==0) {
+				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'");
+			}else {
+				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'"+parts[2]+parts[4]+parts[1]+"'"+v.toString()+"'");
+			}		
+		});
 		Query query = entityManager.createQuery(sb.toString());
-		return (List<DigitalAsset>)query.getResultList();
+		return (List<String>)query.getResultList();
 	}
 	
 	public List<DigitalTwin> getDigitalTwinsByFilters(Map<String,Object> filters){

@@ -14,5 +14,7 @@ public interface Ac_AssetService {
 	void add(Ac_Asset ac);
 	
 	void addListAc_Asset(List<Ac_Asset> asociaciones);
+	
+	void deleteListAc_Asset(List<Ac_Asset> asociaciones);
 
 }

@@ -3,15 +3,11 @@ package com.tfg.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tfg.adapters.DigitalAssetAdapter;
-import com.tfg.adapters.FieldAdapter;
-import com.tfg.adapters.GroupAdapter;
 import com.tfg.dao.DigitalAssetRepository;
 import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
 import com.tfg.factory.ExceptionFactory;
@@ -25,7 +21,6 @@ import com.tfg.model.Value;
 import com.tfg.pojos.AssetModel;
 import com.tfg.pojos.FieldValueModel;
 import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.GroupModel;
 import com.tfg.pojos.NewAsset;
 import com.tfg.services.Ac_AssetService;
 import com.tfg.services.DigitalAssetService;
@@ -127,8 +122,18 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	}
 
 	@Override
-	public List<DigitalAsset> getDigitalAssetsByFilters(Map<String, Object> filters) {;
-		return repositoryEM.getDigitalAssetsByFilters(filters);
+	public List<AssetModel> getDigitalAssetsByFilters(Map<String, Object> filters) {
+		if(filters==null || filters.keySet().size()==0)
+			return getDigitalAssets();
+		else {
+			List<AssetModel> list = new ArrayList<AssetModel>();
+			List<String> results = repositoryEM.getDigitalAssetsByFilters(filters);
+			for(String res : results) {
+				AssetModel model = findByCodigo(res);
+				list.add(model);
+			}
+			return list;
+		}			
 	}
 
 	@Override
@@ -193,4 +198,24 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		
 	}
 
+	@Override
+	public void deleteMetadata(List<GroupFieldModel> models, String code) {
+		DigitalAsset asset = getAssetByCodigo(code);
+		for(GroupFieldModel model : models) {
+			Group group = groupService.getGrupoByCodigo(model.getGroupCode());
+			List<GroupField> listGroupFields = new ArrayList<GroupField>();
+			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+			for(FieldValueModel fv : model.getFields()) {
+				Field field = fieldService.getCampoByCodigo(fv.getCode());
+				Value value = valueService.getValor(fv.getValue());
+				listGroupFields.add(new GroupField(group,field,value));
+				asociaciones.add(new Ac_Asset(asset,group,field,value));		
+			}
+			acAssetService.deleteListAc_Asset(asociaciones);
+			asset.getAsociaciones_asset().removeAll(asociaciones);
+			groupFieldService.deleteListGrupo_Campo(listGroupFields);			
+		}
+	}
+
+	
 }

@@ -48,6 +48,19 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 		});
 		repository.saveAll(lista);
 	}
+	
+	@Override
+	public void deleteListGrupo_Campo(List<GroupField> grcampos) {
+		List<GroupField> lista = new ArrayList<GroupField>();
+		Optional<GroupField> opt = Optional.empty();
+		grcampos.forEach((gr)-> {
+			if(repository.findById(new Grupo_Campo_Id(gr.getGrupo().getId(),
+					gr.getCampo().getId(),gr.getValue().getId()))!=opt) {
+				lista.add(gr);
+			}
+		});
+		repository.deleteAll(lista);
+	}
 
 
 	@Override

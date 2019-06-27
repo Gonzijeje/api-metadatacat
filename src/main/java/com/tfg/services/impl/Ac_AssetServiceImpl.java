@@ -41,4 +41,17 @@ public class Ac_AssetServiceImpl implements Ac_AssetService{
 		repository.saveAll(asociaciones);	
 	}
 
+	@Override
+	public void deleteListAc_Asset(List<Ac_Asset> asociaciones) {
+		List<Ac_Asset> lista = new ArrayList<Ac_Asset>();
+		Optional<Ac_Asset> opt = Optional.empty();
+		asociaciones.forEach((ac)-> {
+			if(repository.findById(new Ac_Asset_Id(ac.getDa().getId(),
+					ac.getGrupo().getId(),ac.getCampo().getId(), ac.getValue().getId()))!=opt) {
+				lista.add(ac);
+			}
+		});
+		repository.deleteAll(asociaciones);
+	}
+
 }

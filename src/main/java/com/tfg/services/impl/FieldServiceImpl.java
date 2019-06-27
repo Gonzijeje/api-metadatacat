@@ -98,10 +98,8 @@ public class FieldServiceImpl implements FieldService{
 	public void addListCamposCodes(List<String> fieldCodes) {
 		List<Field> lista = new ArrayList<Field>();
 		fieldCodes.forEach((field)-> {
-			Field f = repository.findByCodigo(field);
-			if(f==null) {
-				lista.add(f);
-			}
+			if(repository.findByCodigo(field)==null)
+				lista.add(new Field(field,""));
 		});
 		repository.saveAll(lista);
 	}

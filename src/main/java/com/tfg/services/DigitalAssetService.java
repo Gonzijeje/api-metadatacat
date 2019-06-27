@@ -31,5 +31,6 @@ public interface DigitalAssetService{
 	
 	void addMetadata(List<GroupFieldModel> models, String code);
 	
+	void deleteMetadata(List<GroupFieldModel> models, String code);	
 
 }

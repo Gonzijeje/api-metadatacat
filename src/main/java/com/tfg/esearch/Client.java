@@ -19,18 +19,26 @@ import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.get.GetResult;
 
+import com.tfg.factory.ExceptionFactory;
+import com.tfg.factory.ExceptionFactory.Errors;
+
 public class Client {
 
 	public static RestHighLevelClient client;
 
-	public void connect() throws IOException {
-		client = new RestHighLevelClient(
-				RestClient.builder(
-						new HttpHost("localhost", 9200, "http"),
-						new HttpHost("localhost", 9201, "http")));	
+	public void connect() {
+		try {
+			client = new RestHighLevelClient(
+					RestClient.builder(
+							new HttpHost("localhost", 9200, "http"),
+							new HttpHost("localhost", 9201, "http")));
+		} catch (Exception e) {
+			throw ExceptionFactory.getError(Errors.ELASTICSEARCH_CONNECT);
+		}
+			
 	}
 
-	public void createIndex() throws IOException {
+	public void createIndex() throws IOException{
 		CreateIndexRequest request = new CreateIndexRequest("asset");
 		request.settings(Settings.builder() 
 				.put("index.number_of_shards", 3)
