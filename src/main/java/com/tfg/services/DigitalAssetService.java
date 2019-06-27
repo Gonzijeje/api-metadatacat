@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.tfg.model.DigitalAsset;
 import com.tfg.pojos.AssetModel;
+import com.tfg.pojos.GroupFieldModel;
 import com.tfg.pojos.NewAsset;
 
 /**
@@ -14,7 +15,7 @@ import com.tfg.pojos.NewAsset;
  */
 public interface DigitalAssetService{
 	
-	AssetModel add(NewAsset newAsset, DigitalAsset asset);
+	void add(NewAsset newAsset, DigitalAsset asset);
 	
 	AssetModel update(String codigo, DigitalAsset asset);
 	
@@ -27,6 +28,8 @@ public interface DigitalAssetService{
 	List<AssetModel> getDigitalAssets();
 	
 	List<AssetModel> getDigitalAssetsByFilters(Map<String,Object> filters);
+	
+	void addMetadata(List<GroupFieldModel> models, String code);
 	
 
 }

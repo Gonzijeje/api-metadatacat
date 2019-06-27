@@ -2,10 +2,10 @@ package com.tfg.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.tfg.model.Valor_Campo;
+import com.tfg.model.Value;
 
-public interface Valor_CampoRepository extends CrudRepository<Valor_Campo, Long>{
+public interface Valor_CampoRepository extends CrudRepository<Value, Long>{
 	
-	Valor_Campo findByValor(Object valor);
+	Value findByValor(Object valor);
 
 }

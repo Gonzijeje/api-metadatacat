@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,12 +23,14 @@ import com.tfg.model.DigitalAsset;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
 import com.tfg.pojos.AssetModel;
+import com.tfg.pojos.FieldModel;
+import com.tfg.pojos.GroupFieldModel;
 import com.tfg.pojos.NewAsset;
 import com.tfg.services.Ac_AssetService;
 import com.tfg.services.FieldService;
 import com.tfg.services.DigitalAssetService;
 import com.tfg.services.GroupService;
-import com.tfg.services.Grupo_campoService;
+import com.tfg.services.GroupFieldService;
 import com.tfg.services.Valor_CampoService;
 
 @RestController
@@ -47,7 +50,7 @@ public class DigitalAssetController {
 	Valor_CampoService valorService;
 	
 	@Autowired
-	Grupo_campoService grupoCampoService;
+	GroupFieldService grupoCampoService;
 	
 	@Autowired
 	Ac_AssetService acAssetService;
@@ -59,7 +62,8 @@ public class DigitalAssetController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AssetModel> registerDigitalAsset(@Validated @RequestBody NewAsset newDigitalAsset) throws ParseException {
 		DigitalAsset asset = assetService.create(newDigitalAsset);
-		AssetModel model = assetService.add(newDigitalAsset, asset);
+		assetService.add(newDigitalAsset, asset);
+		AssetModel model = assetService.findByCodigo(asset.getCodigo());
 		return new ResponseEntity<AssetModel>(model, HttpStatus.CREATED);	
 	}
 	
@@ -74,35 +78,19 @@ public class DigitalAssetController {
 		return assetService.getDigitalAssets();
     }
 	
-	@RequestMapping(value = "/asset/delete", method = RequestMethod.DELETE, consumes = "application/json")
-	public ResponseEntity<String> deleteDigitalAsset(@RequestParam String codigo){
-		if(assetService.delete(codigo)) {
-			return new ResponseEntity<String>( "{\"response\":\"Digital Asset eliminado\"}",
-					HttpStatus.OK);
-		}else {
-			return new ResponseEntity<String>("{\"response\":\"Código de DigitalAsset no existe\"}",
-					HttpStatus.BAD_REQUEST);
-		}		
+	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AssetModel> deleteDigitalAsset(@PathVariable String code){
+		assetService.delete(code);
+		return new ResponseEntity<AssetModel>(HttpStatus.ACCEPTED);		
 	}
 	
-	@RequestMapping(value = "/asset/addMetadata", method = RequestMethod.POST, consumes = "application/json",
-			produces = "application/json")
-	public ResponseEntity<String> addMetadataToDigitalAsset(@RequestBody Map<String,Map<String,Object>> payload, 
-			@RequestParam String codigo) throws ParseException {
-		for(String key:payload.keySet()) {
-			Map<String,Object> mappa = payload.get(key);
-			//Grupo
-			groupService.add(new Group(key.toString(),null));
-			fieldService.addListCampos(new ArrayList<String>(mappa.keySet()));
-			valorService.addListValores(new ArrayList<Object>(mappa.values()));
-			//Grupo_campo
-			mappa.forEach((k,v)-> {
-				grupoCampoService.add(new GroupField(groupService.getGrupoByCodigo(key),fieldService.getCampoByCodigo(k),valorService.getValor(v)));
-				acAssetService.add(new Ac_Asset(assetService.findByCodigo(codigo),groupService.getGrupoByCodigo(key),fieldService.getCampoByCodigo(k)));
-			});
-		}
-		return new ResponseEntity<String>( "{\"response\":\"Metadato añadido al Digital Asset\"}",
-				HttpStatus.OK );
+	@RequestMapping(value = "/addMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AssetModel> addMetadataToDigitalAsset(@RequestBody List<GroupFieldModel> models, 
+			@PathVariable String code) {
+		assetService.addMetadata(models, code);
+		AssetModel model = assetService.findByCodigo(code);
+		return new ResponseEntity<AssetModel>(model, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/asset/modifyMetadata", method = RequestMethod.POST, consumes = "application/json",

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.dao.Valor_CampoRepository;
-import com.tfg.model.Valor_Campo;
+import com.tfg.model.Value;
 import com.tfg.services.Valor_CampoService;
 
 @Service
@@ -17,22 +17,21 @@ public class Valor_CampoServiceImpl implements Valor_CampoService{
 	Valor_CampoRepository repository;
 
 	@Override
-	public void add(Valor_Campo valor) {
+	public void add(Value valor) {
 		repository.save(valor);
 	}
 
 	@Override
-	public Valor_Campo getValor(String valor) {
+	public Value getValor(String valor) {
 		return repository.findByValor(valor);
 	}
 
 	@Override
-	public Iterable<Valor_Campo> addListValores(List<String> valores) {
-		List<Valor_Campo> lista = new ArrayList<Valor_Campo>();
+	public Iterable<Value> addListValores(List<String> valores) {
+		List<Value> lista = new ArrayList<Value>();
 		valores.forEach((valor)-> {
-			System.out.println("VALLOR: "+valor);
 			if(repository.findByValor(valor) == null && lista.stream().noneMatch(c -> c.getValor().equals(valor))) {
-				lista.add(new Valor_Campo(valor));
+				lista.add(new Value(valor));
 			}
 		});
 		return repository.saveAll(lista);

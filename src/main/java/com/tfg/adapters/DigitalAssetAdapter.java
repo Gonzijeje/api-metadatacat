@@ -3,22 +3,36 @@ package com.tfg.adapters;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.tfg.model.Ac_Asset;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
-import com.tfg.model.Valor_Campo;
+import com.tfg.model.Value;
 import com.tfg.pojos.AssetModel;
 import com.tfg.pojos.GroupFieldModel;
 import com.tfg.pojos.NewAsset;
+import com.tfg.services.GroupFieldService;
+import com.tfg.services.impl.GroupFieldServiceImpl;
 
 public class DigitalAssetAdapter {
+	
+	@Autowired
+	static GroupFieldService groupFieldService = new GroupFieldServiceImpl();
 	
 	public static DigitalAsset getAssetEntity(NewAsset newAsset) {
 		DigitalAsset asset = new DigitalAsset();
 		asset.setCodigo(newAsset.getCode());
 		asset.setDescripcion(newAsset.getDescription());
+		return asset;
+	}
+	
+	public static DigitalAsset getAssetEntity(AssetModel assetModel) {
+		DigitalAsset asset = new DigitalAsset();
+		asset.setCodigo(assetModel.getCode());
+		asset.setDescripcion(assetModel.getDescription());
 		return asset;
 	}
 	
@@ -47,23 +61,13 @@ public class DigitalAssetAdapter {
 	}
 
 	public static List<GroupField> getGroupFieldsAssociatedToAsset(Group group,
-			List<Field> listFields, List<Valor_Campo> listValues){
+			List<Field> listFields, List<Value> listValues){
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		for(int i=0; i < listFields.size(); i++) {
 			listGroupFields.add(new GroupField(group,listFields.get(i),
 					listValues.get(i)));
 		}
 		return listGroupFields;
-	}
-	
-	public static List<Ac_Asset> getAssociationsToAsset(DigitalAsset asset,
-			Group group, List<Field> listFields){
-		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
-		for(int i=0; i < listFields.size(); i++) {
-			asociaciones.add(new Ac_Asset(asset,group,
-					listFields.get(i)));
-		}
-		return asociaciones;
 	}
 	
 	//Esto va a tener que ir para otra clase
@@ -76,6 +80,9 @@ public class DigitalAssetAdapter {
 				list.add(model);
 			}		
 		}
+		list.forEach((grupo)->{
+			grupo.setFields(groupFieldService.getFieldsAndValuesByGroup(grupo.getGroupCode(),asset.getCodigo()));
+		});
 		return list;
 	}
 

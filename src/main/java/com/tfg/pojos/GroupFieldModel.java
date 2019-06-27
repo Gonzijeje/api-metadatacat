@@ -1,7 +1,9 @@
 package com.tfg.pojos;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GroupFieldModel {
@@ -30,5 +32,23 @@ public class GroupFieldModel {
 	@Override
 	public String toString() {
 		return "GroupFieldModel [groupCode=" + groupCode + ", fields=" + fields + "]";
+	}
+	
+	@JsonIgnore
+	public List<String> getFieldCodes(){
+		List<String> list = new ArrayList<String>();
+		fields.forEach((field)->{
+			list.add(field.getCode());
+		});
+		return list;
+	}
+	
+	@JsonIgnore
+	public List<String> getValues(){
+		List<String> list = new ArrayList<String>();
+		fields.forEach((field)->{
+			list.add(field.getValue());
+		});
+		return list;
 	}
 }

@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
-import com.tfg.model.Valor_Campo;
+import com.tfg.model.Value;
 import com.tfg.services.FieldService;
 import com.tfg.services.GroupService;
-import com.tfg.services.Grupo_campoService;
+import com.tfg.services.GroupFieldService;
 import com.tfg.services.Valor_CampoService;
 
 /**
@@ -26,7 +26,7 @@ import com.tfg.services.Valor_CampoService;
 public class Grupo_campoController {
 
 	@Autowired
-	Grupo_campoService service;
+	GroupFieldService service;
 	
 	@Autowired
 	GroupService grupoService;
@@ -42,7 +42,7 @@ public class Grupo_campoController {
 			@RequestParam(value="valor") String valor) {
 		Group gr = grupoService.getGrupoByCodigo(grupo);
 		Field ca = campoService.getCampoByCodigo(campo);
-		Valor_Campo va = valorService.getValor(valor);
+		Value va = valorService.getValor(valor);
 		GroupField gc = new GroupField(gr,ca,va);
 		
 		service.add(gc);

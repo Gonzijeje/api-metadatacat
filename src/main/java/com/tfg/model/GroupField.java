@@ -33,18 +33,9 @@ public class GroupField {
 	@ManyToOne
 	@MapsId("valor_id")
 	@JoinColumn(name="valor_id")
-	Valor_Campo valor;		
-	
-	/*@ManyToMany
-	@JoinTable(
-			name = "AC_TWIN",
-			joinColumns = {@JoinColumn(name = "ac_grupo_id", referencedColumnName = "grupo_id"),
-							@JoinColumn(name = "ac_campo_id", referencedColumnName = "campo_id")},
-			inverseJoinColumns = @JoinColumn(name = "twin_id"))*/
-	/*@OneToMany
-	Set<DigitalTwin> twinsAsociados;*/
+	Value valor;		
 
-	public GroupField(Group grupo, Field campo, Valor_Campo value) {
+	public GroupField(Group grupo, Field campo, Value value) {
 		super();
 		this.id = new Grupo_Campo_Id(grupo.getId(), campo.getId(), value.getId());
 		this.grupo = grupo;
@@ -71,11 +62,11 @@ public class GroupField {
 		this.campo = campo;
 	}
 
-	public Valor_Campo getValue() {
+	public Value getValue() {
 		return valor;
 	}
 
-	public void setValue(Valor_Campo value) {
+	public void setValue(Value value) {
 		this.valor = value;
 	}
 

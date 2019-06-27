@@ -24,7 +24,7 @@ import com.tfg.services.Ac_TwinService;
 import com.tfg.services.FieldService;
 import com.tfg.services.DigitalTwinService;
 import com.tfg.services.GroupService;
-import com.tfg.services.Grupo_campoService;
+import com.tfg.services.GroupFieldService;
 import com.tfg.services.Valor_CampoService;
 
 public class DigitalTwinController {
@@ -42,7 +42,7 @@ public class DigitalTwinController {
 	Valor_CampoService valorService;
 	
 	@Autowired
-	Grupo_campoService grupoCampoService;
+	GroupFieldService grupoCampoService;
 	
 	@Autowired
 	Ac_TwinService acTwinService;

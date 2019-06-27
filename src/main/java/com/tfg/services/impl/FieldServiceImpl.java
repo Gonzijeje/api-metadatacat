@@ -62,10 +62,10 @@ public class FieldServiceImpl implements FieldService{
 	}
 
 	@Override
-	public FieldModel getCampoByCodigo(String nombre) {
+	public Field getCampoByCodigo(String nombre) {
 		Field field = repository.findByCodigo(nombre);
 		if(field!=null) {
-			return FieldAdapter.getFieldModel(field);
+			return field;
 		}		
 		else {
 			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
@@ -92,5 +92,17 @@ public class FieldServiceImpl implements FieldService{
 	@Override
 	public Field create(NewField newField) {
 		return FieldAdapter.getFieldEntity(newField);
+	}
+
+	@Override
+	public void addListCamposCodes(List<String> fieldCodes) {
+		List<Field> lista = new ArrayList<Field>();
+		fieldCodes.forEach((field)-> {
+			Field f = repository.findByCodigo(field);
+			if(f==null) {
+				lista.add(f);
+			}
+		});
+		repository.saveAll(lista);
 	}
 }

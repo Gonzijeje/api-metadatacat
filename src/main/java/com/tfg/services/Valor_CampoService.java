@@ -2,13 +2,13 @@ package com.tfg.services;
 
 import java.util.List;
 
-import com.tfg.model.Valor_Campo;
+import com.tfg.model.Value;
 
 public interface Valor_CampoService {
 
-	void add(Valor_Campo valor);
+	void add(Value valor);
 	
-	Iterable<Valor_Campo> addListValores(List<String> valores);
+	Iterable<Value> addListValores(List<String> valores);
 	
-	Valor_Campo getValor(String valor);
+	Value getValor(String valor);
 }

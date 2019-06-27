@@ -62,10 +62,10 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public GroupModel getGrupoByCodigo(String nombre) {
+	public Group getGrupoByCodigo(String nombre) {
 		Group group = repository.findByCodigo(nombre);
 		if(group!=null) {
-			return GroupAdapter.getGroupModel(group);
+			return group;
 		}			
 		else {
 			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);

@@ -4,30 +4,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class FieldValueModel {
 	
-	private String code;
-	private String value;
+	private String codigo;
+	private String valor;
 	
-	@JsonProperty("field_code")
+	@JsonProperty("codigo")
 	public String getCode() {
-		return code;
+		return codigo;
 	}
 	
 	public void setCode(String code) {
-		this.code = code;
+		this.codigo = code;
 	}
 	
-	@JsonProperty("value")
+	@JsonProperty("valor")
 	public String getValue() {
-		return value;
+		return valor;
 	}
 	
 	public void setValue(String value) {
-		this.value = value;
+		this.valor = value;
 	}
 
 	@Override
 	public String toString() {
-		return "FieldValueModel [code=" + code + ", value=" + value + "]";
+		return "FieldValueModel [code=" + codigo + ", value=" + valor + "]";
 	}
 
 }

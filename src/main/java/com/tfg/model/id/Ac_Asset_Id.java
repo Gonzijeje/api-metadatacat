@@ -24,12 +24,15 @@ public class Ac_Asset_Id implements Serializable{
 	private Long ac_grupo_id;
 	@Column(name = "ac_campo_id")
 	private Long ac_campo_id;
+	@Column(name = "ac_value_id")
+	private Long ac_value_id;
 	
-	public Ac_Asset_Id(Long asset_id, Long ac_grupo_id, Long ac_campo_id) {
+	public Ac_Asset_Id(Long asset_id, Long ac_grupo_id, Long ac_campo_id, Long ac_value_id) {
 		super();
 		this.asset_id = asset_id;
 		this.ac_grupo_id = ac_grupo_id;
 		this.ac_campo_id = ac_campo_id;
+		this.ac_value_id = ac_value_id;
 	}
 	
 	public Ac_Asset_Id() {
@@ -60,12 +63,21 @@ public class Ac_Asset_Id implements Serializable{
 		this.ac_campo_id = ac_campo_id;
 	}
 
+	public Long getAc_value_id() {
+		return ac_value_id;
+	}
+
+	public void setAc_value_id(Long ac_value_id) {
+		this.ac_value_id = ac_value_id;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((ac_campo_id == null) ? 0 : ac_campo_id.hashCode());
 		result = prime * result + ((ac_grupo_id == null) ? 0 : ac_grupo_id.hashCode());
+		result = prime * result + ((ac_value_id == null) ? 0 : ac_value_id.hashCode());
 		result = prime * result + ((asset_id == null) ? 0 : asset_id.hashCode());
 		return result;
 	}
@@ -88,6 +100,11 @@ public class Ac_Asset_Id implements Serializable{
 			if (other.ac_grupo_id != null)
 				return false;
 		} else if (!ac_grupo_id.equals(other.ac_grupo_id))
+			return false;
+		if (ac_value_id == null) {
+			if (other.ac_value_id != null)
+				return false;
+		} else if (!ac_value_id.equals(other.ac_value_id))
 			return false;
 		if (asset_id == null) {
 			if (other.asset_id != null)

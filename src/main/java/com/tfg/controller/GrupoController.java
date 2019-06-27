@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tfg.adapters.GroupAdapter;
 import com.tfg.model.Group;
 import com.tfg.pojos.GroupModel;
 import com.tfg.pojos.NewGroup;
@@ -49,7 +50,7 @@ public class GrupoController {
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GroupModel> getGroupByCode(@PathVariable String code) {
-		GroupModel model = groupService.getGrupoByCodigo(code);
+		GroupModel model = GroupAdapter.getGroupModel(groupService.getGrupoByCodigo(code));
 		return new ResponseEntity<GroupModel>(model, HttpStatus.OK);	
 	}
 	

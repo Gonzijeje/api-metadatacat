@@ -21,7 +21,7 @@ public interface GroupService {
 	
 	void delete(String codigo);
 	
-	GroupModel getGrupoByCodigo(String nombre);
+	Group getGrupoByCodigo(String nombre);
 	
 	List<GroupModel> getGrupos();
 	

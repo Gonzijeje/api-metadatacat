@@ -6,11 +6,14 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tfg.dao.Grupo_campoRepository;
+import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
 import com.tfg.model.GroupField;
 import com.tfg.model.id.Grupo_Campo_Id;
-import com.tfg.services.Grupo_campoService;
+import com.tfg.pojos.FieldValueModel;
+import com.tfg.services.GroupFieldService;
 
 /**
  * 
@@ -18,10 +21,13 @@ import com.tfg.services.Grupo_campoService;
  *
  */
 @Service
-public class Grupo_campoServiceImpl implements Grupo_campoService{
+@Transactional
+public class GroupFieldServiceImpl implements GroupFieldService{
 	
 	@Autowired
 	Grupo_campoRepository repository;
+	
+	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
 	
 
 	@Override
@@ -41,6 +47,21 @@ public class Grupo_campoServiceImpl implements Grupo_campoService{
 			}
 		});
 		repository.saveAll(lista);
+	}
+
+
+	@Override
+	public List<FieldValueModel> getFieldsAndValuesByGroup(String groupCode, String assetCode) {
+		List<Object[]> results = repositoryEM.getFieldsAndValuesByGroup(groupCode,assetCode);
+		List<FieldValueModel> list = new ArrayList<FieldValueModel>();
+		
+		for(Object[] o : results) {
+			FieldValueModel model = new FieldValueModel();
+			model.setCode(o[0].toString());
+			model.setValue(o[1].toString());
+			list.add(model);
+		}	
+		return list;
 	}
 	
 

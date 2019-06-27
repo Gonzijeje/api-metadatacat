@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tfg.model.Field;
+import com.tfg.model.Group;
 import com.tfg.pojos.FieldModel;
+import com.tfg.pojos.GroupModel;
 import com.tfg.pojos.NewField;
 
 public class FieldAdapter {
@@ -29,6 +31,13 @@ public class FieldAdapter {
 			models.add(getFieldModel(field));
 		});
 		return models;
+	}
+	
+	public static Field getFieldEntity(FieldModel fieldModel) {
+		Field field = new Field();
+		field.setCodigo(fieldModel.getCode());
+		field.setDescripcion(fieldModel.getDescription());
+		return field;
 	}
 
 }

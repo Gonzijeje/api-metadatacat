@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tfg.adapters.FieldAdapter;
 import com.tfg.model.Field;
 import com.tfg.pojos.FieldModel;
 import com.tfg.pojos.NewField;
@@ -47,7 +48,7 @@ public class CampoController {
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FieldModel> getFieldByCode(@PathVariable String code) {
-		FieldModel model = fieldService.getCampoByCodigo(code);
+		FieldModel model = FieldAdapter.getFieldModel(fieldService.getCampoByCodigo(code));
 		return new ResponseEntity<FieldModel>(model, HttpStatus.OK);
 	}
 	

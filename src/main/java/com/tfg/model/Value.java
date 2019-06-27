@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "VALOR_CAMPO")
-public class Valor_Campo extends AbstractGeneratedIdEntity{
+public class Value extends AbstractGeneratedIdEntity{
 	
 	@NotNull(message = "{valor.obligatorio}")
 	@Size(max = 40, message = "{valor.longitud.maxima}")
@@ -22,12 +22,12 @@ public class Valor_Campo extends AbstractGeneratedIdEntity{
 	@OneToMany(mappedBy = "valor")
 	Set<GroupField> grupoCampos;
 
-	public Valor_Campo(String valor) {
+	public Value(String valor) {
 		super();
 		this.valor = valor;
 	}
 	
-	public Valor_Campo() {	
+	public Value() {	
 	}
 
 	public String getValor() {
