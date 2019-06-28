@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tfg.model.Value;
 
-public interface Valor_CampoService {
+public interface ValueService {
 
 	void add(Value valor);
 	

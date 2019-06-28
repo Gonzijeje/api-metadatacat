@@ -21,7 +21,7 @@ public class DigitalAssetRepositoryImpl {
 	EntityManager entityManager = emfactory.createEntityManager();
 	
 	public List<String> getDigitalAssetsByFilters(Map<String,Object> filters){
-		String parts[] = {"Select d.codigo from Ac_Asset ac, DigitalAsset d, GroupField gc, Campo c, Value v where "
+		String parts[] = {"Select d.codigo from Ac_Asset ac, DigitalAsset d, GroupField gc, Field c, Value v where "
 				+ "ac.da=d and ac.campo=gc.campo and ac.value=gc.valor and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
 		StringBuilder sb = new StringBuilder();
 		sb.append(parts[0]);

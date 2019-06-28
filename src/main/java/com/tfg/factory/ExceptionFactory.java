@@ -1,5 +1,6 @@
 package com.tfg.factory;
 
+import com.tfg.exceptions.AssociationMetadataNoExistException;
 import com.tfg.exceptions.ElasticsearchConnectException;
 import com.tfg.exceptions.EntityNotFoundException;
 import com.tfg.exceptions.RestException;
@@ -12,7 +13,8 @@ public class ExceptionFactory {
 		UNIQUE_CODE,
 		ENTITY_NOT_FOUND,
 		VALUE_WITH_NO_KEY,
-		ELASTICSEARCH_CONNECT
+		ELASTICSEARCH_CONNECT,
+		ASSOCIATIONS_NO_EXIST
 	}
 	
 	private ExceptionFactory() {
@@ -29,6 +31,8 @@ public class ExceptionFactory {
 			return new ValueWithNoKeyException();
 		case ELASTICSEARCH_CONNECT:
 			return new ElasticsearchConnectException();
+		case ASSOCIATIONS_NO_EXIST:
+			return new AssociationMetadataNoExistException();
 		}
 		return null;
 	}

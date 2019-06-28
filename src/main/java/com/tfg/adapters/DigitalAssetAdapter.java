@@ -31,6 +31,7 @@ public class DigitalAssetAdapter {
 	
 	public static DigitalAsset getAssetEntity(AssetModel assetModel) {
 		DigitalAsset asset = new DigitalAsset();
+		asset.setId(assetModel.getId());
 		asset.setCodigo(assetModel.getCode());
 		asset.setDescripcion(assetModel.getDescription());
 		return asset;
@@ -38,6 +39,7 @@ public class DigitalAssetAdapter {
 	
 	public static AssetModel getDigitalAssetModel(DigitalAsset asset) {
 		AssetModel model = new AssetModel();
+		model.setId(asset.getId());
 		model.setCode(asset.getCodigo());
 		model.setDescription(asset.getDescripcion());
 		model.setGrupos(getCaca(asset));

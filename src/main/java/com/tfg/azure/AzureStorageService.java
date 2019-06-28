@@ -1,12 +1,14 @@
 package com.tfg.azure;
 
 import java.io.FileOutputStream;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.blob.*;
 import com.tfg.ContextManager;
+import com.tfg.pojos.NewAsset;
+import com.tfg.services.impl.FileInfo;
 
 /**
  * 
@@ -16,6 +18,9 @@ import com.tfg.ContextManager;
 @Service
 public class AzureStorageService {
 	
+	@Autowired
+	FileInfo fileService;
+	
 	static ContextManager cm = ContextManager.getInstance();
 	
 	// Define the connection-string with your values
@@ -24,17 +29,19 @@ public class AzureStorageService {
 	    "AccountName="+cm.getProperty("data_storage_name")+";" +
 	    "AccountKey="+cm.getProperty("data_storage_key");
 	
+	private static final String defaultPath = "src/main/resources/";
+	
 	public void downloadFile(String containerName, String fileName) {
 		try
 		{
-			// Retrieve storage account from connection-string.
 		   CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
 		   // Create the blob client.
 		   CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 		   // Retrieve reference to a previously created container.
 		   CloudBlobContainer container = blobClient.getContainerReference(containerName);		   
 		   CloudBlockBlob blob = container.getBlockBlobReference(fileName);
-		   blob.download(new FileOutputStream("src/main/resources/" + blob.getName()));
+		   blob.download(new FileOutputStream(defaultPath + blob.getName()));
+		   fileService.getMetadata(fileName,new NewAsset());
 		}
 		catch (Exception e)
 		{

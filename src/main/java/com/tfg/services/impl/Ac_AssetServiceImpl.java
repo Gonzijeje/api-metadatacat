@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.dao.Ac_AssetRepository;
+import com.tfg.factory.ExceptionFactory;
+import com.tfg.factory.ExceptionFactory.Errors;
 import com.tfg.model.Ac_Asset;
 import com.tfg.model.id.Ac_Asset_Id;
 import com.tfg.services.Ac_AssetService;
@@ -49,6 +51,8 @@ public class Ac_AssetServiceImpl implements Ac_AssetService{
 			if(repository.findById(new Ac_Asset_Id(ac.getDa().getId(),
 					ac.getGrupo().getId(),ac.getCampo().getId(), ac.getValue().getId()))!=opt) {
 				lista.add(ac);
+			}else {
+				throw ExceptionFactory.getError(Errors.ASSOCIATIONS_NO_EXIST);
 			}
 		});
 		repository.deleteAll(asociaciones);

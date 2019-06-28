@@ -31,7 +31,7 @@ import com.tfg.services.FieldService;
 import com.tfg.services.DigitalAssetService;
 import com.tfg.services.GroupService;
 import com.tfg.services.GroupFieldService;
-import com.tfg.services.Valor_CampoService;
+import com.tfg.services.ValueService;
 
 @RestController
 @RequestMapping(value = "/assets")
@@ -47,7 +47,7 @@ public class DigitalAssetController {
 	GroupService groupService;
 	
 	@Autowired
-	Valor_CampoService valorService;
+	ValueService valorService;
 	
 	@Autowired
 	GroupFieldService grupoCampoService;

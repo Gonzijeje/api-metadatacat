@@ -44,18 +44,16 @@ public class Client {
 				.put("index.number_of_shards", 3)
 				.put("index.number_of_replicas", 2)
 				);
-		Map<String, Object> message = new HashMap<>();
+		/*Map<String, Object> message = new HashMap<>();
 		message.put("type", "text");
 		Map<String, Object> properties = new HashMap<>();
 		properties.put("message", message);
 		Map<String, Object> mapping = new HashMap<>();
 		mapping.put("properties", properties);
-		request.mapping(mapping);
+		request.mapping(mapping);*/
 
-		CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
-		boolean acknowledged = createIndexResponse.isAcknowledged(); 
-		boolean shardsAcknowledged = createIndexResponse.isShardsAcknowledged();
-		System.out.println("UNO: "+acknowledged+" , DOS: "+shardsAcknowledged);
+		client.indices().create(request, RequestOptions.DEFAULT);
+
 	}
 
 	public void indexApi(Map<String, Object> payload) throws IOException {

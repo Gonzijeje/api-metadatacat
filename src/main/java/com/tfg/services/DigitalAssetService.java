@@ -17,6 +17,8 @@ public interface DigitalAssetService{
 	
 	void add(NewAsset newAsset, DigitalAsset asset);
 	
+	void addRealAsset(String codigo, NewAsset newAsset);
+	
 	AssetModel update(String codigo, DigitalAsset asset);
 	
 	DigitalAsset create(NewAsset newAsset);

@@ -2,14 +2,26 @@ package com.tfg.pojos;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AssetModel {
 	
+	private Long id;
 	private String code;
 	private String description;
 	private List<GroupFieldModel> grupos;
 	
+	
+	@JsonIgnore
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@JsonProperty("code")
 	public String getCode() {
 		return code;

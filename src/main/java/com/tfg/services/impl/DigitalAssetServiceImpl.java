@@ -27,7 +27,7 @@ import com.tfg.services.DigitalAssetService;
 import com.tfg.services.FieldService;
 import com.tfg.services.GroupService;
 import com.tfg.services.GroupFieldService;
-import com.tfg.services.Valor_CampoService;
+import com.tfg.services.ValueService;
 
 /**
  * 
@@ -48,7 +48,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	GroupService groupService;
 	
 	@Autowired
-	Valor_CampoService valueService;
+	ValueService valueService;
 	
 	@Autowired
 	GroupFieldService groupFieldService;
@@ -100,15 +100,6 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		DigitalAsset asset = repository.findByCodigo(codigo);
 		if(asset!=null) {
 			return DigitalAssetAdapter.getDigitalAssetModel(asset);
-		}else {
-			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
-		}
-	}
-	
-	private DigitalAsset getAssetByCodigo(String codigo) {
-		DigitalAsset asset = repository.findByCodigo(codigo);
-		if(asset!=null) {
-			return asset;
 		}else {
 			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
@@ -170,7 +161,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 
 	@Override
 	public void addMetadata(List<GroupFieldModel> models, String code) {
-		DigitalAsset asset = getAssetByCodigo(code);
+		DigitalAsset asset = DigitalAssetAdapter.getAssetEntity(findByCodigo(code));
 		for(GroupFieldModel model : models) {
 			List<Group> listGroups = new ArrayList<Group>();
 			Group group = new Group(model.getGroupCode(),null);
@@ -200,7 +191,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 
 	@Override
 	public void deleteMetadata(List<GroupFieldModel> models, String code) {
-		DigitalAsset asset = getAssetByCodigo(code);
+		DigitalAsset asset =  DigitalAssetAdapter.getAssetEntity(findByCodigo(code));
 		for(GroupFieldModel model : models) {
 			Group group = groupService.getGrupoByCodigo(model.getGroupCode());
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
@@ -216,6 +207,20 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			groupFieldService.deleteListGrupo_Campo(listGroupFields);			
 		}
 	}
-
+	
+	@Override
+	public void addRealAsset(String codigo, NewAsset newAsset) {
+		DigitalAsset asset = repository.findByCodigo(codigo);
+		if(asset!=null) {
+			repository.delete(asset);
+			asset = new DigitalAsset(codigo,"");
+			repository.save(asset);
+			addGroupFieldsValuesAssociated(newAsset,asset);
+		}else {
+			asset = new DigitalAsset(codigo,"");
+			repository.save(asset);
+			addGroupFieldsValuesAssociated(newAsset,asset);
+		}	
+	}
 	
 }

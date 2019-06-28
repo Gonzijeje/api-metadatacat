@@ -6,10 +6,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.tfg.adapters.DigitalAssetAdapter;
+import com.tfg.model.Ac_Asset;
+import com.tfg.model.DigitalAsset;
+import com.tfg.model.Field;
+import com.tfg.model.Group;
+import com.tfg.model.GroupField;
+import com.tfg.model.Value;
 
 /**
  * 
@@ -17,14 +30,36 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
+@Transactional
 public class CSVReader {
+	
+	@Autowired
+	GroupService groupService;
+	
+	@Autowired
+	FieldService fieldService;
+	
+	@Autowired
+	ValueService valueService;
+	
+	@Autowired
+	GroupFieldService groupFieldService;
+	
+	@Autowired
+	Ac_AssetService ac_assetService;
+	
+	@Autowired
+	DigitalAssetService assetService;
+	
 	
 	private class Key{
 		String name;
-		Type type;		
+		Type type;
+		
 	}
 	
 	private static final String SEPARATOR = ";";
+	private static final String defaultPath = "src/main/resources/";
 	private enum Type{
 		TEXT, NUMBER, DATE, UNKNOWN
 	}
@@ -43,7 +78,7 @@ public class CSVReader {
 		String line = "";
 		ArrayList<Key> header= new ArrayList<>();
 		try {
-			br = new BufferedReader(new FileReader(csvFile));
+			br = new BufferedReader(new FileReader(defaultPath+csvFile));
 			while((line = br.readLine()) !=null) {
 				if(nRow == 0) {
 					String[] names = line.split(SEPARATOR);
@@ -65,7 +100,7 @@ public class CSVReader {
 					nRow++; nCol = datos.length;
 				}
 			}
-			scan(mapa);
+			scan(mapa,csvFile);
 			mapa.forEach((k,v) -> System.out.println("Column: "+ k.name + " || Values: "+ v + " || Type: "+k.type));
 			System.out.println("Número de Columnas: "+nCol);
 			System.out.println("Número de Filas: "+nRow);
@@ -76,11 +111,36 @@ public class CSVReader {
 		}
 	}
 	
-	private void scan(Map<Key,ArrayList<String>> map) {
+	private void scan(Map<Key,ArrayList<String>> map, String csvFile) {
+		DigitalAsset asset = DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(csvFile));
+		List<Group> listGroups = new ArrayList<Group>();
+		Group group = new Group("CSV_basics", "Basic metadata associated to CSV files");
+		listGroups.add(group);
+		groupService.addListGrupos(listGroups);
+		List<String> listFields = new ArrayList<String>();
+		listFields.addAll(map.keySet().stream().map(entry -> "csv_column_"+entry.name).collect(Collectors.toList()));
+		listFields.addAll(map.keySet().stream().map(entry -> "csv_column_"+entry.name+"_type").collect(Collectors.toList()));
+		listFields.add("nColumns");
+		listFields.add("nRows");
+		fieldService.addListCamposCodes(listFields);
+		List<String> listValues = new ArrayList<String>();
+		listValues.add(String.valueOf(nCol));
+		listValues.add(String.valueOf(nRow));
+		List<GroupField> listGroupFields = new ArrayList<GroupField>();
+		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+		group = groupService.getGrupoByCodigo("CSV_basics");
 		for(Key key: map.keySet()) {
-			ArrayList<String> values = map.get(key);
-			key.type=Type.valueOf(getType(values.get(0)));
-		}	
+			listValues.add(map.get(key).stream().map(Object::toString).collect(Collectors.joining(",")));		
+			Type t = key.type=Type.valueOf(getType(map.get(key).get(0)));
+			listValues.add(t.name());
+		}
+		valueService.addListValores(listValues);
+		for(Key key: map.keySet()) {
+			Field field = fieldService.getCampoByCodigo("csv_column_"+key.name);
+			Value value = valueService.getValor(map.get(key).stream().map(Object::toString).collect(Collectors.joining(",")));
+			listGroupFields.add(new GroupField(group,field,value));
+			asociaciones.add(new Ac_Asset(asset,group,field,value));
+		}
 	}
 	
 	private String getType(String value) {

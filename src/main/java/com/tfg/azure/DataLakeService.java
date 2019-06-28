@@ -39,15 +39,6 @@ public class DataLakeService {
 			}
 		}
 
-//		int responseCode = response.getStatusLine().getStatusCode();
-
-//		String body = EntityUtils.toString(response.getEntity());
-//		System.out.println(response.getStatusLine().getStatusCode());
-//		System.out.println(body);
-
-		//FileUtils.copyURLToFile(request.getURI(), new File("src/main/resources/CreatePipeline.txt"));
-
-
 
 		//((Closeable) client).close();
 		System.out.println("File Download Completed!!!");
