@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tfg.dao.Grupo_campoRepository;
+import com.tfg.dao.GroupFieldRepository;
 import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
 import com.tfg.model.GroupField;
 import com.tfg.model.id.Grupo_Campo_Id;
@@ -25,7 +25,7 @@ import com.tfg.services.GroupFieldService;
 public class GroupFieldServiceImpl implements GroupFieldService{
 	
 	@Autowired
-	Grupo_campoRepository repository;
+	GroupFieldRepository repository;
 	
 	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
 	

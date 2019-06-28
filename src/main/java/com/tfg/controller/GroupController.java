@@ -27,7 +27,7 @@ import com.tfg.services.GroupService;
  */
 @RestController
 @RequestMapping(value = "/groups")
-public class GrupoController {
+public class GroupController {
 
 	@Autowired
 	GroupService groupService;

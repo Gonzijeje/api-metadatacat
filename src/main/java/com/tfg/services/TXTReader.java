@@ -93,7 +93,9 @@ public class TXTReader {
 			listGroupFields.add(new GroupField(group,field,value));
 			asociaciones.add(new Ac_Asset(asset,group,field,value));
 		}
-		
+		groupFieldService.addListGrupo_Campo(listGroupFields);
+		ac_assetService.addListAc_Asset(asociaciones);
+		asset.getAsociaciones_asset().addAll(asociaciones);	
 	}
 	
 	private void fillMap() {

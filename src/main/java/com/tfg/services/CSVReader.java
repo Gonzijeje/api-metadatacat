@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +53,7 @@ public class CSVReader {
 	
 	private class Key{
 		String name;
-		Type type;
-		
+		Type type;	
 	}
 	
 	private static final String SEPARATOR = ";";
@@ -130,17 +128,20 @@ public class CSVReader {
 		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
 		group = groupService.getGrupoByCodigo("CSV_basics");
 		for(Key key: map.keySet()) {
-			listValues.add(map.get(key).stream().map(Object::toString).collect(Collectors.joining(",")));		
+			listValues.add(map.get(key).stream().map(Object::toString).collect(Collectors.joining(";")));		
 			Type t = key.type=Type.valueOf(getType(map.get(key).get(0)));
 			listValues.add(t.name());
 		}
 		valueService.addListValores(listValues);
 		for(Key key: map.keySet()) {
 			Field field = fieldService.getCampoByCodigo("csv_column_"+key.name);
-			Value value = valueService.getValor(map.get(key).stream().map(Object::toString).collect(Collectors.joining(",")));
+			Value value = valueService.getValor(map.get(key).stream().map(Object::toString).collect(Collectors.joining(";")));
 			listGroupFields.add(new GroupField(group,field,value));
 			asociaciones.add(new Ac_Asset(asset,group,field,value));
 		}
+		groupFieldService.addListGrupo_Campo(listGroupFields);
+		ac_assetService.addListAc_Asset(asociaciones);
+		asset.getAsociaciones_asset().addAll(asociaciones);
 	}
 	
 	private String getType(String value) {

@@ -1,25 +1,24 @@
 package com.tfg.controller;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.model.Ac_Twin;
-import com.tfg.model.DigitalAsset;
 import com.tfg.model.DigitalTwin;
-import com.tfg.model.Group;
-import com.tfg.model.GroupField;
+import com.tfg.pojos.GroupFieldModel;
+import com.tfg.pojos.NewTwin;
+import com.tfg.pojos.TwinModel;
 import com.tfg.services.Ac_TwinService;
 import com.tfg.services.FieldService;
 import com.tfg.services.DigitalTwinService;
@@ -27,10 +26,12 @@ import com.tfg.services.GroupService;
 import com.tfg.services.GroupFieldService;
 import com.tfg.services.ValueService;
 
+@RestController
+@RequestMapping(value = "/twins")
 public class DigitalTwinController {
 	
 	@Autowired
-	DigitalTwinService service;
+	DigitalTwinService twinService;
 	
 	@Autowired
 	FieldService campoService;
@@ -47,58 +48,46 @@ public class DigitalTwinController {
 	@Autowired
 	Ac_TwinService acTwinService;
 	
-	@RequestMapping(value = "/twin/add", method = RequestMethod.POST, consumes = "application/json",
-			produces = "application/json")
-	public ResponseEntity<String> registerDigitalTwin(@RequestBody Map<String, Object> payload) throws ParseException {
-		DigitalTwin twin = service.create(payload);
-		int way = service.add(twin);
-		if(way==0) {
-			//Registrar campos
-			List<String> listCampos = new ArrayList<String>(payload.keySet());
-			campoService.addListCampos(listCampos);
-			//Registrar grupo
-			grupoService.add(new Group("Grupo básicos", "Grupo campos básicos"));
-			//Registrar valores
-			List<Object> valores = new ArrayList<Object>(payload.values());
-			valorService.addListValores(valores);
-			//Asociar campos y grupos
-			//Usar el metodo saveALL pasandole una lista creada antes
-			Group basico = grupoService.getGrupoByCodigo("Grupo básicos");
-			payload.forEach((k,v)-> grupoCampoService.add(new GroupField(basico,campoService.getCampoByCodigo(k),valorService.getValor(v))));		
-			//Asociar digital asset y grupos_campos
-			List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
-			payload.forEach((k,v)-> {asociaciones.add(new Ac_Twin(twin,basico,campoService.getCampoByCodigo(k)));});
-			acTwinService.addListAc_Twin(asociaciones);
-			//
-			System.out.print("Digital Twin registrado: " + new JSONObject( payload ).toString());
-			
-			return new ResponseEntity<String>( "{\"response\":\"Digital Twin registrado\"}",
-					HttpStatus.CREATED );
-		}else if(way==1){
-			return new ResponseEntity<String>( "{\"response\":\"Código de DigitalTwin ya existe\"}",
-					HttpStatus.BAD_REQUEST );
-		}else {
-			return new ResponseEntity<String>( "{\"response\":\"Path de DigitalTwin ya existe\"}",
-					HttpStatus.BAD_REQUEST );
-		}	
+	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TwinModel> registerDigitalTwin(@Validated @RequestBody NewTwin newDigitalTwin){
+		DigitalTwin twin = twinService.create(newDigitalTwin);
+		twinService.add(newDigitalTwin, twin);
+		TwinModel model = twinService.findByCodigo(twin.getCodigo());
+		return new ResponseEntity<TwinModel>(model, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping("/twin/getDigitalTwinsByFilters")
-    public List<DigitalTwin> getDigitalAssetsByFilters(@RequestParam Map<String,Object> allRequestParams ) {
-		return service.getDigitalTwinsByFilters(allRequestParams);
+	
+	@RequestMapping(value = "/getDigitalTwins", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TwinModel>> getDigitalAssets(@RequestParam(required=false) Map<String,Object> allRequestParams){
+		List<TwinModel> result = twinService.getDigitalTwinsByFilters(allRequestParams);
+		return new ResponseEntity<List<TwinModel>>(result, HttpStatus.OK);
     }
 	
-	@RequestMapping("/twin/getDigitalTwins")
-    public List<DigitalTwin> getDigitalAssets(){
-		//esSearch.matchAll();
-		return service.getDigitalTwins();
-    }
 	
-	@RequestMapping(value = "/twin/delete", method = RequestMethod.DELETE, consumes = "application/json")
-	public ResponseEntity<String> deleteDigitalTwin(@RequestParam String codigo){
-		service.delete(codigo);
-		return new ResponseEntity<String>( "{\"response\":\"Digital Twin eliminado\"}",
-				HttpStatus.OK );
+	@RequestMapping(value = "{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TwinModel> deleteDigitalTwin(@PathVariable String code){
+		twinService.delete(code);
+		return new ResponseEntity<TwinModel>(HttpStatus.ACCEPTED);
+	}
+	
+	@RequestMapping(value = "/addMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TwinModel> addMetadataToDigitalTwin(@RequestBody List<GroupFieldModel> models, 
+			@PathVariable String code) {
+		twinService.addMetadata(models, code);
+		TwinModel model = twinService.findByCodigo(code);
+		return new ResponseEntity<TwinModel>(model, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/deleteMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TwinModel> deleteMetadataToDigitalTwin(@RequestBody List<GroupFieldModel> models, 
+			@PathVariable String code) {
+		twinService.deleteMetadata(models, code);
+		TwinModel model = twinService.findByCodigo(code);
+		return new ResponseEntity<TwinModel>(model, HttpStatus.OK);
 	}
 
 }

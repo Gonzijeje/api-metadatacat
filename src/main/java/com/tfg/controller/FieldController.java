@@ -25,7 +25,7 @@ import com.tfg.services.FieldService;
  */
 @RestController
 @RequestMapping(value = "/fields")
-public class CampoController {
+public class FieldController {
 	
 	@Autowired
 	FieldService fieldService;

@@ -14,5 +14,7 @@ public interface Ac_TwinService {
 	void add(Ac_Twin ac);
 	
 	void addListAc_Twin(List<Ac_Twin> asociaciones);
+	
+	void deleteListAc_Twin(List<Ac_Twin> asociaciones);
 
 }

@@ -70,23 +70,6 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	}
 
 	@Override
-	public AssetModel update(String codigo, DigitalAsset asset) {
-		DigitalAsset oldAsset = repository.findByCodigo(codigo);
-		if(oldAsset!=null) {
-			asset.setId(oldAsset.getId());
-			String newCode = asset.getCodigo();
-			if(!newCode.equals(codigo) && repository.findByCodigo(newCode)!=null) {
-				throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
-			}else {
-				repository.save(asset);
-				return DigitalAssetAdapter.getDigitalAssetModel(asset);
-			}
-		}else {
-			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
-		}
-	}
-
-	@Override
 	public void delete(String codigo) {
 		if(repository.findByCodigo(codigo)!=null) {
 			repository.deleteByCodigo(codigo);
@@ -213,6 +196,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		DigitalAsset asset = repository.findByCodigo(codigo);
 		if(asset!=null) {
 			repository.delete(asset);
+			repository.flush();
 			asset = new DigitalAsset(codigo,"");
 			repository.save(asset);
 			addGroupFieldsValuesAssociated(newAsset,asset);
@@ -221,6 +205,14 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			repository.save(asset);
 			addGroupFieldsValuesAssociated(newAsset,asset);
 		}	
+	}
+
+	@Override
+	public boolean checkListAssets(List<String> codes) {
+		for(String str:codes) {
+			findByCodigo(str);
+		}
+		return true;
 	}
 	
 }

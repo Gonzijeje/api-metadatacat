@@ -19,8 +19,6 @@ public interface DigitalAssetService{
 	
 	void addRealAsset(String codigo, NewAsset newAsset);
 	
-	AssetModel update(String codigo, DigitalAsset asset);
-	
 	DigitalAsset create(NewAsset newAsset);
 	
 	void delete(String codigo);
@@ -33,6 +31,8 @@ public interface DigitalAssetService{
 	
 	void addMetadata(List<GroupFieldModel> models, String code);
 	
-	void deleteMetadata(List<GroupFieldModel> models, String code);	
+	void deleteMetadata(List<GroupFieldModel> models, String code);
+	
+	boolean checkListAssets(List<String> codes);
 
 }

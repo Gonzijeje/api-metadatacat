@@ -2,6 +2,7 @@ package com.tfg.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,6 +15,7 @@ import com.tfg.model.Value;
 import com.tfg.pojos.AssetModel;
 import com.tfg.pojos.GroupFieldModel;
 import com.tfg.pojos.NewAsset;
+import com.tfg.pojos.SimpleAsset;
 import com.tfg.services.GroupFieldService;
 import com.tfg.services.impl.GroupFieldServiceImpl;
 
@@ -60,6 +62,22 @@ public class DigitalAssetAdapter {
 			listFields.add(new Field(field,"Metadato "+field+" básico"));
 		}
 		return listFields;
+	}
+	
+	public static SimpleAsset getSimpleAssetFromEntity(DigitalAsset asset) {
+		SimpleAsset simple = new SimpleAsset();
+		simple.setId(asset.getId());
+		simple.setCode(asset.getCodigo());
+		simple.setDescription(asset.getDescripcion());
+		return simple;
+	}
+	
+	public static List<SimpleAsset> getSimpleAssetsFromEntities(Set<DigitalAsset> assets){
+		List<SimpleAsset> simples = new ArrayList<SimpleAsset>();
+		for(DigitalAsset asset : assets) {
+			simples.add(getSimpleAssetFromEntity(asset));
+		}
+		return simples;
 	}
 
 	public static List<GroupField> getGroupFieldsAssociatedToAsset(Group group,

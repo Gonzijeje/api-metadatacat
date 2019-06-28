@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.adapters.GroupAdapter;
-import com.tfg.dao.GrupoRepository;
+import com.tfg.dao.GroupRepository;
 import com.tfg.factory.ExceptionFactory;
 import com.tfg.factory.ExceptionFactory.Errors;
 import com.tfg.model.Group;
@@ -23,7 +23,7 @@ import com.tfg.services.GroupService;
 public class GroupServiceImpl implements GroupService{
 	
 	@Autowired
-	GrupoRepository repository;
+	GroupRepository repository;
 
 	@Override
 	public GroupModel add(Group group) {

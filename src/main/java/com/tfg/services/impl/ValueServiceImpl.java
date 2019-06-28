@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tfg.dao.Valor_CampoRepository;
+import com.tfg.dao.ValueRepository;
 import com.tfg.model.Value;
 import com.tfg.services.ValueService;
 
@@ -14,7 +14,7 @@ import com.tfg.services.ValueService;
 public class ValueServiceImpl implements ValueService{
 	
 	@Autowired
-	Valor_CampoRepository repository;
+	ValueRepository repository;
 
 	@Override
 	public void add(Value valor) {

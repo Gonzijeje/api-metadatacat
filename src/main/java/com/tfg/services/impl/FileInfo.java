@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,9 +41,9 @@ public class FileInfo {
 			"dd/MM/yyyy  hh:mm");
 	
 	private static Pattern CSV_PATTERN = Pattern.compile(
-			".*csv");
+			"^\\w*\\.csv$");
 	private static Pattern TXT_PATTERN = Pattern.compile(
-			".*txt");
+			"^\\w*\\.txt$");
 	
 	private File file;
 	private boolean hasLoaded = false;

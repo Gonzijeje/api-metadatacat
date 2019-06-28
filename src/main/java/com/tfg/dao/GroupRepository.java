@@ -10,7 +10,7 @@ import com.tfg.model.Group;
  * @author gcollada
  *
  */
-public interface GrupoRepository extends CrudRepository<Group, Long>{
+public interface GroupRepository extends CrudRepository<Group, Long>{
 	
 	Group findByCodigo(String codigo);
 	

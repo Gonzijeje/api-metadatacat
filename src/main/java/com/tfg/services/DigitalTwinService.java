@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.tfg.model.DigitalTwin;
+import com.tfg.pojos.GroupFieldModel;
+import com.tfg.pojos.NewTwin;
+import com.tfg.pojos.TwinModel;
 
 /**
  * 
@@ -12,18 +15,20 @@ import com.tfg.model.DigitalTwin;
  */
 public interface DigitalTwinService{
 	
-	int add(DigitalTwin da);
-	
-	DigitalTwin create(Map<String,Object> payload);
-	
-	void update(String codigo);
-	
-	boolean delete(String codigo);
-	
-	DigitalTwin findByCodigo(String codigo);
-	
-	List<DigitalTwin> getDigitalTwins();
-	
-	List<DigitalTwin> getDigitalTwinsByFilters(Map<String,Object> filters);
+	void add(NewTwin newTwin, DigitalTwin dt);
+
+	DigitalTwin create(NewTwin newTwin);
+
+	void delete(String codigo);
+
+	TwinModel findByCodigo(String codigo);
+
+	List<TwinModel> getDigitalTwins();
+
+	List<TwinModel> getDigitalTwinsByFilters(Map<String,Object> filters);
+
+	void addMetadata(List<GroupFieldModel> models, String code);
+
+	void deleteMetadata(List<GroupFieldModel> models, String code);
 	
 }
