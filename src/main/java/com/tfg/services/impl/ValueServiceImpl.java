@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.tfg.dao.Valor_CampoRepository;
 import com.tfg.model.Value;
-import com.tfg.services.Valor_CampoService;
+import com.tfg.services.ValueService;
 
 @Service
-public class Valor_CampoServiceImpl implements Valor_CampoService{
+public class ValueServiceImpl implements ValueService{
 	
 	@Autowired
 	Valor_CampoRepository repository;
