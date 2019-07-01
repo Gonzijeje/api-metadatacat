@@ -1,11 +1,11 @@
-package com.tfg.adapters;
+package com.tfg.services.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.tfg.model.Field;
-import com.tfg.pojos.FieldModel;
-import com.tfg.pojos.NewField;
+import com.tfg.services.model.FieldModel;
+import com.tfg.services.model.NewField;
 
 public class FieldAdapter {
 	

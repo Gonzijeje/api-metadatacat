@@ -1,4 +1,4 @@
-package com.tfg.dao.impl;
+package com.tfg.dao.factory;
 
 import java.util.List;
 import java.util.Map;
@@ -8,10 +8,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.tfg.factory.ExceptionFactory;
-import com.tfg.factory.ExceptionFactory.Errors;
+import com.tfg.exceptions.ExceptionFactory;
+import com.tfg.exceptions.ExceptionFactory.Errors;
 
-public class DigitalAssetRepositoryImpl {
+public class EntityManagerLoader {
 	
 	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("tfg-rest-service");
 	EntityManager entityManager = emfactory.createEntityManager();

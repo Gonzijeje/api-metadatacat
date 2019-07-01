@@ -1,4 +1,4 @@
-package com.tfg.exceptions;
+package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 

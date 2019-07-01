@@ -1,11 +1,11 @@
-package com.tfg.adapters;
+package com.tfg.services.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.tfg.model.Group;
-import com.tfg.pojos.GroupModel;
-import com.tfg.pojos.NewGroup;
+import com.tfg.services.model.GroupModel;
+import com.tfg.services.model.NewGroup;
 
 public class GroupAdapter {
 	

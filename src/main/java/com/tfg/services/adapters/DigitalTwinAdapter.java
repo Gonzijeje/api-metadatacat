@@ -1,21 +1,21 @@
-package com.tfg.adapters;
+package com.tfg.services.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tfg.model.Ac_Twin;
+import com.tfg.model.AssociationTwin;
 import com.tfg.model.DigitalTwin;
 import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
 import com.tfg.model.Value;
-import com.tfg.pojos.TwinModel;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewTwin;
 import com.tfg.services.GroupFieldService;
 import com.tfg.services.impl.GroupFieldServiceImpl;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewTwin;
+import com.tfg.services.model.TwinModel;
 
 public class DigitalTwinAdapter {
 	
@@ -77,7 +77,7 @@ public class DigitalTwinAdapter {
 	//Esto va a tener que ir para otra clase
 	public static List<GroupFieldModel> getCaca(DigitalTwin twin){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
-		for(Ac_Twin ac : twin.getAsociaciones_twin()) {
+		for(AssociationTwin ac : twin.getAsociaciones_twin()) {
 			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {
 				GroupFieldModel model = new GroupFieldModel();
 				model.setGroupCode(ac.getGrupo().getCodigo());

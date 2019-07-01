@@ -1,4 +1,4 @@
-package com.tfg.adapters;
+package com.tfg.services.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,18 +6,18 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.tfg.model.Ac_Asset;
+import com.tfg.model.AssociationAsset;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
 import com.tfg.model.Value;
-import com.tfg.pojos.AssetModel;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewAsset;
-import com.tfg.pojos.SimpleAsset;
 import com.tfg.services.GroupFieldService;
 import com.tfg.services.impl.GroupFieldServiceImpl;
+import com.tfg.services.model.AssetModel;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewAsset;
+import com.tfg.services.model.SimpleAsset;
 
 public class DigitalAssetAdapter {
 	
@@ -93,7 +93,7 @@ public class DigitalAssetAdapter {
 	//Esto va a tener que ir para otra clase
 	public static List<GroupFieldModel> getCaca(DigitalAsset asset){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
-		for(Ac_Asset ac : asset.getAsociaciones_asset()) {
+		for(AssociationAsset ac : asset.getAsociaciones_asset()) {
 			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {
 				GroupFieldModel model = new GroupFieldModel();
 				model.setGroupCode(ac.getGrupo().getCodigo());
