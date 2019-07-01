@@ -3,7 +3,7 @@ package com.tfg.services;
 import java.util.List;
 
 import com.tfg.model.GroupField;
-import com.tfg.pojos.FieldValueModel;
+import com.tfg.services.model.FieldValueModel;
 
 /**
  * 

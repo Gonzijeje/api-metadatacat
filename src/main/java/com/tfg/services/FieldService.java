@@ -3,8 +3,8 @@ package com.tfg.services;
 import java.util.List;
 
 import com.tfg.model.Field;
-import com.tfg.pojos.FieldModel;
-import com.tfg.pojos.NewField;
+import com.tfg.services.model.FieldModel;
+import com.tfg.services.model.NewField;
 
 /**
  * 

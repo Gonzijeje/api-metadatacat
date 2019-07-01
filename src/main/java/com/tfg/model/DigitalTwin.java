@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class DigitalTwin extends AbstractBasicoEntity{
 	
 	@OneToMany(mappedBy = "dt")
-	Set<Ac_Twin> asociaciones_twin;
+	Set<AssociationTwin> asociaciones_twin;
 	
 	@OneToMany(mappedBy = "assets_in")
 	Set<DigitalAsset> asociaciones_assets_in;
@@ -34,11 +34,11 @@ public class DigitalTwin extends AbstractBasicoEntity{
 		
 	}
 
-	public Set<Ac_Twin> getAsociaciones_twin() {
+	public Set<AssociationTwin> getAsociaciones_twin() {
 		return asociaciones_twin;
 	}
 
-	public void setAsociaciones_twin(Set<Ac_Twin> asociaciones_twin) {
+	public void setAsociaciones_twin(Set<AssociationTwin> asociaciones_twin) {
 		this.asociaciones_twin = asociaciones_twin;
 	}
 

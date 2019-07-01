@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tfg.dao.GroupFieldRepository;
-import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
+import com.tfg.dao.factory.EntityManagerLoader;
 import com.tfg.model.GroupField;
-import com.tfg.model.id.Grupo_Campo_Id;
-import com.tfg.pojos.FieldValueModel;
+import com.tfg.model.id.GroupFieldId;
 import com.tfg.services.GroupFieldService;
+import com.tfg.services.model.FieldValueModel;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 	@Autowired
 	GroupFieldRepository repository;
 	
-	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
+	EntityManagerLoader repositoryEM = new EntityManagerLoader();
 	
 
 	@Override
@@ -41,7 +41,7 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 		List<GroupField> lista = new ArrayList<GroupField>();
 		Optional<GroupField> opt = Optional.empty();
 		grcampos.forEach((gr)-> {
-			if(repository.findById(new Grupo_Campo_Id(gr.getGrupo().getId(),
+			if(repository.findById(new GroupFieldId(gr.getGrupo().getId(),
 					gr.getCampo().getId(),gr.getValue().getId()))==opt) {
 				lista.add(gr);
 			}
@@ -54,7 +54,7 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 		List<GroupField> lista = new ArrayList<GroupField>();
 		Optional<GroupField> opt = Optional.empty();
 		grcampos.forEach((gr)-> {
-			if(repository.findById(new Grupo_Campo_Id(gr.getGrupo().getId(),
+			if(repository.findById(new GroupFieldId(gr.getGrupo().getId(),
 					gr.getCampo().getId(),gr.getValue().getId()))!=opt) {
 				lista.add(gr);
 			}

@@ -9,35 +9,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tfg.adapters.DigitalAssetAdapter;
-import com.tfg.adapters.DigitalTwinAdapter;
 import com.tfg.dao.DigitalTwinRepository;
-import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
-import com.tfg.factory.ExceptionFactory;
-import com.tfg.factory.ExceptionFactory.Errors;
-import com.tfg.model.Ac_Asset;
-import com.tfg.model.Ac_Twin;
+import com.tfg.dao.factory.EntityManagerLoader;
+import com.tfg.exceptions.ExceptionFactory;
+import com.tfg.exceptions.ExceptionFactory.Errors;
+import com.tfg.model.AssociationTwin;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.DigitalTwin;
 import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
 import com.tfg.model.Value;
-import com.tfg.pojos.AssetModel;
-import com.tfg.pojos.FieldValueModel;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewAsset;
-import com.tfg.pojos.NewTwin;
-import com.tfg.pojos.SimpleAsset;
-import com.tfg.pojos.TwinModel;
-import com.tfg.services.Ac_AssetService;
-import com.tfg.services.Ac_TwinService;
+import com.tfg.services.AssociationTwinService;
 import com.tfg.services.DigitalAssetService;
 import com.tfg.services.DigitalTwinService;
 import com.tfg.services.FieldService;
 import com.tfg.services.GroupFieldService;
 import com.tfg.services.GroupService;
 import com.tfg.services.ValueService;
+import com.tfg.services.adapters.DigitalAssetAdapter;
+import com.tfg.services.adapters.DigitalTwinAdapter;
+import com.tfg.services.model.FieldValueModel;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewTwin;
+import com.tfg.services.model.SimpleAsset;
+import com.tfg.services.model.TwinModel;
 
 /**
  * 
@@ -64,12 +60,12 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	GroupFieldService groupFieldService;
 	
 	@Autowired
-	Ac_TwinService acTwinService;
+	AssociationTwinService acTwinService;
 	
 	@Autowired
 	DigitalAssetService assetService;
 	
-	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
+	EntityManagerLoader repositoryEM = new EntityManagerLoader();
 
 	@Override
 	public void add(NewTwin newTwin, DigitalTwin dt) {
@@ -146,7 +142,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 			valueService.addListValores(model.getValues());
 			
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
-			List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
+			List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
 			group = groupService.getGrupoByCodigo(model.getGroupCode());
 			System.out.println("GRUPO: "+group.getCodigo()+group.getId());
 			for(FieldValueModel fv : model.getFields()) {
@@ -155,7 +151,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 				Value value = valueService.getValor(fv.getValue());
 				System.out.println("VALOR: "+value.getId());
 				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new Ac_Twin(twin,group,field,value));
+				asociaciones.add(new AssociationTwin(twin,group,field,value));
 			}								
 			groupFieldService.addListGrupo_Campo(listGroupFields);
 			acTwinService.addListAc_Twin(asociaciones);
@@ -169,12 +165,12 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		for(GroupFieldModel model : models) {
 			Group group = groupService.getGrupoByCodigo(model.getGroupCode());
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
-			List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
+			List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
 			for(FieldValueModel fv : model.getFields()) {
 				Field field = fieldService.getCampoByCodigo(fv.getCode());
 				Value value = valueService.getValor(fv.getValue());
 				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new Ac_Twin(twin,group,field,value));		
+				asociaciones.add(new AssociationTwin(twin,group,field,value));		
 			}
 			acTwinService.deleteListAc_Twin(asociaciones);
 			twin.getAsociaciones_twin().removeAll(asociaciones);
@@ -194,13 +190,13 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		valueService.addListValores(newTwin.getValues());
 		
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
-		List<Ac_Twin> asociaciones = new ArrayList<Ac_Twin>();
+		List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
 		group = groupService.getGrupoByCodigo("básicos");
 		for(int i=0; i<newTwin.getAttributes().size();i++) {
 			Field field = fieldService.getCampoByCodigo(newTwin.getAttributes().get(i));
 			Value value = valueService.getValor(newTwin.getValues().get(i));
 			listGroupFields.add(new GroupField(group,field,value));
-			asociaciones.add(new Ac_Twin(twin,group,field,value));
+			asociaciones.add(new AssociationTwin(twin,group,field,value));
 		}								
 		groupFieldService.addListGrupo_Campo(listGroupFields);
 

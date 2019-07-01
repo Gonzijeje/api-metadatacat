@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.tfg.model.DigitalAsset;
-import com.tfg.pojos.AssetModel;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewAsset;
+import com.tfg.services.model.AssetModel;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewAsset;
 
 /**
  * 

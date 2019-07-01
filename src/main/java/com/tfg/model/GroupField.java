@@ -6,7 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
-import com.tfg.model.id.Grupo_Campo_Id;
+import com.tfg.model.id.GroupFieldId;
 
 /**
  * 
@@ -18,7 +18,7 @@ import com.tfg.model.id.Grupo_Campo_Id;
 public class GroupField {
 	
 	@EmbeddedId
-	Grupo_Campo_Id id;
+	GroupFieldId id;
 	
 	@ManyToOne
 	@MapsId("grupo_id")
@@ -37,7 +37,7 @@ public class GroupField {
 
 	public GroupField(Group grupo, Field campo, Value value) {
 		super();
-		this.id = new Grupo_Campo_Id(grupo.getId(), campo.getId(), value.getId());
+		this.id = new GroupFieldId(grupo.getId(), campo.getId(), value.getId());
 		this.grupo = grupo;
 		this.campo = campo;
 		this.valor = value;

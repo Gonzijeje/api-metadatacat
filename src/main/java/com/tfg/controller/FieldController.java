@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.adapters.FieldAdapter;
 import com.tfg.model.Field;
-import com.tfg.pojos.FieldModel;
-import com.tfg.pojos.NewField;
 import com.tfg.services.FieldService;
+import com.tfg.services.adapters.FieldAdapter;
+import com.tfg.services.model.FieldModel;
+import com.tfg.services.model.NewField;
 
 /**
  * 

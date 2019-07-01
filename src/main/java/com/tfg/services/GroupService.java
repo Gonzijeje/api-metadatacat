@@ -3,8 +3,8 @@ package com.tfg.services;
 import java.util.List;
 
 import com.tfg.model.Group;
-import com.tfg.pojos.GroupModel;
-import com.tfg.pojos.NewGroup;
+import com.tfg.services.model.GroupModel;
+import com.tfg.services.model.NewGroup;
 
 /**
  * 

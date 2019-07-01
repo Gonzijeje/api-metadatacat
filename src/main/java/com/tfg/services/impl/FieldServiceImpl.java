@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tfg.adapters.FieldAdapter;
-import com.tfg.dao.CampoRepository;
-import com.tfg.factory.ExceptionFactory;
-import com.tfg.factory.ExceptionFactory.Errors;
+import com.tfg.dao.FieldRepository;
+import com.tfg.exceptions.ExceptionFactory;
+import com.tfg.exceptions.ExceptionFactory.Errors;
 import com.tfg.model.Field;
-import com.tfg.pojos.FieldModel;
-import com.tfg.pojos.NewField;
 import com.tfg.services.FieldService;
+import com.tfg.services.adapters.FieldAdapter;
+import com.tfg.services.model.FieldModel;
+import com.tfg.services.model.NewField;
 
 /**
  * 
@@ -23,7 +23,7 @@ import com.tfg.services.FieldService;
 public class FieldServiceImpl implements FieldService{
 	
 	@Autowired
-	CampoRepository repository;
+	FieldRepository repository;
 	
 	@Override
 	public FieldModel add(Field field) {

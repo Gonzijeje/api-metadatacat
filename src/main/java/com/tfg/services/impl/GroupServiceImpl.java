@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tfg.adapters.GroupAdapter;
 import com.tfg.dao.GroupRepository;
-import com.tfg.factory.ExceptionFactory;
-import com.tfg.factory.ExceptionFactory.Errors;
+import com.tfg.exceptions.ExceptionFactory;
+import com.tfg.exceptions.ExceptionFactory.Errors;
 import com.tfg.model.Group;
-import com.tfg.pojos.GroupModel;
-import com.tfg.pojos.NewGroup;
 import com.tfg.services.GroupService;
+import com.tfg.services.adapters.GroupAdapter;
+import com.tfg.services.model.GroupModel;
+import com.tfg.services.model.NewGroup;
 
 /**
  * 

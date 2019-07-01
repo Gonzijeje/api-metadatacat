@@ -2,17 +2,6 @@ package com.tfg;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import com.tfg.azure.AzureStorageService;
-import com.tfg.esearch.Client;
-import com.tfg.esearch.Search;
-import com.tfg.services.CSVReader;
-import com.tfg.services.TXTReader;
 
 public class Test {
 
@@ -24,7 +13,7 @@ public class Test {
 //	private static Map<String,Map<String,Object>> upload = new HashMap<String,Map<String,Object>>();
 	
 //	private static AzureStorageService azStorage;
-	private static ContextManager cm = ContextManager.getInstance();
+//	private static ContextManager cm = ContextManager.getInstance();
 
 	
 	public static void main(String[] args) throws IOException, ParseException {

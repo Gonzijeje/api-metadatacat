@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.adapters.GroupAdapter;
 import com.tfg.model.Group;
-import com.tfg.pojos.GroupModel;
-import com.tfg.pojos.NewGroup;
 import com.tfg.services.GroupService;
+import com.tfg.services.adapters.GroupAdapter;
+import com.tfg.services.model.GroupModel;
+import com.tfg.services.model.NewGroup;
 
 /**
  * 

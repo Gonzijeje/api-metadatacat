@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -17,7 +19,15 @@ import javax.persistence.Table;
 public class DigitalAsset extends AbstractBasicoEntity{
 	
 	@OneToMany(mappedBy = "da")
-	Set<Ac_Asset> asociaciones_asset = new HashSet<>();
+	Set<AssociationAsset> asociaciones_asset = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name="assets_in")
+	DigitalTwin assets_in;
+	
+	@ManyToOne
+	@JoinColumn(name="assets_out")
+	DigitalTwin assets_out;
 		
 	
 	public DigitalAsset(String codigo, String descripcion) {
@@ -30,11 +40,11 @@ public class DigitalAsset extends AbstractBasicoEntity{
 		
 	}
 
-	public Set<Ac_Asset> getAsociaciones_asset() {
+	public Set<AssociationAsset> getAsociaciones_asset() {
 		return asociaciones_asset;
 	}
 
-	public void setAsociaciones_asset(Set<Ac_Asset> asociaciones_asset) {
+	public void setAsociaciones_asset(Set<AssociationAsset> asociaciones_asset) {
 		this.asociaciones_asset = asociaciones_asset;
 	}
 

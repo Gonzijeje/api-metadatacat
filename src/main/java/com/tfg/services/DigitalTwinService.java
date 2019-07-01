@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.tfg.model.DigitalTwin;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewTwin;
-import com.tfg.pojos.TwinModel;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewTwin;
+import com.tfg.services.model.TwinModel;
 
 /**
  * 

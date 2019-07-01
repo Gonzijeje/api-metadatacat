@@ -14,42 +14,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tfg.esearch.Search;
 import com.tfg.model.DigitalAsset;
-import com.tfg.pojos.AssetModel;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewAsset;
-import com.tfg.services.Ac_AssetService;
-import com.tfg.services.FieldService;
 import com.tfg.services.DigitalAssetService;
-import com.tfg.services.GroupService;
-import com.tfg.services.GroupFieldService;
-import com.tfg.services.ValueService;
+import com.tfg.services.model.AssetModel;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewAsset;
 
 @RestController
 @RequestMapping(value = "/assets")
 public class DigitalAssetController {
 
 	@Autowired
-	DigitalAssetService assetService;
-	
-	@Autowired
-	FieldService fieldService;
-	
-	@Autowired
-	GroupService groupService;
-	
-	@Autowired
-	ValueService valorService;
-	
-	@Autowired
-	GroupFieldService grupoCampoService;
-	
-	@Autowired
-	Ac_AssetService acAssetService;
-	
-	@Autowired
-	Search esSearch;
+	DigitalAssetService assetService;	
 	
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)

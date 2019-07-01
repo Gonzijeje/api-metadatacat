@@ -7,27 +7,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tfg.adapters.DigitalAssetAdapter;
 import com.tfg.dao.DigitalAssetRepository;
-import com.tfg.dao.impl.DigitalAssetRepositoryImpl;
-import com.tfg.factory.ExceptionFactory;
-import com.tfg.factory.ExceptionFactory.Errors;
-import com.tfg.model.Ac_Asset;
+import com.tfg.dao.factory.EntityManagerLoader;
+import com.tfg.exceptions.ExceptionFactory;
+import com.tfg.exceptions.ExceptionFactory.Errors;
+import com.tfg.model.AssociationAsset;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.Field;
 import com.tfg.model.Group;
 import com.tfg.model.GroupField;
 import com.tfg.model.Value;
-import com.tfg.pojos.AssetModel;
-import com.tfg.pojos.FieldValueModel;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewAsset;
-import com.tfg.services.Ac_AssetService;
+import com.tfg.services.AssociationAssetService;
 import com.tfg.services.DigitalAssetService;
 import com.tfg.services.FieldService;
 import com.tfg.services.GroupService;
 import com.tfg.services.GroupFieldService;
 import com.tfg.services.ValueService;
+import com.tfg.services.adapters.DigitalAssetAdapter;
+import com.tfg.services.model.AssetModel;
+import com.tfg.services.model.FieldValueModel;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewAsset;
 
 /**
  * 
@@ -54,9 +54,9 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	GroupFieldService groupFieldService;
 	
 	@Autowired
-	Ac_AssetService acAssetService;
+	AssociationAssetService acAssetService;
 	
-	DigitalAssetRepositoryImpl repositoryEM = new DigitalAssetRepositoryImpl();
+	EntityManagerLoader repositoryEM = new EntityManagerLoader();
 	
 	
 	@Override
@@ -127,13 +127,13 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		valueService.addListValores(newAsset.getValues());
 		
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
-		List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+		List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
 		group = groupService.getGrupoByCodigo("básicos");
 		for(int i=0; i<newAsset.getAttributes().size();i++) {
 			Field field = fieldService.getCampoByCodigo(newAsset.getAttributes().get(i));
 			Value value = valueService.getValor(newAsset.getValues().get(i));
 			listGroupFields.add(new GroupField(group,field,value));
-			asociaciones.add(new Ac_Asset(asset,group,field,value));
+			asociaciones.add(new AssociationAsset(asset,group,field,value));
 		}								
 		groupFieldService.addListGrupo_Campo(listGroupFields);
 
@@ -154,7 +154,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			valueService.addListValores(model.getValues());
 			
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
-			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+			List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
 			group = groupService.getGrupoByCodigo(model.getGroupCode());
 			System.out.println("GRUPO: "+group.getCodigo()+group.getId());
 			for(FieldValueModel fv : model.getFields()) {
@@ -163,7 +163,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 				Value value = valueService.getValor(fv.getValue());
 				System.out.println("VALOR: "+value.getId());
 				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new Ac_Asset(asset,group,field,value));
+				asociaciones.add(new AssociationAsset(asset,group,field,value));
 			}								
 			groupFieldService.addListGrupo_Campo(listGroupFields);
 			acAssetService.addListAc_Asset(asociaciones);
@@ -178,12 +178,12 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		for(GroupFieldModel model : models) {
 			Group group = groupService.getGrupoByCodigo(model.getGroupCode());
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
-			List<Ac_Asset> asociaciones = new ArrayList<Ac_Asset>();
+			List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
 			for(FieldValueModel fv : model.getFields()) {
 				Field field = fieldService.getCampoByCodigo(fv.getCode());
 				Value value = valueService.getValor(fv.getValue());
 				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new Ac_Asset(asset,group,field,value));		
+				asociaciones.add(new AssociationAsset(asset,group,field,value));		
 			}
 			acAssetService.deleteListAc_Asset(asociaciones);
 			asset.getAsociaciones_asset().removeAll(asociaciones);

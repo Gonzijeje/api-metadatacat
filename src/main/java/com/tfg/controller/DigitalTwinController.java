@@ -16,15 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tfg.model.DigitalTwin;
-import com.tfg.pojos.GroupFieldModel;
-import com.tfg.pojos.NewTwin;
-import com.tfg.pojos.TwinModel;
-import com.tfg.services.Ac_TwinService;
-import com.tfg.services.FieldService;
 import com.tfg.services.DigitalTwinService;
-import com.tfg.services.GroupService;
-import com.tfg.services.GroupFieldService;
-import com.tfg.services.ValueService;
+import com.tfg.services.model.GroupFieldModel;
+import com.tfg.services.model.NewTwin;
+import com.tfg.services.model.TwinModel;
 
 @RestController
 @RequestMapping(value = "/twins")
@@ -32,21 +27,6 @@ public class DigitalTwinController {
 	
 	@Autowired
 	DigitalTwinService twinService;
-	
-	@Autowired
-	FieldService campoService;
-	
-	@Autowired
-	GroupService grupoService;
-	
-	@Autowired
-	ValueService valorService;
-	
-	@Autowired
-	GroupFieldService grupoCampoService;
-	
-	@Autowired
-	Ac_TwinService acTwinService;
 	
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
