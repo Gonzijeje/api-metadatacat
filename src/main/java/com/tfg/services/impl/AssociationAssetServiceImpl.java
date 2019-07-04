@@ -31,7 +31,7 @@ public class AssociationAssetServiceImpl implements AssociationAssetService{
 	}
 
 	@Override
-	public void addListAc_Asset(List<AssociationAsset> asociaciones) {
+	public void addListAssociationsAsset(List<AssociationAsset> asociaciones) {
 		List<AssociationAsset> lista = new ArrayList<AssociationAsset>();
 		Optional<AssociationAsset> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
@@ -44,7 +44,7 @@ public class AssociationAssetServiceImpl implements AssociationAssetService{
 	}
 
 	@Override
-	public void deleteListAc_Asset(List<AssociationAsset> asociaciones) {
+	public void deleteListAssociationsAsset(List<AssociationAsset> asociaciones) {
 		List<AssociationAsset> lista = new ArrayList<AssociationAsset>();
 		Optional<AssociationAsset> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {

@@ -13,8 +13,8 @@ public interface AssociationTwinService {
 	
 	void add(AssociationTwin ac);
 	
-	void addListAc_Twin(List<AssociationTwin> asociaciones);
+	void addListAssociationsTwin(List<AssociationTwin> asociaciones);
 	
-	void deleteListAc_Twin(List<AssociationTwin> asociaciones);
+	void deleteListAssociationsTwin(List<AssociationTwin> asociaciones);
 
 }

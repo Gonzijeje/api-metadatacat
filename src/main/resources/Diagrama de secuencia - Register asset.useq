@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.3" icons="false" generate-combined-fragments="true">  
+  <object id="1" language="java" name="com.tfg.controller.DigitalAssetController" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/controller/DigitalAssetController.java" binary="false" 
+    label="digitalAssetController" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="128" y="0"/>    
+    <execution id="2">      
+      <position height="1089" width="131" x="5" y="80"/>    
+    </execution>    
+    <execution id="4">      
+      <position height="1026" width="131" x="5" y="122"/>    
+    </execution>  
+  </object>  
+  <object id="13" language="java" name="com.tfg.services.impl.DigitalAssetServiceImpl" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/impl/DigitalAssetServiceImpl.java" binary="false" 
+    label="digitalAssetServiceImpl" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="572" y="0"/>    
+    <execution id="6">      
+      <position height="63" width="142" x="515" y="163"/>    
+    </execution>    
+    <execution id="8">      
+      <position height="629" width="142" x="515" y="224"/>    
+    </execution>    
+    <execution id="10">      
+      <position height="238" width="142" x="515" y="871"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="493" width="0" x="0" y="339"/>    
+    </execution>  
+  </object>  
+  <object id="46" language="java" name="com.tfg.services.FieldService" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/FieldService.java" binary="false" label="fieldService" 
+    type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="27">      
+      <position height="21" width="0" x="0" y="398"/>    
+    </execution>    
+    <execution id="35">      
+      <position height="21" width="0" x="0" y="598"/>    
+    </execution>  
+  </object>  
+  <object id="47" language="java" name="com.tfg.services.GroupService" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/GroupService.java" binary="false" label="groupService" 
+    type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="29">      
+      <position height="21" width="0" x="0" y="442"/>    
+    </execution>    
+    <execution id="33">      
+      <position height="21" width="0" x="0" y="530"/>    
+    </execution>  
+  </object>  
+  <object id="48" language="java" name="com.tfg.services.ValueService" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/ValueService.java" binary="false" label="valueService" 
+    type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="31">      
+      <position height="21" width="0" x="0" y="494"/>    
+    </execution>    
+    <execution id="37">      
+      <position height="21" width="0" x="0" y="640"/>    
+    </execution>  
+  </object>  
+  <object id="49" language="java" name="com.tfg.model.GroupField" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/model/GroupField.java" binary="false" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="39">      
+      <position height="21" width="0" x="0" y="674"/>    
+    </execution>  
+  </object>  
+  <object id="50" language="java" name="com.tfg.model.AssociationAsset" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/model/AssociationAsset.java" binary="false" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="41">      
+      <position height="21" width="0" x="0" y="709"/>    
+    </execution>  
+  </object>  
+  <object id="51" language="java" name="com.tfg.services.GroupFieldService" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/GroupFieldService.java" binary="false" 
+    label="groupFieldService" type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="43">      
+      <position height="21" width="0" x="0" y="763"/>    
+    </execution>  
+  </object>  
+  <object id="52" language="java" name="com.tfg.services.AssociationAssetService" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/AssociationAssetService.java" binary="false" 
+    label="acAssetService" type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="45">      
+      <position height="21" width="0" x="0" y="790"/>    
+    </execution>  
+  </object>  
+  <object id="53" language="java" name="org.springframework.data.repository.CrudRepository" project="tfg-rest-service" 
+    file="C:/Users/gcollada/.m2/repository/org/springframework/data/spring-data-commons/2.1.5.RELEASE/spring-data-commons-2.1.5.RELEASE.jar" 
+    binary="true" label="repository" type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="17">      
+      <position height="21" width="0" x="0" y="290"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="21" width="0" x="0" y="892"/>    
+    </execution>  
+  </object>  
+  <object id="54" language="java" name="com.tfg.services.adapters.DigitalAssetAdapter" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/adapters/DigitalAssetAdapter.java" binary="false" 
+    label="&lt;static&gt;" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="15">      
+      <position height="21" width="0" x="0" y="184"/>    
+    </execution>    
+    <execution id="25">      
+      <position height="21" width="0" x="0" y="370"/>    
+    </execution>    
+    <execution id="23">      
+      <position height="141" width="0" x="0" y="947"/>    
+    </execution>    
+    <execution id="60">      
+      <position height="21" width="0" x="0" y="1046"/>    
+    </execution>  
+  </object>  
+  <object id="61" language="java" name="com.tfg.services.model.AssetModel" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/model/AssetModel.java" binary="false" label="model" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="56">      
+      <position height="21" width="0" x="0" y="968"/>    
+    </execution>    
+    <execution id="58">      
+      <position height="21" width="0" x="0" y="991"/>    
+    </execution>  
+  </object>  
+  <object id="62" language="java" name="org.springframework.http.ResponseEntity" project="tfg-rest-service" 
+    file="C:/Users/gcollada/.m2/repository/org/springframework/spring-web/5.1.5.RELEASE/spring-web-5.1.5.RELEASE.jar" 
+    binary="true" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="12">      
+      <position height="21" width="0" x="0" y="1106"/>    
+    </execution>  
+  </object>  
+  <combined-fragment id="63" interaction-operator="ALT">    
+    <interaction-operand id="64" constraint="else"/>  
+  </combined-fragment>  
+  <combined-fragment id="65" interaction-operator="ALT">    
+    <interaction-operand id="66" constraint="repository.findByCodigo(asset.getCodigo())==null">      
+      <fragment refId="28"/>      
+      <fragment refId="16"/>      
+      <fragment refId="32"/>      
+      <fragment refId="44"/>      
+      <fragment refId="67"/>      
+      <fragment refId="30"/>      
+      <fragment refId="24"/>      
+      <fragment refId="18"/>      
+      <fragment refId="26"/>      
+      <fragment refId="42"/>    
+    </interaction-operand>    
+    <interaction-operand id="68" constraint="else"/>    
+    <combined-fragment id="67" interaction-operator="LOOP">      
+      <interaction-operand id="69" constraint="for:i&lt;newAsset.getAttributes().size()">        
+        <fragment refId="36"/>        
+        <fragment refId="38"/>        
+        <fragment refId="40"/>        
+        <fragment refId="34"/>      
+      </interaction-operand>    
+    </combined-fragment>  
+  </combined-fragment>  
+  <combined-fragment id="70" interaction-operator="ALT">    
+    <interaction-operand id="71" constraint="asset!=null">      
+      <fragment refId="55"/>      
+      <fragment refId="22"/>      
+      <fragment refId="57"/>      
+      <fragment refId="59"/>    
+    </interaction-operand>    
+    <interaction-operand id="72" constraint="else"/>  
+  </combined-fragment>  
+  <message id="3" 
+    operation="registerDigitalAsset(com.tfg.services.model.NewAsset):org.springframework.http.ResponseEntity&lt;AssetModel&gt;" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" operation="create(com.tfg.services.model.NewAsset):com.tfg.model.DigitalAsset" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="7" operation="add(com.tfg.services.model.NewAsset,com.tfg.model.DigitalAsset):void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="8"/>  
+  </message>  
+  <message id="9" operation="findByCodigo(java.lang.String):com.tfg.services.model.AssetModel" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>  
+  <message id="11" operation="ResponseEntity(T,org.springframework.http.HttpStatus)" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="12"/>  
+  </message>  
+  <message id="14" operation="getAssetEntity(com.tfg.services.model.NewAsset):com.tfg.model.DigitalAsset" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>  
+  <message id="16" operation="save(S):S" asynchronous="false">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="18" 
+    operation="addGroupFieldsValuesAssociated(com.tfg.services.model.NewAsset,com.tfg.model.DigitalAsset):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>  
+  <message id="20" operation="findByCodigo(java.lang.String):com.tfg.model.DigitalAsset" asynchronous="false">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="22" operation="getDigitalAssetModel(com.tfg.model.DigitalAsset):com.tfg.services.model.AssetModel" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="23"/>  
+  </message>  
+  <message id="24" operation="getFieldsAssociatedToAsset(com.tfg.services.model.NewAsset):java.util.List&lt;Field&gt;" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="25"/>  
+  </message>  
+  <message id="26" operation="addListFields(java.util.List&lt;com.tfg.model.Field&gt;):void" asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="27"/>  
+  </message>  
+  <message id="28" operation="addListGroups(java.util.List&lt;com.tfg.model.Group&gt;):void" asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="29"/>  
+  </message>  
+  <message id="30" operation="addListValores(java.util.List&lt;java.lang.String&gt;):java.lang.Iterable&lt;Value&gt;" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="31"/>  
+  </message>  
+  <message id="32" operation="getGroupByCode(java.lang.String):com.tfg.model.Group" asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="33"/>  
+  </message>  
+  <message id="34" operation="getFieldByCode(java.lang.String):com.tfg.model.Field" asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="35"/>  
+  </message>  
+  <message id="36" operation="getValor(java.lang.String):com.tfg.model.Value" asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="37"/>  
+  </message>  
+  <message id="38" operation="GroupField(com.tfg.model.Group,com.tfg.model.Field,com.tfg.model.Value)" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="39"/>  
+  </message>  
+  <message id="40" 
+    operation="AssociationAsset(com.tfg.model.DigitalAsset,com.tfg.model.Group,com.tfg.model.Field,com.tfg.model.Value)" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="41"/>  
+  </message>  
+  <message id="42" operation="addListGroupFields(java.util.List&lt;com.tfg.model.GroupField&gt;):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="43"/>  
+  </message>  
+  <message id="44" operation="addListAssociationsAsset(java.util.List&lt;com.tfg.model.AssociationAsset&gt;):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="45"/>  
+  </message>  
+  <message id="55" operation="AssetModel()" asynchronous="false">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="56"/>  
+  </message>  
+  <message id="57" operation="setGrupos(java.util.List&lt;com.tfg.services.model.GroupFieldModel&gt;):void" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="58"/>  
+  </message>  
+  <message id="59" operation="getCaca(com.tfg.model.DigitalAsset):java.util.List&lt;GroupFieldModel&gt;" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="60"/>  
+  </message>
+</sequence-diagram>

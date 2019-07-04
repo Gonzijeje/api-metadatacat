@@ -120,19 +120,19 @@ public class CSVReader {
 		List<Group> listGroups = new ArrayList<Group>();
 		Group group = new Group("CSV_basics", "Basic metadata associated to CSV files");
 		listGroups.add(group);
-		groupService.addListGrupos(listGroups);
+		groupService.addListGroups(listGroups);
 		List<String> listFields = new ArrayList<String>();
 		listFields.addAll(map.keySet().stream().map(entry -> "csv_column_"+entry.name).collect(Collectors.toList()));
 		listFields.addAll(map.keySet().stream().map(entry -> "csv_column_"+entry.name+"_type").collect(Collectors.toList()));
 		listFields.add("nColumns");
 		listFields.add("nRows");
-		fieldService.addListCamposCodes(listFields);
+		fieldService.addListFieldsCodes(listFields);
 		List<String> listValues = new ArrayList<String>();
 		listValues.add(String.valueOf(nCol));
 		listValues.add(String.valueOf(nRow));
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
-		group = groupService.getGrupoByCodigo("CSV_basics");
+		group = groupService.getGroupByCode("CSV_basics");
 		for(Key key: map.keySet()) {
 			listValues.add(map.get(key).stream().map(Object::toString).collect(Collectors.joining(";")));		
 			Type t = key.type=Type.valueOf(getType(map.get(key).get(0)));
@@ -140,13 +140,13 @@ public class CSVReader {
 		}
 		valueService.addListValores(listValues);
 		for(Key key: map.keySet()) {
-			Field field = fieldService.getCampoByCodigo("csv_column_"+key.name);
+			Field field = fieldService.getFieldByCode("csv_column_"+key.name);
 			Value value = valueService.getValor(map.get(key).stream().map(Object::toString).collect(Collectors.joining(";")));
 			listGroupFields.add(new GroupField(group,field,value));
 			asociaciones.add(new AssociationAsset(asset,group,field,value));
 		}
-		groupFieldService.addListGrupo_Campo(listGroupFields);
-		ac_assetService.addListAc_Asset(asociaciones);
+		groupFieldService.addListGroupFields(listGroupFields);
+		ac_assetService.addListAssociationsAsset(asociaciones);
 		asset.getAsociaciones_asset().addAll(asociaciones);
 	}
 	

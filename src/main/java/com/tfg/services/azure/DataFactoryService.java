@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -66,7 +67,13 @@ public class DataFactoryService {
 		HttpGet httpget = new HttpGet(URL);
 
 		httpget.setHeader("Authorization", "Bearer "+session.getAttribute("bearer_token"));
-		HttpResponse response = cm.getHttpClient().execute(httpget);
+		HttpResponse response;
+		try {
+			response = cm.getHttpClient().execute(httpget);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String body = EntityUtils.toString(response.getEntity());
 		JSONObject myObject = new JSONObject(body);
 		

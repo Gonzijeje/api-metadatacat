@@ -17,16 +17,16 @@ public interface GroupService {
 	
 	GroupModel update(String code, Group group);
 	
-	Group create(NewGroup payload);
+	Group create(NewGroup newGroup);
 	
-	void delete(String codigo);
+	void delete(String code);
 	
-	Group getGrupoByCodigo(String nombre);
+	Group getGroupByCode(String code);
 	
-	List<GroupModel> getGrupos();
+	List<GroupModel> getGroups();
 	
-	void addListGrupos(List<Group> grupos);
+	void addListGroups(List<Group> groups);
 	
-	boolean checkListGrupos(List<String> grupos);
+	boolean checkListGroups(List<String> groups);
 
 }

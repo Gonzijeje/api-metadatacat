@@ -37,7 +37,7 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 
 
 	@Override
-	public void addListGrupo_Campo(List<GroupField> grcampos) {
+	public void addListGroupFields(List<GroupField> grcampos) {
 		List<GroupField> lista = new ArrayList<GroupField>();
 		Optional<GroupField> opt = Optional.empty();
 		grcampos.forEach((gr)-> {
@@ -50,7 +50,7 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 	}
 	
 	@Override
-	public void deleteListGrupo_Campo(List<GroupField> grcampos) {
+	public void deleteListGroupFields(List<GroupField> grcampos) {
 		List<GroupField> lista = new ArrayList<GroupField>();
 		Optional<GroupField> opt = Optional.empty();
 		grcampos.forEach((gr)-> {

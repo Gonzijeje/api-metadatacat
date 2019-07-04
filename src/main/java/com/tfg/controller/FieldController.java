@@ -48,13 +48,13 @@ public class FieldController {
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FieldModel> getFieldByCode(@PathVariable String code) {
-		FieldModel model = FieldAdapter.getFieldModel(fieldService.getCampoByCodigo(code));
+		FieldModel model = FieldAdapter.getFieldModel(fieldService.getFieldByCode(code));
 		return new ResponseEntity<FieldModel>(model, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<FieldModel>> listFields(){
-		List<FieldModel> listModels = fieldService.getCampos();
+		List<FieldModel> listModels = fieldService.getFields();
 		return new ResponseEntity<List<FieldModel>>(listModels, HttpStatus.OK);
     }
 	

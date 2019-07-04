@@ -21,12 +21,12 @@ public interface FieldService {
 	
 	void delete(String codigo);
 	
-	Field getCampoByCodigo(String nombre);
+	Field getFieldByCode(String code);
 	
-	List<FieldModel> getCampos();
+	List<FieldModel> getFields();
 	
-	void addListCampos(List<Field> campos);
+	void addListFields(List<Field> campos);
 
-	void addListCamposCodes(List<String> fieldCodes);
+	void addListFieldsCodes(List<String> fieldCodes);
 	
 }

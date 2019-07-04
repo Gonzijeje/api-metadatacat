@@ -31,7 +31,7 @@ public class AssociationTwinServiceImpl implements AssociationTwinService{
 	}
 
 	@Override
-	public void addListAc_Twin(List<AssociationTwin> asociaciones) {
+	public void addListAssociationsTwin(List<AssociationTwin> asociaciones) {
 		List<AssociationTwin> lista = new ArrayList<AssociationTwin>();
 		Optional<AssociationTwin> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
@@ -44,7 +44,7 @@ public class AssociationTwinServiceImpl implements AssociationTwinService{
 	}
 	
 	@Override
-	public void deleteListAc_Twin(List<AssociationTwin> asociaciones) {
+	public void deleteListAssociationsTwin(List<AssociationTwin> asociaciones) {
 		List<AssociationTwin> lista = new ArrayList<AssociationTwin>();
 		Optional<AssociationTwin> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {

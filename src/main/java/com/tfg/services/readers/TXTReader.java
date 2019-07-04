@@ -87,20 +87,20 @@ public class TXTReader {
 		List<Group> listGroups = new ArrayList<Group>();
 		Group group = new Group("TXT_basics", "Basic metadata associated to TXT files");
 		listGroups.add(group);
-		groupService.addListGrupos(listGroups);
-		fieldService.addListCamposCodes(getFieldsMetadata());
+		groupService.addListGroups(listGroups);
+		fieldService.addListFieldsCodes(getFieldsMetadata());
 		valueService.addListValores(getValuesMetadata());
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
-		group = groupService.getGrupoByCodigo("TXT_basics");
+		group = groupService.getGroupByCode("TXT_basics");
 		for(String key: map.keySet()) {
-			Field field = fieldService.getCampoByCodigo(key);
+			Field field = fieldService.getFieldByCode(key);
 			Value value = valueService.getValor(map.get(key).toString());
 			listGroupFields.add(new GroupField(group,field,value));
 			asociaciones.add(new AssociationAsset(asset,group,field,value));
 		}
-		groupFieldService.addListGrupo_Campo(listGroupFields);
-		ac_assetService.addListAc_Asset(asociaciones);
+		groupFieldService.addListGroupFields(listGroupFields);
+		ac_assetService.addListAssociationsAsset(asociaciones);
 		asset.getAsociaciones_asset().addAll(asociaciones);	
 	}
 	

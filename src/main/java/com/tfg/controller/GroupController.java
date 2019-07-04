@@ -50,13 +50,13 @@ public class GroupController {
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<GroupModel> getGroupByCode(@PathVariable String code) {
-		GroupModel model = GroupAdapter.getGroupModel(groupService.getGrupoByCodigo(code));
+		GroupModel model = GroupAdapter.getGroupModel(groupService.getGroupByCode(code));
 		return new ResponseEntity<GroupModel>(model, HttpStatus.OK);	
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<GroupModel>> listGroups(){
-		List<GroupModel> listModels = groupService.getGrupos();
+		List<GroupModel> listModels = groupService.getGroups();
 		return new ResponseEntity<List<GroupModel>>(listModels, HttpStatus.OK);
 	}
 

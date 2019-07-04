@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.3" icons="false" generate-combined-fragments="true">  
+  <object id="1" language="java" name="com.tfg.controller.FieldController" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/controller/FieldController.java" binary="false" 
+    label="fieldController" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="146" y="0"/>    
+    <execution id="2">      
+      <position height="401" width="89" x="5" y="80"/>    
+    </execution>    
+    <execution id="4">      
+      <position height="338" width="89" x="5" y="122"/>    
+    </execution>    
+    <execution id="7">      
+      <position height="274" width="89" x="5" y="142"/>    
+    </execution>  
+  </object>  
+  <object id="12" language="java" name="com.tfg.services.impl.FieldServiceImpl" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/impl/FieldServiceImpl.java" binary="false" 
+    label="fieldServiceImpl" type="class" autoSize="true">    
+    <position height="-1" width="-1" x="205" y="0"/>    
+    <execution id="9">      
+      <position height="63" width="100" x="98" y="163"/>    
+    </execution>    
+    <execution id="11">      
+      <position height="148" width="100" x="98" y="247"/>    
+    </execution>  
+  </object>  
+  <object id="19" language="java" name="org.springframework.data.repository.CrudRepository" project="tfg-rest-service" 
+    file="C:/Users/gcollada/.m2/repository/org/springframework/data/spring-data-commons/2.1.5.RELEASE/spring-data-commons-2.1.5.RELEASE.jar" 
+    binary="true" label="repository" type="interface" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="16">      
+      <position height="21" width="0" x="0" y="311"/>    
+    </execution>  
+  </object>  
+  <object id="20" language="java" name="com.tfg.services.adapters.FieldAdapter" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/services/adapters/FieldAdapter.java" binary="false" 
+    label="&lt;static&gt;" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="14">      
+      <position height="21" width="0" x="0" y="184"/>    
+    </execution>    
+    <execution id="18">      
+      <position height="21" width="0" x="0" y="353"/>    
+    </execution>  
+  </object>  
+  <object id="21" language="java" name="org.springframework.http.ResponseEntity" project="tfg-rest-service" 
+    file="C:/Users/gcollada/.m2/repository/org/springframework/spring-web/5.1.5.RELEASE/spring-web-5.1.5.RELEASE.jar" 
+    binary="true" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="6">      
+      <position height="21" width="0" x="0" y="418"/>    
+    </execution>  
+  </object>  
+  <combined-fragment id="22" interaction-operator="ALT">    
+    <interaction-operand id="23" constraint="repository.findByCodigo(field.getCodigo())==null">      
+      <fragment refId="17"/>      
+      <fragment refId="15"/>    
+    </interaction-operand>    
+    <interaction-operand id="24" constraint="else"/>  
+  </combined-fragment>  
+  <message id="3" 
+    operation="registerField(com.tfg.services.model.NewField):org.springframework.http.ResponseEntity&lt;FieldModel&gt;" 
+    asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" operation="ResponseEntity(T,org.springframework.http.HttpStatus)" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="8" operation="create(com.tfg.services.model.NewField):com.tfg.model.Field" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="add(com.tfg.model.Field):com.tfg.services.model.FieldModel" asynchronous="false">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="13" operation="getFieldEntity(com.tfg.services.model.NewField):com.tfg.model.Field" asynchronous="false">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="14"/>  
+  </message>  
+  <message id="15" operation="save(S):S" asynchronous="false">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="16"/>  
+  </message>  
+  <message id="17" operation="getFieldModel(com.tfg.model.Field):com.tfg.services.model.FieldModel" asynchronous="false">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>
+</sequence-diagram>

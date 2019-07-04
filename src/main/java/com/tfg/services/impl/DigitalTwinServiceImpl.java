@@ -137,24 +137,24 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 			List<Group> listGroups = new ArrayList<Group>();
 			Group group = new Group(model.getGroupCode(),null);
 			listGroups.add(group);
-			groupService.addListGrupos(listGroups);
-			fieldService.addListCamposCodes(model.getFieldCodes());
+			groupService.addListGroups(listGroups);
+			fieldService.addListFieldsCodes(model.getFieldCodes());
 			valueService.addListValores(model.getValues());
 			
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
 			List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
-			group = groupService.getGrupoByCodigo(model.getGroupCode());
+			group = groupService.getGroupByCode(model.getGroupCode());
 			System.out.println("GRUPO: "+group.getCodigo()+group.getId());
 			for(FieldValueModel fv : model.getFields()) {
-				Field field = fieldService.getCampoByCodigo(fv.getCode());
+				Field field = fieldService.getFieldByCode(fv.getCode());
 				System.out.println("CAMPO: "+field.getCodigo()+field.getId());
 				Value value = valueService.getValor(fv.getValue());
 				System.out.println("VALOR: "+value.getId());
 				listGroupFields.add(new GroupField(group,field,value));
 				asociaciones.add(new AssociationTwin(twin,group,field,value));
 			}								
-			groupFieldService.addListGrupo_Campo(listGroupFields);
-			acTwinService.addListAc_Twin(asociaciones);
+			groupFieldService.addListGroupFields(listGroupFields);
+			acTwinService.addListAssociationsTwin(asociaciones);
 			twin.getAsociaciones_twin().addAll(asociaciones);
 		}
 	}
@@ -163,44 +163,44 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	public void deleteMetadata(List<GroupFieldModel> models, String code) {
 		DigitalTwin twin =  DigitalTwinAdapter.getTwinEntity(findByCodigo(code));
 		for(GroupFieldModel model : models) {
-			Group group = groupService.getGrupoByCodigo(model.getGroupCode());
+			Group group = groupService.getGroupByCode(model.getGroupCode());
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
 			List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
 			for(FieldValueModel fv : model.getFields()) {
-				Field field = fieldService.getCampoByCodigo(fv.getCode());
+				Field field = fieldService.getFieldByCode(fv.getCode());
 				Value value = valueService.getValor(fv.getValue());
 				listGroupFields.add(new GroupField(group,field,value));
 				asociaciones.add(new AssociationTwin(twin,group,field,value));		
 			}
-			acTwinService.deleteListAc_Twin(asociaciones);
+			acTwinService.deleteListAssociationsTwin(asociaciones);
 			twin.getAsociaciones_twin().removeAll(asociaciones);
-			groupFieldService.deleteListGrupo_Campo(listGroupFields);			
+			groupFieldService.deleteListGroupFields(listGroupFields);			
 		}
 	}
 	
 	private void addGroupFieldsValuesAssociated(NewTwin newTwin, DigitalTwin twin) {
 		List<Field> listFields = DigitalTwinAdapter.getFieldsAssociatedToTwin(newTwin);
-		fieldService.addListCampos(listFields);
+		fieldService.addListFields(listFields);
 		
 		List<Group> listGroups = new ArrayList<Group>();
 		Group group = new Group("básicos", "Grupo de metadatos básicos");
 		listGroups.add(group);
-		groupService.addListGrupos(listGroups);
+		groupService.addListGroups(listGroups);
 		
 		valueService.addListValores(newTwin.getValues());
 		
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
-		group = groupService.getGrupoByCodigo("básicos");
+		group = groupService.getGroupByCode("básicos");
 		for(int i=0; i<newTwin.getAttributes().size();i++) {
-			Field field = fieldService.getCampoByCodigo(newTwin.getAttributes().get(i));
+			Field field = fieldService.getFieldByCode(newTwin.getAttributes().get(i));
 			Value value = valueService.getValor(newTwin.getValues().get(i));
 			listGroupFields.add(new GroupField(group,field,value));
 			asociaciones.add(new AssociationTwin(twin,group,field,value));
 		}								
-		groupFieldService.addListGrupo_Campo(listGroupFields);
+		groupFieldService.addListGroupFields(listGroupFields);
 
-		acTwinService.addListAc_Twin(asociaciones);
+		acTwinService.addListAssociationsTwin(asociaciones);
 		twin.getAsociaciones_twin().addAll(asociaciones);
 		addDigitalAssetsAssociated(newTwin,twin);
 		System.out.println("SET: "+twin.getAsociaciones_twin());

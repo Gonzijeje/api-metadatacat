@@ -62,7 +62,7 @@ public class FieldServiceImpl implements FieldService{
 	}
 
 	@Override
-	public Field getCampoByCodigo(String nombre) {
+	public Field getFieldByCode(String nombre) {
 		Field field = repository.findByCodigo(nombre);
 		if(field!=null) {
 			return field;
@@ -73,13 +73,13 @@ public class FieldServiceImpl implements FieldService{
 	}
 
 	@Override
-	public List<FieldModel> getCampos() {
+	public List<FieldModel> getFields() {
 		List<FieldModel> models = new ArrayList<FieldModel>(
 				FieldAdapter.getFieldModel(repository.findAll()));
 		return models;
 	}
 
-	public void addListCampos(List<Field> campos) {
+	public void addListFields(List<Field> campos) {
 		List<Field> lista = new ArrayList<Field>();
 		campos.forEach((campo)-> {
 			if(repository.findByCodigo(campo.getCodigo())==null) {
@@ -95,7 +95,7 @@ public class FieldServiceImpl implements FieldService{
 	}
 
 	@Override
-	public void addListCamposCodes(List<String> fieldCodes) {
+	public void addListFieldsCodes(List<String> fieldCodes) {
 		List<Field> lista = new ArrayList<Field>();
 		fieldCodes.forEach((field)-> {
 			if(repository.findByCodigo(field)==null)

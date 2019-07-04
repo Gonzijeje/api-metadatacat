@@ -14,9 +14,9 @@ public interface GroupFieldService {
 	
 	void add(GroupField gc);
 	
-	void addListGrupo_Campo(List<GroupField> grcampos);
+	void addListGroupFields(List<GroupField> groupFields);
 	
-	void deleteListGrupo_Campo(List<GroupField> grcampos);
+	void deleteListGroupFields(List<GroupField> groupFields);
 	
 	List<FieldValueModel> getFieldsAndValuesByGroup(String groupCode, String assetCode);
 

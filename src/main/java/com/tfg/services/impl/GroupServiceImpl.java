@@ -62,7 +62,7 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public Group getGrupoByCodigo(String nombre) {
+	public Group getGroupByCode(String nombre) {
 		Group group = repository.findByCodigo(nombre);
 		if(group!=null) {
 			return group;
@@ -73,14 +73,14 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public List<GroupModel> getGrupos() {
+	public List<GroupModel> getGroups() {
 		List<GroupModel> models = new ArrayList<GroupModel>(
 				GroupAdapter.getGroupModel(repository.findAll()));
 		return models;
 	}
 	
 	@Override
-	public void addListGrupos(List<Group> grupos) {
+	public void addListGroups(List<Group> grupos) {
 		List<Group> lista = new ArrayList<Group>();
 		grupos.forEach((grupo)-> {
 			if(repository.findByCodigo(grupo.getCodigo()) == null) {
@@ -96,7 +96,7 @@ public class GroupServiceImpl implements GroupService{
 	}
 
 	@Override
-	public boolean checkListGrupos(List<String> grupos) {
+	public boolean checkListGroups(List<String> grupos) {
 		return (grupos.stream().noneMatch((grupo)-> repository.findByCodigo(grupo) == null));	
 	}
 

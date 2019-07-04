@@ -13,8 +13,8 @@ public interface AssociationAssetService {
 	
 	void add(AssociationAsset ac);
 	
-	void addListAc_Asset(List<AssociationAsset> asociaciones);
+	void addListAssociationsAsset(List<AssociationAsset> asociaciones);
 	
-	void deleteListAc_Asset(List<AssociationAsset> asociaciones);
+	void deleteListAssociationsAsset(List<AssociationAsset> asociaciones);
 
 }
