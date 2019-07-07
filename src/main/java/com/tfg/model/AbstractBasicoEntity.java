@@ -16,10 +16,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractBasicoEntity extends AbstractGeneratedIdEntity{	
 
-	@Column(name = "CODIGO", unique = true, nullable = false, length = 40)
+	@Column(name = "code", unique = true, nullable = false, length = 45)
 	protected String codigo;
 
-	@Column(name = "DESCRIPCION", nullable = true, length = 80)
+	@Column(name = "description", nullable = true, length = 300)
 	protected String descripcion;
 			
 

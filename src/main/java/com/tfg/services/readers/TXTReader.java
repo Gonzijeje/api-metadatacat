@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,7 @@ import com.tfg.services.GroupFieldService;
 import com.tfg.services.GroupService;
 import com.tfg.services.ValueService;
 import com.tfg.services.adapters.DigitalAssetAdapter;
+import com.tfg.services.elastic.ElasticService;
 
 
 @Service
@@ -48,6 +52,9 @@ public class TXTReader {
 	
 	@Autowired
 	DigitalAssetService assetService;
+	
+	@Autowired
+	ElasticService elasticService;
 
 	int nCaracteres = 0;
 	int nWords = 0;
@@ -57,7 +64,7 @@ public class TXTReader {
 	
 	private static final String defaultPath = "src/main/resources/";
 
-	public void read(String txtFile){
+	public void read(HttpSession session, String txtFile){
 		BufferedReader br = null;
 		String line = "";
 		try {
@@ -73,7 +80,7 @@ public class TXTReader {
 				}		
 			}
 			fillMap();
-			getMetadata(txtFile);
+			getMetadata(session, txtFile);
 			
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -82,7 +89,7 @@ public class TXTReader {
 		}
 	}
 	
-	private void getMetadata(String txtFile) {
+	private void getMetadata(HttpSession session, String txtFile) {
 		DigitalAsset asset = DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(txtFile));
 		List<Group> listGroups = new ArrayList<Group>();
 		Group group = new Group("TXT_basics", "Basic metadata associated to TXT files");
@@ -101,7 +108,8 @@ public class TXTReader {
 		}
 		groupFieldService.addListGroupFields(listGroupFields);
 		ac_assetService.addListAssociationsAsset(asociaciones);
-		asset.getAsociaciones_asset().addAll(asociaciones);	
+		asset.getAsociaciones_asset().addAll(asociaciones);
+		elasticService.index(session, asset.getCodigo(),asset.getDescripcion(),getContent());
 	}
 	
 	private void fillMap() {

@@ -66,6 +66,8 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 	@Override
 	public List<FieldValueModel> getFieldsAndValuesByGroup(String groupCode, String assetCode) {
 		List<Object[]> results = repositoryEM.getFieldsAndValuesByGroup(groupCode,assetCode);
+//		List<Object[]> results = repository.getFieldsAndValuesByGroup(groupCode, assetCode);
+		System.out.println("RESUUUULTS: "+results.size());
 		List<FieldValueModel> list = new ArrayList<FieldValueModel>();
 		
 		for(Object[] o : results) {

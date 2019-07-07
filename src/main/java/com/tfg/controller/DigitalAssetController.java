@@ -47,7 +47,7 @@ public class DigitalAssetController {
 	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AssetModel> deleteDigitalAsset(@PathVariable String code){
 		assetService.delete(code);
-		return new ResponseEntity<AssetModel>(HttpStatus.ACCEPTED);		
+		return new ResponseEntity<AssetModel>(HttpStatus.NO_CONTENT);		
 	}
 	
 	@RequestMapping(value = "/addMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -56,7 +56,7 @@ public class DigitalAssetController {
 			@PathVariable String code) {
 		assetService.addMetadata(models, code);
 		AssetModel model = assetService.findByCodigo(code);
-		return new ResponseEntity<AssetModel>(model, HttpStatus.OK);
+		return new ResponseEntity<AssetModel>(model, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/deleteMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,

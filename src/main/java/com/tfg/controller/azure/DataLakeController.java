@@ -1,7 +1,5 @@
 package com.tfg.controller.azure;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
@@ -25,16 +23,9 @@ public class DataLakeController {
 	
 	@RequestMapping(value = "/download", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<JSONObject> download(HttpSession session, @RequestParam String fileName){
-		dlService.download(session, fileName);
+	public ResponseEntity<JSONObject> download(HttpSession session, @RequestParam String pathFile){
+		dlService.download(session, pathFile);
 		return new ResponseEntity<JSONObject>(HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/listFiles", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> listFiles(HttpSession session, @RequestParam String pathDirectory){
-		List<String> filesNames = dlService.download(session, fileName);
-		return new ResponseEntity<List<String>>(filesNames, HttpStatus.OK);
 	}
 
 }

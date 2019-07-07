@@ -18,54 +18,54 @@ public class GroupFieldId implements Serializable{
 	 */
 	private static final long serialVersionUID = -2465217422644085827L;
 	
-	@Column(name = "grupo_id")
-	private Long grupo_id;
-	@Column(name = "campo_id")
-	private Long campo_id;
-	@Column(name = "valor_id")
-	private Long valor_id;
+	@Column(name = "group_id")
+	private Long group_id;
+	@Column(name = "field_id")
+	private Long field_id;
+	@Column(name = "value_id")
+	private Long value_id;
 	
 	public GroupFieldId(Long grupo_id, Long campo_id, Long valor_id) {
 		super();
-		this.grupo_id = grupo_id;
-		this.campo_id = campo_id;
-		this.valor_id = valor_id;
+		this.group_id = grupo_id;
+		this.field_id = campo_id;
+		this.value_id = valor_id;
 	}
 	
 	public GroupFieldId() {	
 	}
 
 	public Long getGrupo_id() {
-		return grupo_id;
+		return group_id;
 	}
 
 	public void setGrupo_id(Long grupo_id) {
-		this.grupo_id = grupo_id;
+		this.group_id = grupo_id;
 	}
 
 	public Long getCampo_id() {
-		return campo_id;
+		return field_id;
 	}
 
 	public void setCampo_id(Long campo_id) {
-		this.campo_id = campo_id;
+		this.field_id = campo_id;
 	}
 
 	public Long getValor_id() {
-		return valor_id;
+		return value_id;
 	}
 
 	public void setValor_id(Long valor_id) {
-		this.valor_id = valor_id;
+		this.value_id = valor_id;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((campo_id == null) ? 0 : campo_id.hashCode());
-		result = prime * result + ((grupo_id == null) ? 0 : grupo_id.hashCode());
-		result = prime * result + ((valor_id == null) ? 0 : valor_id.hashCode());
+		result = prime * result + ((field_id == null) ? 0 : field_id.hashCode());
+		result = prime * result + ((group_id == null) ? 0 : group_id.hashCode());
+		result = prime * result + ((value_id == null) ? 0 : value_id.hashCode());
 		return result;
 	}
 
@@ -78,20 +78,20 @@ public class GroupFieldId implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		GroupFieldId other = (GroupFieldId) obj;
-		if (campo_id == null) {
-			if (other.campo_id != null)
+		if (field_id == null) {
+			if (other.field_id != null)
 				return false;
-		} else if (!campo_id.equals(other.campo_id))
+		} else if (!field_id.equals(other.field_id))
 			return false;
-		if (grupo_id == null) {
-			if (other.grupo_id != null)
+		if (group_id == null) {
+			if (other.group_id != null)
 				return false;
-		} else if (!grupo_id.equals(other.grupo_id))
+		} else if (!group_id.equals(other.group_id))
 			return false;
-		if (valor_id == null) {
-			if (other.valor_id != null)
+		if (value_id == null) {
+			if (other.value_id != null)
 				return false;
-		} else if (!valor_id.equals(other.valor_id))
+		} else if (!value_id.equals(other.value_id))
 			return false;
 		return true;
 	}

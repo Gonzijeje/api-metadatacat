@@ -43,7 +43,7 @@ public class FieldController {
 	public ResponseEntity<FieldModel> updateField(@PathVariable String code, @Validated @RequestBody NewField newField ) {
 		Field campo = fieldService.create(newField);
 		FieldModel model = fieldService.update(code, campo);
-		return new ResponseEntity<FieldModel>(model, HttpStatus.ACCEPTED);
+		return new ResponseEntity<FieldModel>(model, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{code}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,6 +61,6 @@ public class FieldController {
 	@RequestMapping(value = "/{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FieldModel> deleteField(@PathVariable String code){
 		fieldService.delete(code);
-		return new ResponseEntity<FieldModel>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<FieldModel>(HttpStatus.NO_CONTENT);
 	}
 }

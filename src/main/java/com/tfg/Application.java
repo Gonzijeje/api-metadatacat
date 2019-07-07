@@ -4,8 +4,8 @@ import java.io.IOException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.tfg.controller.elastic.Client;
-import com.tfg.services.elastic.Search;
+import com.tfg.controller.elastic.ElasticController;
+import com.tfg.services.elastic.ElasticService;
 
 /**
  * 
@@ -15,13 +15,9 @@ import com.tfg.services.elastic.Search;
 
 @SpringBootApplication
 public class Application {
-	
-	static Client es = new Client();
-	static Search se = new Search();
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(Application.class, args);
-		es.connect();
 	}
 
 }

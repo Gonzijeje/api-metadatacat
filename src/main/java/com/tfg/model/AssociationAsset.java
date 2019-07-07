@@ -27,13 +27,13 @@ public class AssociationAsset {
 	DigitalAsset da;
 	
 	@ManyToOne
-	@MapsId("ac_grupo_id")
-	@JoinColumn(name="ac_grupo_id")
+	@MapsId("ac_group_id")
+	@JoinColumn(name="ac_group_id")
 	Group grupo;
 	
 	@ManyToOne
-	@MapsId("ac_campo_id")
-	@JoinColumn(name="ac_campo_id")
+	@MapsId("ac_field_id")
+	@JoinColumn(name="ac_field_id")
 	Field campo;
 	
 	@ManyToOne

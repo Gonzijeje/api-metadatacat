@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,10 +121,10 @@ public class FileInfo {
 		return timefields.get(Timefield.WRITTEN);
 	}
 	
-	public void getMetadata(String fileName, NewAsset newAsset) throws IOException, ParseException {
+	public void getMetadata(HttpSession session, String fileName, NewAsset newAsset) throws IOException, ParseException {
 		this.file = new File(defaultPath+fileName);
 		assetService.addRealAsset(fileName, getNewAsset(fileName));
-		getFileType(fileName);
+		getFileType(session, fileName);
 	}
 	
 	private NewAsset getNewAsset(String fileName) throws IOException, ParseException {
@@ -137,11 +139,11 @@ public class FileInfo {
 		return newAsset;
 	}
 	
-	private void getFileType(String fileName) {
+	private void getFileType(HttpSession session, String fileName) {
 		if(CSV_PATTERN.matcher(fileName).matches()) {
 			csvService.read(fileName);
 		}else if(TXT_PATTERN.matcher(fileName).matches()) {
-			txtService.read(fileName);
+			txtService.read(session, fileName);
 		}
 	}
 }

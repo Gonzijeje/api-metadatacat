@@ -87,6 +87,15 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
 	}
+	
+	private DigitalAsset findAssetByCode(String codigo) {
+		DigitalAsset asset = repository.findByCodigo(codigo);
+		if(asset!=null) {
+			return asset;
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
+	}
 
 	@Override
 	public List<AssetModel> getDigitalAssets() {
@@ -144,7 +153,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 
 	@Override
 	public void addMetadata(List<GroupFieldModel> models, String code) {
-		DigitalAsset asset = DigitalAssetAdapter.getAssetEntity(findByCodigo(code));
+		DigitalAsset asset = findAssetByCode(code);
 		for(GroupFieldModel model : models) {
 			List<Group> listGroups = new ArrayList<Group>();
 			Group group = new Group(model.getGroupCode(),null);
@@ -174,7 +183,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 
 	@Override
 	public void deleteMetadata(List<GroupFieldModel> models, String code) {
-		DigitalAsset asset =  DigitalAssetAdapter.getAssetEntity(findByCodigo(code));
+		DigitalAsset asset =  findAssetByCode(code);
 		for(GroupFieldModel model : models) {
 			Group group = groupService.getGroupByCode(model.getGroupCode());
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
@@ -187,7 +196,7 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			}
 			acAssetService.deleteListAssociationsAsset(asociaciones);
 			asset.getAsociaciones_asset().removeAll(asociaciones);
-			groupFieldService.deleteListGroupFields(listGroupFields);			
+//			groupFieldService.deleteListGroupFields(listGroupFields);			
 		}
 	}
 	

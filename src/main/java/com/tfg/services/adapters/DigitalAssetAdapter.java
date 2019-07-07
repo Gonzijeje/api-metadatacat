@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.tfg.model.AssociationAsset;
 import com.tfg.model.DigitalAsset;
 import com.tfg.model.Field;
@@ -44,7 +43,7 @@ public class DigitalAssetAdapter {
 		model.setId(asset.getId());
 		model.setCode(asset.getCodigo());
 		model.setDescription(asset.getDescripcion());
-		model.setGrupos(getCaca(asset));
+		model.setGrupos(getGroupFieldModels(asset));
 		return model;
 	}
 	
@@ -68,7 +67,6 @@ public class DigitalAssetAdapter {
 		SimpleAsset simple = new SimpleAsset();
 		simple.setId(asset.getId());
 		simple.setCode(asset.getCodigo());
-		simple.setDescription(asset.getDescripcion());
 		return simple;
 	}
 	
@@ -91,8 +89,9 @@ public class DigitalAssetAdapter {
 	}
 	
 	//Esto va a tener que ir para otra clase
-	public static List<GroupFieldModel> getCaca(DigitalAsset asset){
+	public static List<GroupFieldModel> getGroupFieldModels(DigitalAsset asset){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
+		System.out.println("ASOCIACIONES: "+asset.getAsociaciones_asset().toString());
 		for(AssociationAsset ac : asset.getAsociaciones_asset()) {
 			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {
 				GroupFieldModel model = new GroupFieldModel();
@@ -101,6 +100,7 @@ public class DigitalAssetAdapter {
 			}		
 		}
 		list.forEach((grupo)->{
+			System.out.println("dada"+grupo.getGroupCode()+"dadeod"+asset.getCodigo());
 			grupo.setFields(groupFieldService.getFieldsAndValuesByGroup(grupo.getGroupCode(),asset.getCodigo()));
 		});
 		return list;

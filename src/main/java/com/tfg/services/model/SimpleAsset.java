@@ -7,7 +7,6 @@ public class SimpleAsset {
 	
 	private Long id;
 	private String code;
-	private String description;
 	
 	@JsonIgnore
 	public Long getId() {
@@ -25,15 +24,6 @@ public class SimpleAsset {
 	
 	public void setCode(String code) {
 		this.code = code;
-	}
-	
-	@JsonProperty("description")
-	public String getDescription() {
-		return description;
-	}
-	
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 }

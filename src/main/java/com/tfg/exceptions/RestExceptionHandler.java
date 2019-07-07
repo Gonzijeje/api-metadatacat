@@ -1,5 +1,6 @@
 package com.tfg.exceptions;
-/*package com.tfg.factory;
+
+import java.io.IOException;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -19,8 +20,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.tfg.exceptions.RestException;
-import com.tfg.pojos.ErrorResponse;
+import com.tfg.exceptions.errors.RestException;
+import com.tfg.services.model.ErrorResponse;
+
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
@@ -79,7 +81,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		apiError.setMessage("Validation Error");
 		StringBuilder sb= new StringBuilder();
 		ex.getBindingResult().getFieldErrors().forEach((error)->{
-			sb.append("Error in field: "+error.getField()+" with value "+error.getRejectedValue()+". \n");
+			sb.append("Error in field: '"+error.getField()+"' with value '"+error.getRejectedValue()+"'. ");
 			sb.append(error.getDefaultMessage());
 		});
 		apiError.setDebugMessage(sb.toString());
@@ -91,7 +93,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
     protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
     	ErrorResponse apiError = new ErrorResponse(HttpStatus.BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
-        apiError.setDebugMessage(ex.getLocalizedMessage());
         return buildResponseEntity(apiError);
     }
     
@@ -125,7 +126,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 	protected ResponseEntity<Object> handleInternal(IllegalArgumentException ex) {
 		ErrorResponse apiError = new ErrorResponse(HttpStatus.BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
-        apiError.setDebugMessage(ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+	
+	@ExceptionHandler(IOException.class)
+	protected ResponseEntity<Object> handleIOException(IOException ex) {
+		ErrorResponse apiError = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+        apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
     
@@ -134,4 +141,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
     }
 
 }
-*/
+

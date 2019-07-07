@@ -14,25 +14,25 @@ import com.tfg.model.id.GroupFieldId;
  *
  */
 @Entity
-@Table(name = "GRUPO_CAMPO")
+@Table(name = "GROUP_FIELD")
 public class GroupField {
 	
 	@EmbeddedId
 	GroupFieldId id;
 	
 	@ManyToOne
-	@MapsId("grupo_id")
-	@JoinColumn(name="grupo_id")
+	@MapsId("group_id")
+	@JoinColumn(name="group_id")
 	Group grupo;
 	
 	@ManyToOne
-	@MapsId("campo_id")
-	@JoinColumn(name="campo_id")
+	@MapsId("field_id")
+	@JoinColumn(name="field_id")
 	Field campo;
 	
 	@ManyToOne
-	@MapsId("valor_id")
-	@JoinColumn(name="valor_id")
+	@MapsId("value_id")
+	@JoinColumn(name="value_id")
 	Value valor;		
 
 	public GroupField(Group grupo, Field campo, Value value) {

@@ -23,7 +23,7 @@
   </class>  
   <class id="3" language="java" name="com.tfg.controller.FieldController" project="tfg-rest-service" 
     file="/tfg-rest-service/src/main/java/com/tfg/controller/FieldController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1484" y="160"/>    
+    <position height="-1" width="-1" x="925" y="367"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -32,7 +32,7 @@
   </class>  
   <class id="4" language="java" name="com.tfg.controller.GroupController" project="tfg-rest-service" 
     file="/tfg-rest-service/src/main/java/com/tfg/controller/GroupController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="460" y="386"/>    
+    <position height="-1" width="-1" x="533" y="366"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -42,7 +42,7 @@
   <class id="5" language="java" name="com.tfg.controller.azure.DataFactoryController" project="tfg-rest-service" 
     file="/tfg-rest-service/src/main/java/com/tfg/controller/azure/DataFactoryController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="947" y="379"/>    
+    <position height="-1" width="-1" x="517" y="581"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -52,7 +52,17 @@
   <class id="6" language="java" name="com.tfg.controller.azure.DataLakeController" project="tfg-rest-service" 
     file="/tfg-rest-service/src/main/java/com/tfg/controller/azure/DataLakeController.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1433" y="350"/>    
+    <position height="-1" width="-1" x="932" y="539"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.tfg.controller.elastic.ElasticController" project="tfg-rest-service" 
+    file="/tfg-rest-service/src/main/java/com/tfg/controller/elastic/ElasticController.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="925" y="695"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

@@ -11,12 +11,12 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "VALOR_CAMPO")
+@Table(name = "VALUE")
 public class Value extends AbstractGeneratedIdEntity{
 	
 	@NotNull(message = "{valor.obligatorio}")
 	@Size(max = 250, message = "{valor.longitud.maxima}")
-	@Column(name = "VALOR", nullable = false, length = 250)
+	@Column(name = "value", nullable = false, length = 300)
 	String valor;
 	
 	@OneToMany(mappedBy = "valor")

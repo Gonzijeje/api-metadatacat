@@ -1,6 +1,9 @@
 package com.tfg.services.azure;
 
 import java.io.FileOutputStream;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,7 @@ public class AzureStorageService {
 	
 	private static final String defaultPath = "src/main/resources/";
 	
-	public void downloadFile(String containerName, String fileName) {
+	public void downloadFile(HttpSession session, String containerName, String fileName) {
 		try
 		{
 		   CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
@@ -41,7 +44,7 @@ public class AzureStorageService {
 		   CloudBlobContainer container = blobClient.getContainerReference(containerName);		   
 		   CloudBlockBlob blob = container.getBlockBlobReference(fileName);
 		   blob.download(new FileOutputStream(defaultPath + blob.getName()));
-		   fileService.getMetadata(fileName,new NewAsset());
+		   fileService.getMetadata(session, fileName,new NewAsset());
 		}
 		catch (Exception e)
 		{

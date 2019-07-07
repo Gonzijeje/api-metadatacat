@@ -42,7 +42,7 @@ public class DigitalTwinAdapter {
 		model.setId(twin.getId());
 		model.setCode(twin.getCodigo());
 		model.setDescription(twin.getDescripcion());
-		model.setGrupos(getCaca(twin));
+		model.setGrupos(getGroupFieldModels(twin));
 		model.setAssetsIn(DigitalAssetAdapter.getSimpleAssetsFromEntities(twin.getAsociaciones_assets_in()));
 		model.setAssetsOut(DigitalAssetAdapter.getSimpleAssetsFromEntities(twin.getAsociaciones_assets_out()));
 		return model;
@@ -75,7 +75,7 @@ public class DigitalTwinAdapter {
 	}
 	
 	//Esto va a tener que ir para otra clase
-	public static List<GroupFieldModel> getCaca(DigitalTwin twin){
+	public static List<GroupFieldModel> getGroupFieldModels(DigitalTwin twin){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
 		for(AssociationTwin ac : twin.getAsociaciones_twin()) {
 			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {

@@ -7,7 +7,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "GRUPO")
+@Table(name = "GROUP_")
 public class Group extends AbstractBasicoEntity{
 	
 	@OneToMany(mappedBy = "grupo")
