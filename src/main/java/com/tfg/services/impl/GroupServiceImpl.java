@@ -41,7 +41,7 @@ public class GroupServiceImpl implements GroupService{
 		if(oldGroup!=null) {
 			group.setId(oldGroup.getId());
 			String newCode = group.getCodigo();
-			if(!newCode.equals(group.getCodigo()) && repository.findByCodigo(newCode)!=null) {
+			if(!newCode.equals(code) && repository.findByCodigo(newCode)!=null) {
 				throw ExceptionFactory.getError(Errors.UNIQUE_CODE);
 			}else {
 				repository.save(group);

@@ -48,4 +48,20 @@ public class DigitalAsset extends AbstractBasicoEntity{
 		this.asociaciones_asset = asociaciones_asset;
 	}
 
+	public DigitalTwin getAssets_in() {
+		return assets_in;
+	}
+
+	public void setAssets_in(DigitalTwin assets_in) {
+		this.assets_in = assets_in;
+	}
+
+	public DigitalTwin getAssets_out() {
+		return assets_out;
+	}
+
+	public void setAssets_out(DigitalTwin assets_out) {
+		this.assets_out = assets_out;
+	}
+
 }

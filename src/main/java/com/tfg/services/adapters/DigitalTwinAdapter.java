@@ -42,7 +42,9 @@ public class DigitalTwinAdapter {
 		model.setId(twin.getId());
 		model.setCode(twin.getCodigo());
 		model.setDescription(twin.getDescripcion());
+		System.out.println("Asociaciones: "+twin.getAsociaciones_twin().size());
 		model.setGrupos(getGroupFieldModels(twin));
+		System.out.println("Assets_in: "+twin.getAsociaciones_assets_in().size());
 		model.setAssetsIn(DigitalAssetAdapter.getSimpleAssetsFromEntities(twin.getAsociaciones_assets_in()));
 		model.setAssetsOut(DigitalAssetAdapter.getSimpleAssetsFromEntities(twin.getAsociaciones_assets_out()));
 		return model;
@@ -85,7 +87,7 @@ public class DigitalTwinAdapter {
 			}		
 		}
 		list.forEach((grupo)->{
-			grupo.setFields(groupFieldService.getFieldsAndValuesByGroup(grupo.getGroupCode(),twin.getCodigo()));
+			grupo.setFields(groupFieldService.getFieldsAndValuesByGroupTwin(grupo.getGroupCode(),twin.getCodigo()));
 		});
 		return list;
 	}

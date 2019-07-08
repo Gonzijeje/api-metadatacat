@@ -54,8 +54,8 @@
   </object>  
   <combined-fragment id="22" interaction-operator="ALT">    
     <interaction-operand id="23" constraint="repository.findByCodigo(field.getCodigo())==null">      
-      <fragment refId="15"/>      
-      <fragment refId="17"/>    
+      <fragment refId="17"/>      
+      <fragment refId="15"/>    
     </interaction-operand>    
     <interaction-operand id="24" constraint="else"/>  
   </combined-fragment>  

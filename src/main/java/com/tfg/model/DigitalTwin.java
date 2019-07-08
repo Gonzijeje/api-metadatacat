@@ -1,5 +1,6 @@
 package com.tfg.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -16,13 +17,13 @@ import javax.persistence.Table;
 public class DigitalTwin extends AbstractBasicoEntity{
 	
 	@OneToMany(mappedBy = "dt")
-	Set<AssociationTwin> asociaciones_twin;
+	Set<AssociationTwin> asociaciones_twin = new HashSet<>();
 	
 	@OneToMany(mappedBy = "assets_in")
-	Set<DigitalAsset> asociaciones_assets_in;
+	Set<DigitalAsset> asociaciones_assets_in = new HashSet<>();
 	
 	@OneToMany(mappedBy = "assets_out")
-	Set<DigitalAsset> asociaciones_assets_out;
+	Set<DigitalAsset> asociaciones_assets_out = new HashSet<>();
 	
 	public DigitalTwin(String codigo, String descripcion) {
 		super();

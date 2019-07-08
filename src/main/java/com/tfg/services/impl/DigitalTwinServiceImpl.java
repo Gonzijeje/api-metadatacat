@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.tfg.dao.DigitalAssetRepository;
 import com.tfg.dao.DigitalTwinRepository;
 import com.tfg.dao.factory.EntityManagerLoader;
 import com.tfg.exceptions.ExceptionFactory;
@@ -46,6 +47,9 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 	
 	@Autowired
 	DigitalTwinRepository repository;
+	
+	@Autowired
+	DigitalAssetRepository repositoryAsset;
 	
 	@Autowired
 	FieldService fieldService;
@@ -107,6 +111,15 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
 	}
+	
+	private DigitalTwin findTwinByCode(String codigo) {
+		DigitalTwin twin = repository.findByCodigo(codigo);
+		if(twin!=null) {
+			return twin;
+		}else {
+			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
+		}
+	}
 
 	@Override
 	public List<TwinModel> getDigitalTwins() {
@@ -132,7 +145,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 
 	@Override
 	public void addMetadata(List<GroupFieldModel> models, String code) {
-		DigitalTwin twin = DigitalTwinAdapter.getTwinEntity(findByCodigo(code));
+		DigitalTwin twin = findTwinByCode(code);
 		for(GroupFieldModel model : models) {
 			List<Group> listGroups = new ArrayList<Group>();
 			Group group = new Group(model.getGroupCode(),null);
@@ -161,7 +174,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 
 	@Override
 	public void deleteMetadata(List<GroupFieldModel> models, String code) {
-		DigitalTwin twin =  DigitalTwinAdapter.getTwinEntity(findByCodigo(code));
+		DigitalTwin twin = findTwinByCode(code);
 		for(GroupFieldModel model : models) {
 			Group group = groupService.getGroupByCode(model.getGroupCode());
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
@@ -210,13 +223,20 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		List<DigitalAsset> assetsIn = new ArrayList<DigitalAsset>();
 		List<DigitalAsset> assetsOut = new ArrayList<DigitalAsset>();
 		for(SimpleAsset asset : newTwin.getAssetsIn()) {
-			assetsIn.add(DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(asset.getCode())));
+			DigitalAsset da = DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(asset.getCode()));
+			assetsIn.add(da);
+			da.setAssets_in(twin);
+			repositoryAsset.save(da);
 		}
 		twin.getAsociaciones_assets_in().addAll(assetsIn);
 		for(SimpleAsset asset : newTwin.getAssetsOut()) {
-			assetsOut.add(DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(asset.getCode())));
+			DigitalAsset da = DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(asset.getCode()));
+			assetsOut.add(da);
+			da.setAssets_out(twin);
+			repositoryAsset.save(da);
 		}
 		twin.getAsociaciones_assets_out().addAll(assetsOut);
+		
 	}
 	
 

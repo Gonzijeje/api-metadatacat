@@ -1,8 +1,6 @@
 package com.tfg.services.azure;
 
 import java.io.IOException;
-import java.text.MessageFormat;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.http.HttpResponse;
@@ -143,7 +141,7 @@ public class DataFactoryService {
 				cm.getProperty("factory_name")+"/pipelines/"+pipelineModel.getName()+"?api-version="+cm.getProperty("api-version");
 		HttpPut httpput = new HttpPut(URL);	
 
-		String json = MessageFormat.format(JsonRequests.CREATE_PIPELINE, pipelineModel.getName(), pipelineModel.getDatasetInput());
+		String json = String.format(JsonRequests.CREATE_PIPELINE, pipelineModel.getName(), pipelineModel.getDatasetInput());
 		StringEntity postingString;
 		try {
 			postingString = new StringEntity(json);

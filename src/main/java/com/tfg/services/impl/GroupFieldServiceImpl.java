@@ -64,8 +64,23 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 
 
 	@Override
-	public List<FieldValueModel> getFieldsAndValuesByGroup(String groupCode, String assetCode) {
-		List<Object[]> results = repositoryEM.getFieldsAndValuesByGroup(groupCode,assetCode);
+	public List<FieldValueModel> getFieldsAndValuesByGroupAsset(String groupCode, String assetCode) {
+		List<Object[]> results = repositoryEM.getFieldsAndValuesByGroupAsset(groupCode,assetCode);
+//		List<Object[]> results = repository.getFieldsAndValuesByGroup(groupCode, assetCode);
+		List<FieldValueModel> list = new ArrayList<FieldValueModel>();
+		
+		for(Object[] o : results) {
+			FieldValueModel model = new FieldValueModel();
+			model.setCode(o[0].toString());
+			model.setValue(o[1].toString());
+			list.add(model);
+		}	
+		return list;
+	}
+	
+	@Override
+	public List<FieldValueModel> getFieldsAndValuesByGroupTwin(String groupCode, String twinCode) {
+		List<Object[]> results = repositoryEM.getFieldsAndValuesByGroupTwin(groupCode,twinCode);
 //		List<Object[]> results = repository.getFieldsAndValuesByGroup(groupCode, assetCode);
 		System.out.println("RESUUUULTS: "+results.size());
 		List<FieldValueModel> list = new ArrayList<FieldValueModel>();

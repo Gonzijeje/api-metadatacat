@@ -49,7 +49,7 @@ public class DigitalTwinController {
 	@RequestMapping(value = "{code}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TwinModel> deleteDigitalTwin(@PathVariable String code){
 		twinService.delete(code);
-		return new ResponseEntity<TwinModel>(HttpStatus.ACCEPTED);
+		return new ResponseEntity<TwinModel>(HttpStatus.NO_CONTENT);
 	}
 	
 	@RequestMapping(value = "/addMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -58,7 +58,7 @@ public class DigitalTwinController {
 			@PathVariable String code) {
 		twinService.addMetadata(models, code);
 		TwinModel model = twinService.findByCodigo(code);
-		return new ResponseEntity<TwinModel>(model, HttpStatus.OK);
+		return new ResponseEntity<TwinModel>(model, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(value = "/deleteMetadata/{code}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,

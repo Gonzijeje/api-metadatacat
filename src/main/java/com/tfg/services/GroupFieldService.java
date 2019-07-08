@@ -18,6 +18,8 @@ public interface GroupFieldService {
 	
 	void deleteListGroupFields(List<GroupField> groupFields);
 	
-	List<FieldValueModel> getFieldsAndValuesByGroup(String groupCode, String assetCode);
+	List<FieldValueModel> getFieldsAndValuesByGroupAsset(String groupCode, String assetCode);
+	
+	List<FieldValueModel> getFieldsAndValuesByGroupTwin(String groupCode, String twinCode);
 
 }
