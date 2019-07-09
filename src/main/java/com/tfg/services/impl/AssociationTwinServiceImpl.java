@@ -36,7 +36,7 @@ public class AssociationTwinServiceImpl implements AssociationTwinService{
 		Optional<AssociationTwin> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
 			if(repository.findById(new AssociationTwinId(ac.getDt().getId(),
-					ac.getGrupo().getId(),ac.getCampo().getId(),ac.getValue().getId()))==opt) {
+					ac.getGf().getId()))==opt) {
 				lista.add(ac);
 			}
 		});
@@ -49,7 +49,7 @@ public class AssociationTwinServiceImpl implements AssociationTwinService{
 		Optional<AssociationTwin> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
 			if(repository.findById(new AssociationTwinId(ac.getDt().getId(),
-					ac.getGrupo().getId(),ac.getCampo().getId(),ac.getValue().getId()))!=opt) {
+					ac.getGf().getId()))!=opt) {
 				lista.add(ac);
 			}else {
 				throw ExceptionFactory.getError(Errors.ASSOCIATIONS_NO_EXIST);

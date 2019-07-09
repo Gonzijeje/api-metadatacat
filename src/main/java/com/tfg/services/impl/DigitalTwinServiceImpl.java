@@ -157,14 +157,12 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 			List<GroupField> listGroupFields = new ArrayList<GroupField>();
 			List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
 			group = groupService.getGroupByCode(model.getGroupCode());
-			System.out.println("GRUPO: "+group.getCodigo()+group.getId());
 			for(FieldValueModel fv : model.getFields()) {
 				Field field = fieldService.getFieldByCode(fv.getCode());
-				System.out.println("CAMPO: "+field.getCodigo()+field.getId());
 				Value value = valueService.getValor(fv.getValue());
-				System.out.println("VALOR: "+value.getId());
-				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new AssociationTwin(twin,group,field,value));
+				GroupField gf = new GroupField(group,field,value);
+				listGroupFields.add(gf);
+				asociaciones.add(new AssociationTwin(twin,gf));
 			}								
 			groupFieldService.addListGroupFields(listGroupFields);
 			acTwinService.addListAssociationsTwin(asociaciones);
@@ -182,8 +180,9 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 			for(FieldValueModel fv : model.getFields()) {
 				Field field = fieldService.getFieldByCode(fv.getCode());
 				Value value = valueService.getValor(fv.getValue());
-				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new AssociationTwin(twin,group,field,value));		
+				GroupField gf = new GroupField(group,field,value);
+				listGroupFields.add(gf);
+				asociaciones.add(new AssociationTwin(twin,gf));		
 			}
 			acTwinService.deleteListAssociationsTwin(asociaciones);
 			twin.getAsociaciones_twin().removeAll(asociaciones);
@@ -196,7 +195,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		fieldService.addListFields(listFields);
 		
 		List<Group> listGroups = new ArrayList<Group>();
-		Group group = new Group("básicos", "Grupo de metadatos básicos");
+		Group group = new Group("basicos", "Grupo de metadatos básicos");
 		listGroups.add(group);
 		groupService.addListGroups(listGroups);
 		
@@ -204,12 +203,13 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		List<AssociationTwin> asociaciones = new ArrayList<AssociationTwin>();
-		group = groupService.getGroupByCode("básicos");
+		group = groupService.getGroupByCode("basicos");
 		for(int i=0; i<newTwin.getAttributes().size();i++) {
 			Field field = fieldService.getFieldByCode(newTwin.getAttributes().get(i));
 			Value value = valueService.getValor(newTwin.getValues().get(i));
-			listGroupFields.add(new GroupField(group,field,value));
-			asociaciones.add(new AssociationTwin(twin,group,field,value));
+			GroupField gf = new GroupField(group,field,value);
+			listGroupFields.add(gf);
+			asociaciones.add(new AssociationTwin(twin,gf));
 		}								
 		groupFieldService.addListGroupFields(listGroupFields);
 

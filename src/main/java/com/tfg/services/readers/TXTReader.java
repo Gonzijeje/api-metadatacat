@@ -103,8 +103,9 @@ public class TXTReader {
 		for(String key: map.keySet()) {
 			Field field = fieldService.getFieldByCode(key);
 			Value value = valueService.getValor(map.get(key).toString());
-			listGroupFields.add(new GroupField(group,field,value));
-			asociaciones.add(new AssociationAsset(asset,group,field,value));
+			GroupField gf = new GroupField(group,field,value);
+			listGroupFields.add(gf);
+			asociaciones.add(new AssociationAsset(asset,gf));
 		}
 		groupFieldService.addListGroupFields(listGroupFields);
 		ac_assetService.addListAssociationsAsset(asociaciones);

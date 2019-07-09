@@ -36,7 +36,7 @@ public class AssociationAssetServiceImpl implements AssociationAssetService{
 		Optional<AssociationAsset> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
 			if(repository.findById(new AssociationAssetId(ac.getDa().getId(),
-					ac.getGrupo().getId(),ac.getCampo().getId(), ac.getValue().getId()))==opt) {
+					ac.getGf().getId()))==opt) {
 				lista.add(ac);
 			}
 		});
@@ -49,7 +49,7 @@ public class AssociationAssetServiceImpl implements AssociationAssetService{
 		Optional<AssociationAsset> opt = Optional.empty();
 		asociaciones.forEach((ac)-> {
 			if(repository.findById(new AssociationAssetId(ac.getDa().getId(),
-					ac.getGrupo().getId(),ac.getCampo().getId(), ac.getValue().getId()))!=opt) {
+					ac.getGf().getId()))!=opt) {
 				lista.add(ac);
 			}else {
 				throw ExceptionFactory.getError(Errors.ASSOCIATIONS_NO_EXIST);

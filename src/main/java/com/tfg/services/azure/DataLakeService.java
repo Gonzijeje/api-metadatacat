@@ -43,7 +43,8 @@ public class DataLakeService {
 			if(entity!=null) {
 				FileOutputStream outstream = new FileOutputStream(myFile);
 				entity.writeTo(outstream);
-				fileService.getMetadata(session, path,new NewAsset());
+				System.out.println("CSV creado");
+				fileService.getMetadata(session, pathFile,new NewAsset());
 			}
 		} catch (IOException | ParseException e) {
 			throw  ExceptionFactory.getError(Errors.HTTP_CLIENT_ERROR);

@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NewAsset {
 	
+	private String name;
 	private String code;
 	private String description;
 	private String owner;
@@ -42,6 +43,16 @@ public class NewAsset {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@NotBlank
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@JsonProperty("owner")
@@ -94,6 +105,7 @@ public class NewAsset {
 	
 	public List<String> getAttributes(){
 		List<String> list = new ArrayList<>();
+		list.add("name");
 		list.add("owner");list.add("path");
 		list.add("size");list.add("created");
 		list.add("last_modified");
@@ -103,6 +115,7 @@ public class NewAsset {
 	public List<String> getValues(){
 		Format formatter = new SimpleDateFormat("dd/MM/yyy hh:mm:ss");
 		List<String> list = new ArrayList<>();
+		list.add(getName());
 		list.add(getOwner()); list.add(getPath());
 		list.add(String.valueOf(getSize())); list.add(formatter.format(getCreateDate()));
 		list.add(formatter.format(getLastModifiedDate()));

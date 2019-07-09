@@ -124,12 +124,10 @@ public class CSVReader {
 		List<String> listFields = new ArrayList<String>();
 		listFields.addAll(map.keySet().stream().map(entry -> "csv_column_"+entry.name).collect(Collectors.toList()));
 		listFields.addAll(map.keySet().stream().map(entry -> "csv_column_"+entry.name+"_type").collect(Collectors.toList()));
-		listFields.add("nColumns");
-		listFields.add("nRows");
+		listFields.add("nColumns");	listFields.add("nRows");
 		fieldService.addListFieldsCodes(listFields);
 		List<String> listValues = new ArrayList<String>();
-		listValues.add(String.valueOf(nCol));
-		listValues.add(String.valueOf(nRow));
+		listValues.add(String.valueOf(nCol)); listValues.add(String.valueOf(nRow));
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
 		group = groupService.getGroupByCode("CSV_basics");
@@ -137,13 +135,25 @@ public class CSVReader {
 			listValues.add(map.get(key).stream().map(Object::toString).collect(Collectors.joining(";")));		
 			Type t = key.type=Type.valueOf(getType(map.get(key).get(0)));
 			listValues.add(t.name());
-		}
+		}	
 		valueService.addListValores(listValues);
+		GroupField gf = new GroupField(group,fieldService.getFieldByCode("nColumns"),
+				valueService.getValor(String.valueOf(nCol)));
+		GroupField gf2 = new GroupField(group,fieldService.getFieldByCode("nRows"),
+				valueService.getValor(String.valueOf(nRow)));
+		listGroupFields.add(gf);listGroupFields.add(gf2);
+		asociaciones.add(new AssociationAsset(asset,gf));
+		asociaciones.add(new AssociationAsset(asset,gf2));
 		for(Key key: map.keySet()) {
 			Field field = fieldService.getFieldByCode("csv_column_"+key.name);
 			Value value = valueService.getValor(map.get(key).stream().map(Object::toString).collect(Collectors.joining(";")));
-			listGroupFields.add(new GroupField(group,field,value));
-			asociaciones.add(new AssociationAsset(asset,group,field,value));
+			Field field2 = fieldService.getFieldByCode("csv_column_"+key.name+"_type");
+			Value value2 = valueService.getValor(key.type.name());
+			gf = new GroupField(group,field,value);
+			gf2 = new GroupField(group,field2,value2);
+			listGroupFields.add(gf);listGroupFields.add(gf2);
+			asociaciones.add(new AssociationAsset(asset,gf));
+			asociaciones.add(new AssociationAsset(asset,gf2));
 		}
 		groupFieldService.addListGroupFields(listGroupFields);
 		ac_assetService.addListAssociationsAsset(asociaciones);

@@ -16,6 +16,7 @@ public class NewTwin {
 	
 	private String code;
 	private String description;
+	private String name;
 	private String environment;
 	private String path;
 	private Date created;
@@ -38,6 +39,16 @@ public class NewTwin {
 	@JsonProperty("description")
 	public String getDescription() {
 		return description;
+	}
+	
+	@NotBlank @Size(max = 40)
+	@JsonProperty("name")
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public void setDescription(String description) {
@@ -111,6 +122,7 @@ public class NewTwin {
 
 	public List<String> getAttributes(){
 		List<String> list = new ArrayList<>();
+		list.add("name");
 		list.add("environment"); list.add("path");
 		list.add("created"); list.add("last_modified");
 		list.add("model");
@@ -120,6 +132,7 @@ public class NewTwin {
 	public List<String> getValues(){
 		Format formatter = new SimpleDateFormat("dd/MM/yyy hh:mm:ss");
 		List<String> list = new ArrayList<>();
+		list.add(getName());
 		list.add(getEnvironment()); list.add(getPath());
 		list.add(formatter.format(getCreated()));
 		list.add(formatter.format(getLastModifiedDate()));	

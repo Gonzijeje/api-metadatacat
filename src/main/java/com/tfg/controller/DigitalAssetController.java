@@ -36,7 +36,7 @@ public class DigitalAssetController {
 		return new ResponseEntity<AssetModel>(model, HttpStatus.CREATED);	
 	}
 	
-	@RequestMapping(value = "/getDigitalAssets", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(value = "", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AssetModel>> getDigitalAssets(@RequestParam(required=false) Map<String,Object> allRequestParams ) {
 		List<AssetModel> result = assetService.getDigitalAssetsByFilters(allRequestParams);

@@ -7,7 +7,7 @@ public class FieldValueModel {
 	private String codigo;
 	private String valor;
 	
-	@JsonProperty("codigo")
+	@JsonProperty("field_code")
 	public String getCode() {
 		return codigo;
 	}
@@ -16,7 +16,7 @@ public class FieldValueModel {
 		this.codigo = code;
 	}
 	
-	@JsonProperty("valor")
+	@JsonProperty("value")
 	public String getValue() {
 		return valor;
 	}

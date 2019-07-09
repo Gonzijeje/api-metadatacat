@@ -46,6 +46,14 @@ public class GroupField {
 	public GroupField() {	
 	}
 
+	public GroupFieldId getId() {
+		return id;
+	}
+
+	public void setId(GroupFieldId id) {
+		this.id = id;
+	}
+
 	public Group getGrupo() {
 		return grupo;
 	}

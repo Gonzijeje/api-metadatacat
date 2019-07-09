@@ -65,7 +65,6 @@ public class DigitalAssetAdapter {
 	
 	public static SimpleAsset getSimpleAssetFromEntity(DigitalAsset asset) {
 		SimpleAsset simple = new SimpleAsset();
-		System.out.println("SIMPLEASSET "+asset.getId());
 		simple.setId(asset.getId());
 		simple.setCode(asset.getCodigo());
 		return simple;
@@ -89,13 +88,12 @@ public class DigitalAssetAdapter {
 		return listGroupFields;
 	}
 	
-	//Esto va a tener que ir para otra clase
 	public static List<GroupFieldModel> getGroupFieldModels(DigitalAsset asset){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
 		for(AssociationAsset ac : asset.getAsociaciones_asset()) {
-			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {
+			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGf().getGrupo().getCodigo()))) {
 				GroupFieldModel model = new GroupFieldModel();
-				model.setGroupCode(ac.getGrupo().getCodigo());
+				model.setGroupCode(ac.getGf().getGrupo().getCodigo());
 				list.add(model);
 			}		
 		}

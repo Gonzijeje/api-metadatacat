@@ -42,9 +42,7 @@ public class DigitalTwinAdapter {
 		model.setId(twin.getId());
 		model.setCode(twin.getCodigo());
 		model.setDescription(twin.getDescripcion());
-		System.out.println("Asociaciones: "+twin.getAsociaciones_twin().size());
 		model.setGrupos(getGroupFieldModels(twin));
-		System.out.println("Assets_in: "+twin.getAsociaciones_assets_in().size());
 		model.setAssetsIn(DigitalAssetAdapter.getSimpleAssetsFromEntities(twin.getAsociaciones_assets_in()));
 		model.setAssetsOut(DigitalAssetAdapter.getSimpleAssetsFromEntities(twin.getAsociaciones_assets_out()));
 		return model;
@@ -76,13 +74,12 @@ public class DigitalTwinAdapter {
 		return listGroupFields;
 	}
 	
-	//Esto va a tener que ir para otra clase
 	public static List<GroupFieldModel> getGroupFieldModels(DigitalTwin twin){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
 		for(AssociationTwin ac : twin.getAsociaciones_twin()) {
-			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGrupo().getCodigo()))) {
+			if(list.isEmpty() || !list.stream().anyMatch(grupo -> grupo.getGroupCode().equals(ac.getGf().getGrupo().getCodigo()))) {
 				GroupFieldModel model = new GroupFieldModel();
-				model.setGroupCode(ac.getGrupo().getCodigo());
+				model.setGroupCode(ac.getGf().getGrupo().getCodigo());
 				list.add(model);
 			}		
 		}

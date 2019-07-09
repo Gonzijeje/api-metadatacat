@@ -3,6 +3,7 @@ package com.tfg.model;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -26,28 +27,20 @@ public class AssociationTwin {
 	@JoinColumn(name="twin_id")
 	DigitalTwin dt;
 	
-	@ManyToOne
-	@MapsId("ac_group_id")
-	@JoinColumn(name="ac_group_id")
-	Group grupo;
-	
-	@ManyToOne
-	@MapsId("ac_field_id")
-	@JoinColumn(name="ac_field_id")
-	Field campo;
-	
-	@ManyToOne
-	@MapsId("ac_value_id")
-	@JoinColumn(name="ac_value_id")
-	Value value;
+	@MapsId("groupField_id")
+    @JoinColumns({
+        @JoinColumn(name="group_id", referencedColumnName="group_id"),
+        @JoinColumn(name="field_id", referencedColumnName="field_id"),
+        @JoinColumn(name="value_id", referencedColumnName="value_id")
+    })
+    @ManyToOne
+    public GroupField gf;
 
-	public AssociationTwin(DigitalTwin dt, Group grupo, Field campo, Value value) {
+	public AssociationTwin(DigitalTwin dt, GroupField groupField) {
 		super();
-		this.id = new AssociationTwinId(dt.getId(),grupo.getId(),campo.getId(),value.getId());
+		this.id = new AssociationTwinId(dt.getId(),groupField.getId());
 		this.dt = dt;
-		this.grupo = grupo;
-		this.campo = campo;
-		this.value = value;
+		this.gf = groupField;
 	}
 	
 	public AssociationTwin() {		
@@ -61,28 +54,12 @@ public class AssociationTwin {
 		this.dt = dt;
 	}
 
-	public Group getGrupo() {
-		return grupo;
+	public GroupField getGf() {
+		return gf;
 	}
 
-	public void setGrupo(Group grupo) {
-		this.grupo = grupo;
-	}
-
-	public Field getCampo() {
-		return campo;
-	}
-
-	public void setCampo(Field campo) {
-		this.campo = campo;
-	}
-
-	public Value getValue() {
-		return value;
-	}
-
-	public void setValue(Value value) {
-		this.value = value;
+	public void setGf(GroupField gf) {
+		this.gf = gf;
 	}
 
 }

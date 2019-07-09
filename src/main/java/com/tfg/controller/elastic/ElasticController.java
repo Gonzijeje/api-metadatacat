@@ -45,5 +45,15 @@ public class ElasticController {
 		return new ResponseEntity<String>( "{\"response\":"+ result.toString()+"}",
 				HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/indexx", method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> indexar(HttpSession session, @RequestParam String code,
+			@RequestParam String description, @RequestParam String content){
+		elasticService.index(session, code, description, content);
+//		List<JSONObject> result = elasticService.matchQuery(session, text);
+		return new ResponseEntity<String>(
+				HttpStatus.OK);
+	}
 
 }

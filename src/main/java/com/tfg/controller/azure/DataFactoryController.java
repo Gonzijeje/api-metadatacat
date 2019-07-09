@@ -35,7 +35,7 @@ public class DataFactoryController {
 				HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/createPipeline", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(value = "/setPipeline", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createPipeline(HttpSession session, @Validated @RequestBody PipelineModel pipelineModel){
 		JSONObject response = factoryService.createPipeline(session, pipelineModel);

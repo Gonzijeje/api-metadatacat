@@ -129,19 +129,20 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		fieldService.addListFields(listFields);
 		
 		List<Group> listGroups = new ArrayList<Group>();
-		Group group = new Group("básicos", "Grupo de metadatos básicos");
+		Group group = new Group("basicos", "Grupo de metadatos básicos");
 		listGroups.add(group);
 		groupService.addListGroups(listGroups);	
 		valueService.addListValores(newAsset.getValues());
 		
 		List<GroupField> listGroupFields = new ArrayList<GroupField>();
 		List<AssociationAsset> asociaciones = new ArrayList<AssociationAsset>();
-		group = groupService.getGroupByCode("básicos");
+		group = groupService.getGroupByCode("basicos");
 		for(int i=0; i<newAsset.getAttributes().size();i++) {
 			Field field = fieldService.getFieldByCode(newAsset.getAttributes().get(i));
 			Value value = valueService.getValor(newAsset.getValues().get(i));
-			listGroupFields.add(new GroupField(group,field,value));
-			asociaciones.add(new AssociationAsset(asset,group,field,value));
+			GroupField gf = new GroupField(group,field,value);
+			listGroupFields.add(gf);
+			asociaciones.add(new AssociationAsset(asset,gf));
 		}								
 		groupFieldService.addListGroupFields(listGroupFields);
 		acAssetService.addListAssociationsAsset(asociaciones);
@@ -164,8 +165,9 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			for(FieldValueModel fv : model.getFields()) {
 				Field field = fieldService.getFieldByCode(fv.getCode());
 				Value value = valueService.getValor(fv.getValue());
-				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new AssociationAsset(asset,group,field,value));
+				GroupField gf = new GroupField(group,field,value);
+				listGroupFields.add(gf);
+				asociaciones.add(new AssociationAsset(asset,gf));
 			}								
 			groupFieldService.addListGroupFields(listGroupFields);
 			acAssetService.addListAssociationsAsset(asociaciones);
@@ -184,8 +186,9 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			for(FieldValueModel fv : model.getFields()) {
 				Field field = fieldService.getFieldByCode(fv.getCode());
 				Value value = valueService.getValor(fv.getValue());
-				listGroupFields.add(new GroupField(group,field,value));
-				asociaciones.add(new AssociationAsset(asset,group,field,value));		
+				GroupField gf = new GroupField(group,field,value);
+				listGroupFields.add(gf);
+				asociaciones.add(new AssociationAsset(asset,gf));		
 			}
 			acAssetService.deleteListAssociationsAsset(asociaciones);
 			asset.getAsociaciones_asset().removeAll(asociaciones);

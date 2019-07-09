@@ -3,6 +3,7 @@ package com.tfg.model;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
@@ -24,30 +25,24 @@ public class AssociationAsset {
 	@ManyToOne
 	@MapsId("asset_id")
 	@JoinColumn(name="asset_id")
-	DigitalAsset da;
+    public DigitalAsset da;
 	
-	@ManyToOne
-	@MapsId("ac_group_id")
-	@JoinColumn(name="ac_group_id")
-	Group grupo;
 	
-	@ManyToOne
-	@MapsId("ac_field_id")
-	@JoinColumn(name="ac_field_id")
-	Field campo;
+	@MapsId("groupField_id")
+    @JoinColumns({
+        @JoinColumn(name="group_id", referencedColumnName="group_id"),
+        @JoinColumn(name="field_id", referencedColumnName="field_id"),
+        @JoinColumn(name="value_id", referencedColumnName="value_id")
+    })
+    @ManyToOne
+    public GroupField gf;
 	
-	@ManyToOne
-	@MapsId("ac_value_id")
-	@JoinColumn(name="ac_value_id")
-	Value value;
 
-	public AssociationAsset(DigitalAsset da, Group grupo, Field campo, Value value) {
+	public AssociationAsset(DigitalAsset da, GroupField groupField) {
 		super();
-		this.id = new AssociationAssetId(da.getId(),grupo.getId(),campo.getId(),value.getId());
+		this.id = new AssociationAssetId(da.getId(),groupField.getId());
 		this.da = da;
-		this.grupo = grupo;
-		this.campo = campo;
-		this.value = value;
+		this.gf = groupField;
 	}
 	
 	public AssociationAsset() {		
@@ -61,28 +56,12 @@ public class AssociationAsset {
 		this.da = da;
 	}
 
-	public Group getGrupo() {
-		return grupo;
+	public GroupField getGf() {
+		return gf;
 	}
 
-	public void setGrupo(Group grupo) {
-		this.grupo = grupo;
+	public void setGf(GroupField gf) {
+		this.gf = gf;
 	}
-
-	public Field getCampo() {
-		return campo;
-	}
-
-	public void setCampo(Field campo) {
-		this.campo = campo;
-	}
-
-	public Value getValue() {
-		return value;
-	}
-
-	public void setValue(Value value) {
-		this.value = value;
-	}
-
+	
 }

@@ -38,7 +38,7 @@ public class DigitalTwinController {
 	}
 	
 	
-	@RequestMapping(value = "/getDigitalTwins", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(value = "", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TwinModel>> getDigitalAssets(@RequestParam(required=false) Map<String,Object> allRequestParams){
 		List<TwinModel> result = twinService.getDigitalTwinsByFilters(allRequestParams);

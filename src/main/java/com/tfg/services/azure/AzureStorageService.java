@@ -5,10 +5,12 @@ import java.io.FileOutputStream;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.microsoft.azure.storage.*;
 import com.microsoft.azure.storage.blob.*;
+import com.tfg.exceptions.errors.RestException;
 import com.tfg.services.model.NewAsset;
 import com.tfg.services.readers.FileInfo;
 import com.tfg.utils.ContextManager;
@@ -34,6 +36,7 @@ public class AzureStorageService {
 	
 	private static final String defaultPath = "src/main/resources/";
 	
+	@SuppressWarnings("serial")
 	public void downloadFile(HttpSession session, String containerName, String fileName) {
 		try
 		{
@@ -41,14 +44,23 @@ public class AzureStorageService {
 		   // Create the blob client.
 		   CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 		   // Retrieve reference to a previously created container.
-		   CloudBlobContainer container = blobClient.getContainerReference(containerName);		   
-		   CloudBlockBlob blob = container.getBlockBlobReference(fileName);
-		   blob.download(new FileOutputStream(defaultPath + blob.getName()));
-		   fileService.getMetadata(session, fileName,new NewAsset());
+		   CloudBlobContainer container = blobClient.getContainerReference(containerName);
+		   for (ListBlobItem blobItem : container.listBlobs(fileName)) {
+			   System.out.println();
+		       // If the item is a blob, not a virtual directory.
+		       if (blobItem instanceof CloudBlob) {
+		           // Download the item and save it to a file with the same name.
+			        CloudBlob blob = (CloudBlob) blobItem;
+			        blob.download(new FileOutputStream(defaultPath + blob.getName()));
+			        System.out.println("ANtes de obtener metadatos");
+					fileService.getMetadata(session, fileName,new NewAsset());
+			    }
+			}
 		}
 		catch (Exception e)
 		{
-		    e.printStackTrace();
+		    throw new RestException(e,HttpStatus.INTERNAL_SERVER_ERROR) {
+			};
 		}
 	}
 

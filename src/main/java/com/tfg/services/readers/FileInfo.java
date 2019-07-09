@@ -123,6 +123,7 @@ public class FileInfo {
 	
 	public void getMetadata(HttpSession session, String fileName, NewAsset newAsset) throws IOException, ParseException {
 		this.file = new File(defaultPath+fileName);
+		System.out.println("Antes de añadir");
 		assetService.addRealAsset(fileName, getNewAsset(fileName));
 		getFileType(session, fileName);
 	}
@@ -130,12 +131,14 @@ public class FileInfo {
 	private NewAsset getNewAsset(String fileName) throws IOException, ParseException {
 		NewAsset newAsset = new NewAsset();
 		newAsset.setCode(fileName);
+		newAsset.setName(fileName);
 		newAsset.setCreateDate(getCreated());
 		newAsset.setDescription("Digital Asset with name "+fileName);
 		newAsset.setLastModifiedDate(getLastModified());
 		newAsset.setOwner(getOwner());
 		newAsset.setPath(getAbsolutePath());
 		newAsset.setSize((int)getSize());
+		System.out.println("Antes de añadir 2");
 		return newAsset;
 	}
 	

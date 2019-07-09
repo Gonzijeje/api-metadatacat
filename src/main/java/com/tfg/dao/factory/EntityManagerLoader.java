@@ -18,7 +18,7 @@ public class EntityManagerLoader {
 	
 	public List<String> getDigitalAssetsByFilters(Map<String,Object> filters){
 		String parts[] = {"Select d.codigo from AssociationAsset ac, DigitalAsset d, GroupField gc, Field c, Value v where "
-				+ "ac.da=d and ac.campo=gc.campo and ac.value=gc.valor and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
+				+ "ac.da=d and ac.gf=gc and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
 		StringBuilder sb = new StringBuilder();
 		sb.append(parts[0]);
 		filters.forEach((k,v) -> {
@@ -36,7 +36,7 @@ public class EntityManagerLoader {
 	
 	public List<String> getDigitalTwinsByFilters(Map<String,Object> filters){
 		String parts[] = {"Select d.codigo from AssociationTwin ac, DigitalTwin d, GroupField gc, Field c, Value v where "
-				+ "ac.dt=d and ac.campo=gc.campo and ac.value=gc.valor and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
+				+ "ac.dt=d and ac.gf=gc and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
 		StringBuilder sb = new StringBuilder();
 		sb.append(parts[0]);
 		filters.forEach((k,v) -> {
@@ -54,7 +54,7 @@ public class EntityManagerLoader {
 	
 	public List<Object[]> getFieldsAndValuesByGroupAsset(String groupCode, String assetCode){
 		Query query = entityManager.createQuery("SELECT c.codigo, v.valor FROM Field c, Value v, GroupField gc, Group g, "
-				+ "DigitalAsset da, AssociationAsset ac where da=ac.da and ac.grupo=gc.grupo and ac.campo=gc.campo and ac.value=gc.valor "
+				+ "DigitalAsset da, AssociationAsset ac where da=ac.da and ac.gf=gc "
 				+ "and c=gc.campo and v=gc.valor and g=gc.grupo and g.codigo=?1 and da.codigo=?2 group by c.codigo,v.valor");
 		List<Object[]> results = query.setParameter(1, groupCode).setParameter(2, assetCode).getResultList();
 		return 	results;
@@ -62,7 +62,7 @@ public class EntityManagerLoader {
 	
 	public List<Object[]> getFieldsAndValuesByGroupTwin(String groupCode, String twinCode){
 		Query query = entityManager.createQuery("SELECT c.codigo, v.valor FROM Field c, Value v, GroupField gc, Group g, "
-				+ "DigitalTwin dt, AssociationTwin ac where dt=ac.dt and ac.grupo=gc.grupo and ac.campo=gc.campo and ac.value=gc.valor "
+				+ "DigitalTwin dt, AssociationTwin ac where dt=ac.dt and ac.gf=gc "
 				+ "and c=gc.campo and v=gc.valor and g=gc.grupo and g.codigo=?1 and dt.codigo=?2 group by c.codigo,v.valor");
 		List<Object[]> results = query.setParameter(1, groupCode).setParameter(2, twinCode).getResultList();
 		return 	results;
