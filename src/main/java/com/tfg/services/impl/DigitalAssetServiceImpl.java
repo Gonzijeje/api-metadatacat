@@ -30,7 +30,8 @@ import com.tfg.services.model.GroupFieldModel;
 import com.tfg.services.model.NewAsset;
 
 /**
- * 
+ * Implementación de la interfaz de operaciones definida
+ * en DigitalAssetService
  * @author gcollada
  *
  */
@@ -41,21 +42,40 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 	@Autowired
 	DigitalAssetRepository repository;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre Fields , campos de metadatos
+	 */
 	@Autowired
 	FieldService fieldService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre Groups, grupos de metadatos
+	 */
 	@Autowired
 	GroupService groupService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre Values, valores de metadatos
+	 */
 	@Autowired
 	ValueService valueService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre GroupFields, agrupaciones de metadatos
+	 */
 	@Autowired
 	GroupFieldService groupFieldService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre AssociationAseets, relaciones de agrupaciones 
+	 * con Digital Assets
+	 */
 	@Autowired
 	AssociationAssetService acAssetService;
 	
+	/**
+	 * Servicio para realizar consultas dinámicas de búsqueda con número variable de filtros
+	 */
 	EntityManagerLoader repositoryEM = new EntityManagerLoader();
 	
 	
@@ -87,7 +107,12 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 			throw ExceptionFactory.getError(Errors.ENTITY_NOT_FOUND);
 		}
 	}
-	
+
+	/**
+	 * Método que busca un Digital Asset por su código
+	 * @param codigo Código del Digital Asset a buscar
+	 * @return el Digital Asset recuperado de la base de datos.
+	 */
 	private DigitalAsset findAssetByCode(String codigo) {
 		DigitalAsset asset = repository.findByCodigo(codigo);
 		if(asset!=null) {
@@ -124,6 +149,14 @@ public class DigitalAssetServiceImpl implements DigitalAssetService{
 		return DigitalAssetAdapter.getAssetEntity(newAsset);
 	}
 	
+	/**
+	 * Método privado que añade el grupo de metadatos basicos, sus campos y valores,
+	 * y las relaciones con el DigitalAsset a la base de datos. Invoca a los servicios de cada una
+	 * de estas entidades para primero, crear las instancias e insertarlas en la base de datos y, posteriormente,
+	 * recuperarlas para poder crear las relaciones correspondientes.
+	 * @param newAsset el modelo JSON del nuevo Digital Asset.
+	 * @param asset el Digital Asset creado.
+	 */
 	private void addGroupFieldsValuesAssociated(NewAsset newAsset, DigitalAsset asset) {
 		List<Field> listFields = DigitalAssetAdapter.getFieldsAssociatedToAsset(newAsset);
 		fieldService.addListFields(listFields);

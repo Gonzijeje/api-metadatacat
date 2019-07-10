@@ -12,6 +12,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.tfg.exceptions.ExceptionFactory;
 import com.tfg.exceptions.ExceptionFactory.Errors;
 import com.tfg.services.model.DatasetModel;
@@ -20,6 +22,7 @@ import com.tfg.utils.ContextManager;
 import com.tfg.utils.JsonRequests;
 
 @Service
+@Transactional
 public class DataFactoryService {
 
 	ContextManager cm = ContextManager.getInstance();

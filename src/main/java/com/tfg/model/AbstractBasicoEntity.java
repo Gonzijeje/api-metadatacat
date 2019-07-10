@@ -16,9 +16,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractBasicoEntity extends AbstractGeneratedIdEntity{	
 
+	/**
+	 * Atributo básico code, común en las entidades básicas.
+	 */
 	@Column(name = "code", unique = true, nullable = false, length = 45)
 	protected String codigo;
 
+	/**
+	 * Atributo básico description, común en las entidades básicas.
+	 */
 	@Column(name = "description", nullable = true, length = 300)
 	protected String descripcion;
 			
