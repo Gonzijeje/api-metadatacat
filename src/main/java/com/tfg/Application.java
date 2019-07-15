@@ -19,7 +19,7 @@ public class Application {
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(Application.class, args);
-		LOGGER.info("Sistema desplegado con éxito");
+		LOGGER.info("Sistema desplegado con exito");
 	}
 
 }

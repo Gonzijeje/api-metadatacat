@@ -1,5 +1,11 @@
 package com.tfg.utils;
 
+/**
+ * Clase que contiene constantes para utilizar en las peticiones HTTP
+ * contra la API de Azure, como cuerpo de la petición a realizar.
+ * @author gcollada
+ *
+ */
 public class JsonRequests {
 	
 	public static final String CREATE_PIPELINE = "{\r\n" + 

@@ -20,21 +20,43 @@ import org.springframework.stereotype.Service;
 import com.tfg.services.DigitalAssetService;
 import com.tfg.services.model.NewAsset;
 
+/**
+ * Serviciio encargado de obtene rmetadatos automáticamente de cualquier archivo procesado
+ * durante las canalizaciones de Azure. Obtiene los metadatos, se almacenan en el sistema y se invoca a servicios mas especificos
+ * de obtencion dependiendo de la extension del archivo
+ * @author gcollada
+ *
+ */
 @Service
 public class FileInfo {
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre DigitalAssets
+	 */
 	@Autowired
 	DigitalAssetService assetService;
 	
+	/**
+	 * Servicio dedicado a obtener metadatos de los CSV
+	 */
 	@Autowired
 	CSVReader csvService;
 	
+	/**
+	 * Servicio dedicado a obtener metadatos de los TXT
+	 */
 	@Autowired
 	TXTReader txtService;
 	
+	/**
+	 * Enum con los distintos tipos de acceso a un archivo
+	 * @author yeahb
+	 *
+	 */
 	public enum Timefield {
 		CREATED, ACCESSED, WRITTEN
 	}
+	
 	
 	private static final String defaultPath = "src/main/resources/";	
 	private final static DateFormat FORMATTER = new SimpleDateFormat(
@@ -121,6 +143,15 @@ public class FileInfo {
 		return timefields.get(Timefield.WRITTEN);
 	}
 	
+	/**
+	 * Método que se encarga de invocar al servicio de DigitalAssets para añadir un nuevo archivo con los metadatos obtenidos
+	 * durante el procesado llevado a cabo en esta clase
+	 * @param session
+	 * @param fileName
+	 * @param newAsset
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	public void getMetadata(HttpSession session, String fileName, NewAsset newAsset) throws IOException, ParseException {
 		this.file = new File(defaultPath+fileName);
 		System.out.println("Antes de añadir");

@@ -30,29 +30,54 @@ import com.tfg.services.ValueService;
 import com.tfg.services.adapters.DigitalAssetAdapter;
 import com.tfg.services.elastic.ElasticService;
 
-
+/**
+ * Servicio encargado de obtener metadatos específicos de los archivos TXT
+ * @author gcollada
+ *
+ */
 @Service
 @Transactional
 public class TXTReader {
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre grupos
+	 */
 	@Autowired
 	GroupService groupService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre campos
+	 */
 	@Autowired
 	FieldService fieldService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre valores
+	 */
 	@Autowired
 	ValueService valueService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre GroupFields (agrupaciones de metadatos)
+	 */
 	@Autowired
 	GroupFieldService groupFieldService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre AssociationAssets
+	 */
 	@Autowired
 	AssociationAssetService ac_assetService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre DigitalAssets
+	 */
 	@Autowired
 	DigitalAssetService assetService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre Elasticsearch
+	 */
 	@Autowired
 	ElasticService elasticService;
 
@@ -64,6 +89,12 @@ public class TXTReader {
 	
 	private static final String defaultPath = "src/main/resources/";
 
+	/**
+	 * Método que se encarga de ir leyendo el archivo TXT y rellenando el atributo contenido
+	 * para posteriormente indexarlo en Elasticsearch. También cuenta el número de palabra, caracteres y lineas.
+	 * @param session
+	 * @param txtFile Nombre del archivo TXT
+	 */
 	public void read(HttpSession session, String txtFile){
 		BufferedReader br = null;
 		String line = "";
@@ -89,6 +120,12 @@ public class TXTReader {
 		}
 	}
 	
+	/**
+	 * Método que se encarga de añadir los metadatos obtenidos a la base de datos invocando
+	 * a los distintos servicios de las entidades
+	 * @param session
+	 * @param txtFile Nombre del archivo TXT
+	 */
 	private void getMetadata(HttpSession session, String txtFile) {
 		DigitalAsset asset = DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(txtFile));
 		List<Group> listGroups = new ArrayList<Group>();

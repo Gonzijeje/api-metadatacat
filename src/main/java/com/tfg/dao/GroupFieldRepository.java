@@ -6,7 +6,7 @@ import com.tfg.model.GroupField;
 import com.tfg.model.id.GroupFieldId;
 
 /**
- * 
+ * Repositorio para la entidad GroupField. Gestiona una serie de operaciones CRUD sobre GroupFields.
  * @author gcollada
  *
  */

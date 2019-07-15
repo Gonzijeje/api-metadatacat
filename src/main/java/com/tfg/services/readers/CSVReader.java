@@ -30,33 +30,55 @@ import com.tfg.services.ValueService;
 import com.tfg.services.adapters.DigitalAssetAdapter;
 
 /**
- * 
- * @author yeahb
+ * Servicio encargado de obtener metadatos específicos de los archivos CSV
+ * @author gcollada
  *
  */
 @Service
 @Transactional
 public class CSVReader {
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre grupos
+	 */
 	@Autowired
 	GroupService groupService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre campos
+	 */
 	@Autowired
 	FieldService fieldService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre valores
+	 */
 	@Autowired
 	ValueService valueService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre GroupFields (agrupaciones de metadatos)
+	 */
 	@Autowired
 	GroupFieldService groupFieldService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre AssociationAssets
+	 */
 	@Autowired
 	AssociationAssetService ac_assetService;
 	
+	/**
+	 * Servicio para realizar operaciones lógicas sobre DigitalAssets
+	 */
 	@Autowired
 	DigitalAssetService assetService;
 	
-	
+	/**
+	 * Clase interna de CSVReader que representa una columna del CSV
+	 * @author gcollada
+	 *
+	 */
 	private class Key{
 		String name;
 		Type type;	
@@ -64,6 +86,11 @@ public class CSVReader {
 	
 	private static final String SEPARATOR = ";";
 	private static final String defaultPath = "src/main/resources/";
+	/**
+	 * Tipo que puede tener una columna del CSV
+	 * @author gcollada
+	 *
+	 */
 	private enum Type{
 		TEXT, NUMBER, DATE, UNKNOWN
 	}
@@ -77,6 +104,11 @@ public class CSVReader {
 	int nRow = 0;
 	Map<Key,ArrayList<String>> mapa = new HashMap<>();
 	
+	/**
+	 * Método encargado de leer el archivo CSV fila por fila.
+	 * Obtiene el número de filas y columna e invoca a la obtención de metadatos
+	 * @param csvFile Nombre del archivo CSV a procesar
+	 */
 	public void read(String csvFile) {
 		BufferedReader br = null;
 		String line = "";
@@ -115,6 +147,13 @@ public class CSVReader {
 		}
 	}
 	
+	/**
+	 * Método encargado de procesar el archivo CSV y obtener los metadatos relacionados con el tipo y valores
+	 * de las columnas del CSV, los nombres de las columnas, además de llamar a los correspondientes servicio
+	 * para añadirlos a la base de datos
+	 * @param map Mapa con la información tabulada del CSV
+	 * @param csvFile Nombre del fichero CSV
+	 */
 	private void scan(Map<Key,ArrayList<String>> map, String csvFile) {
 		DigitalAsset asset = DigitalAssetAdapter.getAssetEntity(assetService.findByCodigo(csvFile));
 		List<Group> listGroups = new ArrayList<Group>();
@@ -160,6 +199,11 @@ public class CSVReader {
 		asset.getAsociaciones_asset().addAll(asociaciones);
 	}
 	
+	/**
+	 * Obtiene el tipo de una columna del CSV
+	 * @param value Valor a comparar con los tipos
+	 * @return Cadena de texto con el tipo del parámetro
+	 */
 	private String getType(String value) {
 		boolean matcher = ALPHANUMERIC_PATTERN.matcher(value).matches();
 		if (matcher) {

@@ -17,11 +17,22 @@ import com.tfg.services.model.GroupFieldModel;
 import com.tfg.services.model.NewTwin;
 import com.tfg.services.model.TwinModel;
 
+/**
+ * Clase encargada de adaptar y realizar las transformaciones entre los
+ * distintos modelos de un DigitalTwin y su entidad
+ * @author gcollada
+ *
+ */
 public class DigitalTwinAdapter {
 	
 	@Autowired
 	static GroupFieldService groupFieldService = new GroupFieldServiceImpl();
 	
+	/**
+	 * Método encargado de transformar un módelo de nuevo DigitalTwin a una entidad DigitalTwin
+	 * @param newTwin El módelo JSON de tipo NewTwin
+	 * @return un objeto DigitalTwin entidad
+	 */
 	public static DigitalTwin getTwinEntity(NewTwin newTwin) {
 		DigitalTwin twin = new DigitalTwin();
 		twin.setCodigo(newTwin.getCode());
@@ -29,6 +40,11 @@ public class DigitalTwinAdapter {
 		return twin;
 	}
 	
+	/**
+	 * Método encargado de transformar un módelo de DigitalTwin a una entidad DigitalTwin
+	 * @param twinModel El módelo JSON de tipo TwinModel
+	 * @return un objeto DigitalTwin entidad
+	 */
 	public static DigitalTwin getTwinEntity(TwinModel twinModel) {
 		DigitalTwin twin = new DigitalTwin();
 		twin.setId(twinModel.getId());
@@ -37,6 +53,12 @@ public class DigitalTwinAdapter {
 		return twin;
 	}
 	
+	/**
+	 * Método encargado de transformar una entidad DigitalTwin en un modelo DTO TwinModel con
+	 * información de la propia entidad DigitalTwin y de las agrupaciones de metadatos que tiene asociadas
+	 * @param twin La entidad DigitalTwin que transformar a modelo
+	 * @return Un objeto TwinModel con todos los metadatos del gemelo digital
+	 */
 	public static TwinModel getDigitalTwinModel(DigitalTwin twin) {
 		TwinModel model = new TwinModel();
 		model.setId(twin.getId());
@@ -74,6 +96,12 @@ public class DigitalTwinAdapter {
 		return listGroupFields;
 	}
 	
+	/**
+	 * Método que se encarga de obtener las agrupaciones de metadatos de un DigitalTwin a partir
+	 * de los grupos que tenga asociados en sus asociaciones AssociationTwin.
+	 * @param twin el objeto DigitalTwin del que obtener las agrupaciones de metadatos
+	 * @return La lista de agrupaciones de metadatos del DigitalTwin
+	 */
 	public static List<GroupFieldModel> getGroupFieldModels(DigitalTwin twin){
 		List<GroupFieldModel> list = new ArrayList<GroupFieldModel>();
 		for(AssociationTwin ac : twin.getAsociaciones_twin()) {

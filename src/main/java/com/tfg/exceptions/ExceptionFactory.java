@@ -7,7 +7,12 @@ import com.tfg.exceptions.errors.HttpClientErrorException;
 import com.tfg.exceptions.errors.RestException;
 import com.tfg.exceptions.errors.UniqueCodeException;
 import com.tfg.exceptions.errors.ValueWithNoKeyException;
-
+/**
+ * Clase que sigue el patrón Abstract Factory y funciona como una factoría
+ * de creación de excepciones propias en la aplicación.
+ * @author yeahb
+ *
+ */
 public class ExceptionFactory {
 	
 	public static enum Errors{

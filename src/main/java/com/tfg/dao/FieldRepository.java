@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tfg.model.Field;
 
 /**
- * 
+ * Repositorio para la entidad Field. Gestiona una serie de operaciones CRUD sobre Fields.
  * @author gcollada
  *
  */

@@ -21,6 +21,11 @@ import com.tfg.services.model.PipelineModel;
 import com.tfg.utils.ContextManager;
 import com.tfg.utils.JsonRequests;
 
+/**
+ * Clase que contiene las operaciones de lógica relacionadas con el servicio de Azure Data Factory
+ * @author yeahb
+ *
+ */
 @Service
 @Transactional
 public class DataFactoryService {
