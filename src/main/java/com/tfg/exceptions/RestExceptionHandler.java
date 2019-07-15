@@ -30,6 +30,7 @@ import com.tfg.services.model.ErrorResponse;
  * @author gcollada
  *
  */
+
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler{

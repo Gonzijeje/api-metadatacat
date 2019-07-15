@@ -101,7 +101,7 @@ public class TXTReader {
 		try {
 			br = new BufferedReader(new FileReader(defaultPath+txtFile));
 			while((line = br.readLine()) !=null) {
-				setContent(getContent() + line); setContent(getContent() + "\n");
+				setContent(getContent() + line); setContent(getContent());
 				nLines++;
 				String[] words = line.split(" ");
 				for(String word : words) {
@@ -111,8 +111,8 @@ public class TXTReader {
 				}		
 			}
 			fillMap();
-			getMetadata(session, txtFile);
-			
+			br.close();	
+			getMetadata(session, txtFile);		
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {

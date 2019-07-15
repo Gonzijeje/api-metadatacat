@@ -60,15 +60,28 @@ public class AzureStorageService {
 		   CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
 		   // Retrieve reference to a previously created container.
 		   CloudBlobContainer container = blobClient.getContainerReference(containerName);
-		   for (ListBlobItem blobItem : container.listBlobs(fileName)) {
-		       // If the item is a blob, not a virtual directory.
-		       if (blobItem instanceof CloudBlob) {
-		           // Download the item and save it to a file with the same name.
-			        CloudBlob blob = (CloudBlob) blobItem;
-			        blob.download(new FileOutputStream(defaultPath + blob.getName()));
-					fileService.getMetadata(session, fileName,new NewAsset());
-			    }
-			}
+		   if(fileName.equals("*")) {
+			   for (ListBlobItem blobItem : container.listBlobs()) {
+			       // If the item is a blob, not a virtual directory.
+			       if (blobItem instanceof CloudBlob) {
+			           // Download the item and save it to a file with the same name.
+				        CloudBlob blob = (CloudBlob) blobItem;
+				        blob.download(new FileOutputStream(defaultPath + blob.getName()));
+						fileService.getMetadata(session, blob.getName(),new NewAsset());
+				    }
+				} 
+		   }else {
+			   for (ListBlobItem blobItem : container.listBlobs(fileName)) {
+			       // If the item is a blob, not a virtual directory.
+			       if (blobItem instanceof CloudBlob) {
+			           // Download the item and save it to a file with the same name.
+				        CloudBlob blob = (CloudBlob) blobItem;
+				        blob.download(new FileOutputStream(defaultPath + blob.getName()));
+						fileService.getMetadata(session, blob.getName(),new NewAsset());
+				    }
+				} 
+		   }
+		   
 		}
 		catch (Exception e)
 		{

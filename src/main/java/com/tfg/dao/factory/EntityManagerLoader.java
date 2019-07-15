@@ -31,7 +31,7 @@ public class EntityManagerLoader {
 	 */
 	public List<String> getDigitalAssetsByFilters(Map<String,Object> filters){
 		String parts[] = {"Select d.codigo from AssociationAsset ac, DigitalAsset d, GroupField gc, Field c, Value v where "
-				+ "ac.da=d and ac.gf=gc and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
+				+ "ac.da=d and ac.gf=gc and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", "v.valor"};
 		StringBuilder sb = new StringBuilder();
 		sb.append(parts[0]);
 		filters.forEach((k,v) -> {
@@ -40,7 +40,7 @@ public class EntityManagerLoader {
 			}else if(!k.isEmpty() && v.toString().length()==0) {
 				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'");
 			}else {
-				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'"+parts[2]+parts[4]+parts[1]+"'"+v.toString()+"'");
+				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'"+parts[2]+parts[4]+parts[1]+" '%"+v.toString()+"%' ");
 			}		
 		});
 		Query query = entityManager.createQuery(sb.toString());
@@ -56,7 +56,7 @@ public class EntityManagerLoader {
 	 */
 	public List<String> getDigitalTwinsByFilters(Map<String,Object> filters){
 		String parts[] = {"Select d.codigo from AssociationTwin ac, DigitalTwin d, GroupField gc, Field c, Value v where "
-				+ "ac.dt=d and ac.gf=gc and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", " v.valor "};
+				+ "ac.dt=d and ac.gf=gc and gc.campo=c and gc.valor=v", " like ", " and ", " c.codigo ", "v.valor"};
 		StringBuilder sb = new StringBuilder();
 		sb.append(parts[0]);
 		filters.forEach((k,v) -> {
@@ -65,7 +65,7 @@ public class EntityManagerLoader {
 			}else if(!k.isEmpty() && v.toString().length()==0) {
 				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'");
 			}else {
-				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'"+parts[2]+parts[4]+parts[1]+"'"+v.toString()+"'");
+				sb.append(parts[2]+parts[3]+parts[1]+"'"+k+"'"+parts[2]+parts[4]+parts[1]+" '%"+v.toString()+"%' ");
 			}		
 		});
 		Query query = entityManager.createQuery(sb.toString());

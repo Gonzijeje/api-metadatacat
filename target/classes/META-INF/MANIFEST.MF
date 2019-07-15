@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: TFG-MetadataSystem
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: gcollada
+Built-By: yeahb
 Implementation-Vendor-Id: org.springframework
-Build-Jdk: 1.8.0_201
+Build-Jdk: 1.8.0_161
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/tfg-rest-service
 Created-By: Maven Integration for Eclipse
