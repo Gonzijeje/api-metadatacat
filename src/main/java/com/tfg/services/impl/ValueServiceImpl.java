@@ -10,6 +10,11 @@ import com.tfg.dao.ValueRepository;
 import com.tfg.model.Value;
 import com.tfg.services.ValueService;
 
+/**
+ * Implementación de la interfaz de operaciones para Values
+ * @author gcollada
+ *
+ */
 @Service
 public class ValueServiceImpl implements ValueService{
 	

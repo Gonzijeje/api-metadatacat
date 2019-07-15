@@ -23,12 +23,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.tfg.exceptions.errors.RestException;
 import com.tfg.services.model.ErrorResponse;
 
-
+/**
+ * Clase que capturará todas las excepciones lanzadas en el sistema y mostrará un mensaje de respuesta
+ * formateado con la información de la excepción.
+ * Se trata de un controlador global de excepciones.
+ * @author gcollada
+ *
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler{
-
-	//other exceptions handlers
 	
 	@Override
 	protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -99,8 +103,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
     
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        //ServletWebRequest servletWebRequest = (ServletWebRequest) request;
-        //log.info("{} to {}", servletWebRequest.getHttpMethod(), servletWebRequest.getRequest().getServletPath());
         String error = "Malformed JSON request";
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, error, ex));
     }

@@ -21,7 +21,7 @@ import com.tfg.services.DigitalAssetService;
 import com.tfg.services.model.NewAsset;
 
 /**
- * Serviciio encargado de obtene rmetadatos automáticamente de cualquier archivo procesado
+ * Servicio encargado de obtener metadatos automáticamente de cualquier archivo procesado
  * durante las canalizaciones de Azure. Obtiene los metadatos, se almacenan en el sistema y se invoca a servicios mas especificos
  * de obtencion dependiendo de la extension del archivo
  * @author gcollada
@@ -83,6 +83,13 @@ public class FileInfo {
 		}
 	}
 	
+	/**
+	 * Método que realiza una instancia a la consola de comandos para obtener los metadatos
+	 * de propietario y fechas de creación y última modificación del archivo
+	 * @param timefield La lista de tipos de fecha
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	private void shellToDir(Timefield timefield) throws IOException,
 			ParseException {
 		Runtime systemShell = Runtime.getRuntime();
@@ -91,7 +98,6 @@ public class FileInfo {
 		String outputLine = null;
 		while ((outputLine = reader.readLine()) != null) {
 			if (outputLine.contains(file.getName())) {
-				System.out.println(outputLine);
 				timefields.put(timefield,
 						FORMATTER.parse(outputLine.substring(0, 17)));
 				owner = outputLine.substring(36, 59);
@@ -154,11 +160,19 @@ public class FileInfo {
 	 */
 	public void getMetadata(HttpSession session, String fileName, NewAsset newAsset) throws IOException, ParseException {
 		this.file = new File(defaultPath+fileName);
-		System.out.println("Antes de añadir");
 		assetService.addRealAsset(fileName, getNewAsset(fileName));
 		getFileType(session, fileName);
+		file.delete();
 	}
 	
+	/**
+	 * Método que crea un modelo de NewAsset que será utlizado por el servicio de DigitalAssets para añadir al sistema.
+	 * Contiene los metadatos obtenidos automáticamente con los métodos de la clase.
+	 * @param fileName El código y nombre del archivo
+	 * @return El modelo NewAsset creado con la información de los metadatos
+	 * @throws IOException
+	 * @throws ParseException
+	 */
 	private NewAsset getNewAsset(String fileName) throws IOException, ParseException {
 		NewAsset newAsset = new NewAsset();
 		newAsset.setCode(fileName);
@@ -169,7 +183,6 @@ public class FileInfo {
 		newAsset.setOwner(getOwner());
 		newAsset.setPath(getAbsolutePath());
 		newAsset.setSize((int)getSize());
-		System.out.println("Antes de añadir 2");
 		return newAsset;
 	}
 	

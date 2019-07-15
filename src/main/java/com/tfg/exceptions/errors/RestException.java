@@ -2,6 +2,11 @@ package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Clase abstracta de la que heredan el resto de expeciones propias del sistema
+ * @author gcollada
+ *
+ */
 public abstract class RestException extends RuntimeException{
 
 	/**
@@ -9,6 +14,9 @@ public abstract class RestException extends RuntimeException{
 	 */
 	private static final long serialVersionUID = -7438291498474539649L;
 	
+	/**
+	 * Código Http de respuesta
+	 */
 	private HttpStatus httpStatus;
 
 	public RestException(HttpStatus status) {

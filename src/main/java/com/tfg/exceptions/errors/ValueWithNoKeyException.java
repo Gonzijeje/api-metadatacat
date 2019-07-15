@@ -2,6 +2,11 @@ package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Excepción propia relacionada con que no se pueden realizar búsquedas de valores sin campos
+ * @author gcollada
+ *
+ */
 public class ValueWithNoKeyException extends RestException {
 
 	/**

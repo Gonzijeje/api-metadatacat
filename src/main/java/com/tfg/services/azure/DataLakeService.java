@@ -21,15 +21,35 @@ import com.tfg.services.model.NewAsset;
 import com.tfg.services.readers.FileInfo;
 import com.tfg.utils.ContextManager;
 
+/**
+ * Clase que contiene las operaciones relacionadas con el servicio Data Lake de Azure
+ * @author gcollada
+ *
+ */
 @Service
 public class DataLakeService {
 	
+	/**
+	 * Instancia de la clase ContextManager
+	 */
 	ContextManager cm = ContextManager.getInstance();
+	/**
+	 * Ruta donde se descargarán los archivos del Data Lake
+	 */
 	private static final String defaultPath = "src/main/resources/";
 	
+	/**
+	 * Servicio encargado de obtener metadatos automáticamente
+	 */
 	@Autowired
 	FileInfo fileService;
 	
+	/**
+	 * Método que descarga archivos contenidos en el Data Lake de destino integrado en el sistema para obtener metadatos
+	 * y almacenarlos en la base de datos del proyecto junto a al referencia del propio archivo
+	 * @param session
+	 * @param pathFile Ruta del archivo a escargar
+	 */
 	public void download(HttpSession session, String pathFile){
 		String path = defaultPath+pathFile;
 		File myFile = new File(path);
@@ -43,7 +63,6 @@ public class DataLakeService {
 			if(entity!=null) {
 				FileOutputStream outstream = new FileOutputStream(myFile);
 				entity.writeTo(outstream);
-				System.out.println("CSV creado");
 				fileService.getMetadata(session, pathFile,new NewAsset());
 			}
 		} catch (IOException | ParseException e) {

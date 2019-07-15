@@ -15,7 +15,7 @@ import com.tfg.services.model.GroupModel;
 import com.tfg.services.model.NewGroup;
 
 /**
- * 
+ * Implementación de la interfaz de operaciones para Groups
  * @author gcollada
  *
  */

@@ -2,6 +2,11 @@ package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Excepción propia relacionada con que una entidad ya existe en el sistema
+ * @author gcollada
+ *
+ */
 public class UniqueCodeException extends RestException {
 
 	/**

@@ -37,7 +37,7 @@ import com.tfg.services.model.SimpleAsset;
 import com.tfg.services.model.TwinModel;
 
 /**
- * 
+ * Implementación de la interfaz de operaciones para DigitalTwins
  * @author gcollada
  *
  */
@@ -190,6 +190,14 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		}
 	}
 	
+	/**
+	 * Método privado que añade el grupo de metadatos basicos, sus campos y valores,
+	 * y las relaciones con el DigitalTwin a la base de datos. Invoca a los servicios de cada una
+	 * de estas entidades para primero, crear las instancias e insertarlas en la base de datos y, posteriormente,
+	 * recuperarlas para poder crear las relaciones correspondientes.
+	 * @param newTwin el modelo JSON del nuevo Digital Twin.
+	 * @param twin el Digital Twin creado.
+	 */
 	private void addGroupFieldsValuesAssociated(NewTwin newTwin, DigitalTwin twin) {
 		List<Field> listFields = DigitalTwinAdapter.getFieldsAssociatedToTwin(newTwin);
 		fieldService.addListFields(listFields);
@@ -216,9 +224,15 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 		acTwinService.addListAssociationsTwin(asociaciones);
 		twin.getAsociaciones_twin().addAll(asociaciones);
 		addDigitalAssetsAssociated(newTwin,twin);
-		System.out.println("SET: "+twin.getAsociaciones_twin());
 	}
 	
+	/**
+	 * Método privado que comprueba si existen en el sistema los Digital Assets de entrada y de salida
+	 * proporcionados a la hora de crear un DigitalTwin. En caso de exisitir se crean las relaciones entre
+	 * el Digital Twin y los activos.
+	 * @param newTwin
+	 * @param twin
+	 */
 	private void addDigitalAssetsAssociated(NewTwin newTwin, DigitalTwin twin) {
 		List<DigitalAsset> assetsIn = new ArrayList<DigitalAsset>();
 		List<DigitalAsset> assetsOut = new ArrayList<DigitalAsset>();
@@ -235,9 +249,7 @@ public class DigitalTwinServiceImpl implements DigitalTwinService{
 			da.setAssets_out(twin);
 			repositoryAsset.save(da);
 		}
-		twin.getAsociaciones_assets_out().addAll(assetsOut);
-		
-	}
-	
+		twin.getAsociaciones_assets_out().addAll(assetsOut);	
+	}	
 
 }

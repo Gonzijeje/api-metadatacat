@@ -30,11 +30,23 @@ import com.tfg.utils.JsonRequests;
 @Transactional
 public class DataFactoryService {
 
+	/**
+	 * Instancia de la clase ContextManager
+	 */
 	ContextManager cm = ContextManager.getInstance();
 
+	/**
+	 * Servicio que realiza operaciones sobre Azure Storage
+	 */
 	@Autowired
 	AzureStorageService storageService;
 
+	/**
+	 * Método que envía una petición Http a la API de Azure para obtener y añadir un token
+	 * de autorización a la sesión y poder utilizar los servicios de Azure.
+	 * @param session
+	 * @return Un objeto JSON con la respuesta enviada desdde Azure
+	 */
 	public JSONObject getBearerToken(HttpSession session){
 		String URL = "https://login.microsoftonline.com/"+ cm.getProperty("tenant_id") +"/oauth2/token";
 
@@ -59,6 +71,12 @@ public class DataFactoryService {
 		}
 	}
 
+	/**
+	 * Método que envía una petición Http a la API de Azure y obtiene información de un Dataset (conjunto de datos)
+	 * @param session
+	 * @param DatasetName Nombre del dataset
+	 * @return Un objeto JSON con la información del Dataset enviada desde Azure
+	 */
 	public JSONObject getDataset(HttpSession session, String DatasetName){
 		String URL = "https://management.azure.com/subscriptions/"+cm.getProperty("subscription_id")+
 				"/resourcegroups/"+cm.getProperty("resource_group")+"/providers/Microsoft.DataFactory/factories/"+
@@ -77,6 +95,12 @@ public class DataFactoryService {
 		}	
 	}
 
+	/**
+	 * Método que envía una petición Http a la API de Azure y obtiene información de un Pipeline (canalización de datos)
+	 * @param session
+	 * @param PipelineName Nombre del pipeline
+	 * @return Un objeto JSON con la información del Pipeline enviada desde Azure
+	 */
 	public JSONObject getPipeline(HttpSession session, String PipelineName){
 		String URL = "https://management.azure.com/subscriptions/"+cm.getProperty("subscription_id")+
 				"/resourcegroups/"+cm.getProperty("resource_group")+"/providers/Microsoft.DataFactory/factories/"+
@@ -95,6 +119,13 @@ public class DataFactoryService {
 		}		
 	}
 
+	/**
+	 * Método que envía una petición Http a la API de Azure y ejecuta una canalización de Azure para procesar los archivos a los que apunta y obtener metadatos
+	 * automáticamente de ellos, almacenarlos en la abse de datos junto al propio archivo y almacenar una copia del archivo
+	 * en formato nativo en el DataLake
+	 * @param session
+	 * @param PipelineName Nombre del pipeline a ejecutar
+	 */
 	public void runTrigger(HttpSession session, String PipelineName){
 		JSONObject pipelineInput = getPipeline(session, PipelineName);
 		String datasetInputName = ((JSONObject) ((JSONObject) pipelineInput.getJSONObject("properties").getJSONArray("activities").get(0)).getJSONArray("inputs").get(0)).getString("referenceName");
@@ -119,6 +150,12 @@ public class DataFactoryService {
 		}		
 	}
 
+	/**
+	 * Método que envía una petición Http a la Api de Azure y crea o edita un Dataset en la plataforma
+	 * @param session
+	 * @param datasetModel Modelo JSON del dataset a crear o editar
+	 * @return Modelo JSON con la infromación del Dataset ennviado desde Azure
+	 */
 	public JSONObject setDataset(HttpSession session, DatasetModel datasetModel){
 		String URL = "https://management.azure.com/subscriptions/"+cm.getProperty("subscription_id")+
 				"/resourcegroups/"+cm.getProperty("resource_group")+"/providers/Microsoft.DataFactory/factories/"+
@@ -143,6 +180,12 @@ public class DataFactoryService {
 		}		
 	}
 
+	/**
+	 * Método que envía una petición Http a la API de Azure y crea o edita un Pipeline en la plataforma
+	 * @param session
+	 * @param pipelineModel Modelo JSON del Pipeline a editar o crear
+	 * @return Modelo JSON con la información del Pipeline creado o editado enviado desde Azure
+	 */
 	public JSONObject createPipeline(HttpSession session, PipelineModel pipelineModel){
 		String URL = "https://management.azure.com/subscriptions/"+cm.getProperty("subscription_id")+
 				"/resourcegroups/"+cm.getProperty("resource_group")+"/providers/Microsoft.DataFactory/factories/"+

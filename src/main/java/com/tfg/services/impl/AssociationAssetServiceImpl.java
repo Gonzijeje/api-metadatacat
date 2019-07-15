@@ -15,7 +15,7 @@ import com.tfg.model.id.AssociationAssetId;
 import com.tfg.services.AssociationAssetService;
 
 /**
- * 
+ * Implementación de la interfaz de operaciones para AssociationAssets
  * @author gcollada
  *
  */

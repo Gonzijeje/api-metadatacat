@@ -137,9 +137,6 @@ public class CSVReader {
 				}
 			}
 			scan(mapa,csvFile);
-			mapa.forEach((k,v) -> System.out.println("Column: "+ k.name + " || Values: "+ v + " || Type: "+k.type));
-			System.out.println("Número de Columnas: "+nCol);
-			System.out.println("Número de Filas: "+nRow);
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}catch (IOException e) {

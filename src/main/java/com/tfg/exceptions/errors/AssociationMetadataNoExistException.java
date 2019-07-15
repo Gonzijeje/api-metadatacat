@@ -2,6 +2,11 @@ package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Excepción propia relacionada con que la asociación de emtadatos no existe
+ * @author gcollada
+ *
+ */
 public class AssociationMetadataNoExistException extends RestException{
 
 	/**

@@ -23,6 +23,14 @@ public interface DigitalAssetService{
 	 */
 	void add(NewAsset newAsset, DigitalAsset asset);
 	
+	/**
+	 * Método que añade un activo procesado de las canalizaciones de Azure. En vez de comprobar
+	 * si ya existe para no permitirlo, se elimina el activo actual y se sutituye por el 
+	 * nuevo activo de la canalización. Se utiliza el método flush() para persistir la operación
+	 * de borrado antes que la de insertado
+	 * @param codigo Código del DigitalAsset que se quiere registrar, para buscar si ya existe y sustituirlo
+	 * @param newAsset Modelo de tipo NewAsset con la información obtenida en la obtención automática de metdatos.
+	 */
 	void addRealAsset(String codigo, NewAsset newAsset);
 	
 	/**

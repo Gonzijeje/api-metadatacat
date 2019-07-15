@@ -25,12 +25,26 @@ import org.springframework.stereotype.Service;
 import com.tfg.exceptions.ExceptionFactory;
 import com.tfg.exceptions.ExceptionFactory.Errors;
 
+/**
+ * Clase donde se definen las implementaciones de las operaciones relacionadas con el servicio Elasticsearch
+ * @author gcollada
+ *
+ */
 @Service
 public class ElasticService {
 
+	/**
+	 * Cliente HTTP proporcionado por la libería REST de Azure, para realizar llamadas
+	 * y operaciones sobre el servidor de Elasticsearch
+	 */
 	public static RestHighLevelClient client;
 	private static final String defaultIndex = "assets";
 
+	/**
+	 * Método que permite conectarse al servidor de Elasticsearch mediante una petición HTTP en el puerto 9200.
+	 * Se añade un atributo de sesión indicando que se la conexión se ha establecido
+	 * @param session
+	 */
 	public void connect(HttpSession session) {
 		try {
 			client = new RestHighLevelClient(
@@ -43,6 +57,12 @@ public class ElasticService {
 		}
 	}
 
+	/**
+	 * Método que permite crear un índice de documentos en el servidor de Elasticsearch, donde se almacenarán
+	 * posteriormente los documentos procesados en las canalizaciones de datos. Por defecto tendrá el nombre de
+	 * assets.
+	 * @param session
+	 */
 	public void createIndex(HttpSession session){
 		CreateIndexRequest request = new CreateIndexRequest(defaultIndex);
 		request.settings(Settings.builder() 
@@ -57,6 +77,14 @@ public class ElasticService {
 
 	}
 
+	/**
+	 * Método que permite indexar un documento procesado en las canalizaciones en el índice creado en el
+	 * sevidor de Elasticsearch.
+	 * @param session
+	 * @param code Código del documento a indexar
+	 * @param description Descripción del documento a indexar
+	 * @param content Contenido de texto del documento a indexar
+	 */
 	public void index(HttpSession session, String code, String description, String content) {
 		if(session.getAttribute("elastic_connect")=="true") {
 			Map<String, Object> jsonMap = new HashMap<>();
@@ -73,10 +101,23 @@ public class ElasticService {
 		}
 	}
 
+	/**
+	 * Método para cerrar la coneión con el servidor de Elasticsearch
+	 * @throws IOException
+	 */
 	public void disconnect() throws IOException {
 		client.close();
 	}
 
+	/**
+	 * Método que permite realizar consultas de búsquedas para encontrar documentos cuya descripción o contenido
+	 * coincida con el parámetro proporcionado por el usuario. Se trata de filtrar el contenido de los documentos
+	 * por la consulta de búsqueda, edvolviendo los que la contienen total o parcialmente
+	 * @param session
+	 * @param text Cadena de texto por la que se desean filtrar los documentos
+	 * @return Lista de objetos JSON con la información de los documentos filtrados. Aparecen primero aquellos
+	 * con mayor índice de coincidencia con la consulta
+	 */
 	public List<JSONObject> matchQuery(HttpSession session, String text) {
 		List<JSONObject> assets = new ArrayList<JSONObject>();
 		SearchRequest searchRequest = new SearchRequest(defaultIndex);

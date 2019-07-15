@@ -2,6 +2,11 @@ package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Excepción propia relacionada con que una entidad no existe en el sistema
+ * @author gcollada
+ *
+ */
 public class EntityNotFoundException extends RestException {
 
 	/**

@@ -15,7 +15,7 @@ import com.tfg.model.id.AssociationTwinId;
 import com.tfg.services.AssociationTwinService;
 
 /**
- * 
+ * Implementación de la interfaz de operaciones para AssociationTwins
  * @author gcollada
  *
  */

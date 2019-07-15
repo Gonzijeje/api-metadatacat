@@ -2,6 +2,11 @@ package com.tfg.exceptions.errors;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Excepción propia relacionada con que ha ocurrido un problema al establecer la conexión con Elasticsearch
+ * @author gcollada
+ *
+ */
 public class ElasticsearchConnectException extends RestException {
 
 	/**

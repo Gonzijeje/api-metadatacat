@@ -16,7 +16,7 @@ import com.tfg.services.GroupFieldService;
 import com.tfg.services.model.FieldValueModel;
 
 /**
- * 
+ * Implementación de la interfaz de operaciones para GroupFields
  * @author gcollada
  *
  */
@@ -81,8 +81,6 @@ public class GroupFieldServiceImpl implements GroupFieldService{
 	@Override
 	public List<FieldValueModel> getFieldsAndValuesByGroupTwin(String groupCode, String twinCode) {
 		List<Object[]> results = repositoryEM.getFieldsAndValuesByGroupTwin(groupCode,twinCode);
-//		List<Object[]> results = repository.getFieldsAndValuesByGroup(groupCode, assetCode);
-		System.out.println("RESUUUULTS: "+results.size());
 		List<FieldValueModel> list = new ArrayList<FieldValueModel>();
 		
 		for(Object[] o : results) {
